@@ -1,22 +1,37 @@
 @import "lib/bourbon/bourbon";
+@mixin setdim($width ,$top , $left, $height : null , $right:null ,$bottom : null ) {
+	width :$width;
+	@if ($height) {
+		height :$height;
+	}
+	top : $top;
+	left : $left;
+	@if($right){
+		right : $right;
+	}
+	@if($bottom){
+		bottom :$bottom;
+	}	
+}
+
+html, 
+body {
+    height: 85%;
+    width : 100%
+}
 
 .popup {
-    width:100%;
-    height:100%;
+	@include setdim(100%, 0px ,0px, 100%);
     display:none;
     position:fixed;
-    top:0px;
-    left:0px;
     background:rgba(0,0,0,0.75);
 }
  
 .popup-inner {
     max-width:700px;
-    width:50%;
+    @include setdim(50%, 50%,50%);
     padding:40px;
     position:absolute;
-    top:50%;
-    left:50%;
     -webkit-transform:translate(-50%, -50%);
     transform:translate(-50%, -50%);
     box-shadow:0px 2px 6px rgba(0,0,0,1);
@@ -26,13 +41,10 @@
  
 /* Close Button */
 .popup-close {
-    width:30px;
-    height:30px;
+	@include setdim(30px, null,null, 30px , 0px, 50%);
     padding-top:4px;
     display:inline-block;
     position:absolute;
-    bottom:50%;
-    right:0px;
     transition:ease 0.25s all;
     -webkit-transform:translate(50%, -50%);
     transform:translate(50%, -50%);
@@ -51,10 +63,13 @@
     background:rgba(0,0,0,1);
     text-decoration:none;
 }
-$header-img: image-url('../images/skyline2.jpeg', false, false);
+$header-img: url('/images/skyline2.jpg');
 
 .homePageContainer{
 	width:100%;
     height:100%;
+    margin-top : 50px;
+    background-size: cover;
+    background-position: center;
     background-image: $header-img;
 }

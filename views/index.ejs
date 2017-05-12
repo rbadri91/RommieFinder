@@ -25,13 +25,9 @@
 
 <% include ../public/pageContent/navbar %>
 
-
-
-    <main>
-        <div class="jumbotron">
-            <h2>Welcome to Rommie Finder</h2>
+        <div class="homePageContainer">
+            <h2 class ="text-center center-block">Welcome to Rommie Finder</h2>
         </div>
-    </main>
 
 </body>
 <script>
@@ -44,11 +40,26 @@ $(document).ready(function(){
          return false;
      })
 
-     $('#login').click(function (){
+     $('#login_logout').click(function (){
         $("#loadHtml").empty();
          $("#loadHtml").load($(this).attr("href"));
          return false;
      })
+
+     var loggedIn = <%= loggedIn %> 
+     console.log("loggedIn:",loggedIn);
+     if(loggedIn){
+        document.getElementById("profile").style.display="block";
+        document.getElementById("login_logout").textContent ="Logout";
+        document.getElementById("login_logout").href ="/logout";
+        document.getElementById("signup").style.display="none";
+     }else{
+        document.getElementById("profile").style.display="none";
+        document.getElementById("login_logout").textContent ="Login";
+        document.getElementById("login_logout").href ="/login";
+        document.getElementById("signup").style.display="block";
+     }
+     
 
 });
 </script>

@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json({limit: '50mb'}));
 
 app.use(express.static('public'));
+app.use(express.static('public/imges'));
 
 app.use(morgan('dev'));
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
