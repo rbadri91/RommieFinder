@@ -39,6 +39,12 @@ module.exports = function(app,passport){
 		res.redirect('/');
 	});
 
+	app.get('/profile', isLoggedIn,function(req, res) {
+		req.session.loaded=true;
+		res.render('profile', {title: 'Profile Page'});
+		
+	});
+
 	function isLoggedIn(req, res, next) {
 		if(req.isAuthenticated()) return next();
 		res.redirect('/notloggedin');

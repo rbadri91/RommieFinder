@@ -20,13 +20,29 @@
     </div>
 </div>
 
-<body class="container">
+<body>
 
 
 <% include ../public/pageContent/navbar %>
 
         <div class="homePageContainer">
-            <h2 class ="text-center center-block">Welcome to Rommie Finder</h2>
+            <div class="my-row special">
+            <div class="v-m">
+           <%if (!loggedIn) { %> 
+            <div class="row">
+                <h2 class ="text-center center-block" style="color: white">Find your best Mate here</h2>
+            </div>
+            <div class="row">
+                <h3 class ="text-center center-block" style="color: white"> Your final stop to find your best roomate</h3>
+            </div>    
+            <div class="row">    
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+            <a id = "signup2" class=" text-center center-block btn btn-primary btn-lg" href="/signup" data-popup1-open="popup-1">Signup</a></div>
+            </div>
+            <%} %>
+            </div>
+            </div>
         </div>
 
 </body>
@@ -35,6 +51,13 @@
 $(document).ready(function(){
 
      $('#signup').click(function (){
+        $("#loadHtml").empty();
+         $("#loadHtml").load($(this).attr("href"));
+         return false;
+     })
+
+     $('#signup2').click(function (){
+        console.log("it comes inside");
         $("#loadHtml").empty();
          $("#loadHtml").load($(this).attr("href"));
          return false;
