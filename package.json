@@ -28,4 +28,7 @@
     "grunt-sass": "^2.0.0",
     "node-bourbon": "^4.2.8"
   }
+  "scripts": {
+    "start": "node app.js"
+  }
 }
