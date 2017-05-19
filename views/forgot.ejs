@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
+
+<div class="container">
+<%if (messages.error) { %> 
+<div class="alert alert-danger"><%=messages.error %></div>
+<%} %>
+<%if (messages.info) { %> 
+<div class=".alert alert-info"><%=messages.info %></div>
+<%} %>
+<%if (messages.success) { %> 
+<div class=".alert alert-success"><%=messages.success %></div>
+<%} %>
+</div>
+<form method="POST">
+  <legend class="text-center center-block">Forgot Password</legend>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="text" name="email" autofocus="autofocus" class="form-control"/>
+  </div>
+  <button type="submit" class="btn btn-primary center-block">Reset Password</button>
+</form>
+</body>
+</html>

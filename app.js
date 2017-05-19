@@ -9,6 +9,10 @@ var express = require('express'),
 	session = require('express-session'),
 	uuidV4 = require('uuid/v4'),
 	path = require('path'),
+	async = require('async');
+	crypto = require('crypto');
+	nodemailer = require('nodemailer'),
+	smtpTransport = require("nodemailer-smtp-transport"),
 	db = require("./config/database.js");
 
 var	Promise = require('promise');
@@ -40,7 +44,7 @@ mongoose.connect(db.url, function(err) {
 
 mongoose.connection.on('connected', function () { 
 	
-require('./config/routes.js')(app , passport);
+require('./config/routes.js')(app , passport, async, nodemailer, crypto, smtpTransport);
 
 });
 

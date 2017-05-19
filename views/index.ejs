@@ -57,17 +57,24 @@ $(document).ready(function(){
      })
 
      $('#signup2').click(function (){
-        console.log("it comes inside");
         $("#loadHtml").empty();
          $("#loadHtml").load($(this).attr("href"));
          return false;
      })
 
      $('#login_logout').click(function (){
+        if(this.textContent=="Logout") location.href= $(this).attr("href");
         $("#loadHtml").empty();
          $("#loadHtml").load($(this).attr("href"));
          return false;
      })
+
+      $('#forgetId').click(function (){
+        $("#loadHtml").empty();
+         $("#loadHtml").load($(this).attr("href"));
+         return false;
+     })
+
 
      var loggedIn = <%= loggedIn %> 
      console.log("loggedIn:",loggedIn);

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
+<div class="row">
+<legend class="text-center">Welcome back <%=firstName%> <%=lastName%></legend></div>
+</div>
+<form method="POST">
+  <legend class="text-center">Reset Password to continue to find your awesome roomate</legend>
+  <div class="form-group">
+    <label for="password">New Password</label>
+    <input type="password" name="password" value="" placeholder="New password" autofocus="autofocus" class="form-control"/>
+  </div>
+  <div class="form-group">
+    <label for="confirm">Confirm Password</label>
+    <input type="password" name="confirm" value="" placeholder="Confirm password" class="form-control"/>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary center-block">Update Password</button>
+  </div>
+</form>
+</body>
+</html>
