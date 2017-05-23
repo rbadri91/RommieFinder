@@ -74,3 +74,21 @@ $(document).ready(function(){
 	}
 
 });
+
+$(".cd-side-nav li").on("click", function() {
+      $(".cd-side-nav li").removeClass("active");
+      $(this).addClass("active");
+      console.log("this here:",this);
+});
+
+function handleClick(el){
+	console.log("id here:",el.id);
+	$.ajax({
+        type:"GET",
+        url:"/"+el.id,
+        datatype: 'html',
+        success: function(data){
+           $(".content-wrapper").html(data);
+        }
+    });
+}

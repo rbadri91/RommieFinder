@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/pageLayout.css">
+	<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+	<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+	<script src="http://vsn4ik.github.io/bootstrap-checkbox/dist/js/bootstrap-checkbox.min.js" ></script>
+</head>
+<body>
+<div id = "personalInfoContainer">
+<h3 style="color: blue">Personal information</h3> 
+<hr>
+
+<div style="overflow: hidden">
+	<div class="col-sm-8"><span>Edit email ,password and contact information</span></div>
+	<div class="col-sm-4"><button id ="toggleEdit" class ="btn btn-primary btn-sm pull-right">Edit</button></div>
+</div>
+<br>
+
+<div id="editInfoFields" style="display:none">
+<div class ="displayInfo" id="nameSetInfo" style="overflow: hidden;">
+<div class= "col-sm-3"><strong>Name</strong>:</div>
+<div id ="nameVal" class= "col-sm-7"> <%=firstName %> <%=lastName %>
+</div>
+<a id = "NameEdit" style="cursor: pointer" onclick="JavaScript:Settings.handleEditName()" class="fa fa-pencil-square-o pull-right" aria-hidden="true">
+</a>
+</div>
+
+<div id ="editName" style="display:none;margin:10px" class="col-sm-12">
+<label for="EditFirstName">FirstName:</label>
+<input class="form-control" type="text" id="EditFirstName">
+<br>
+<label for="EditLastName">LastName:</label>
+<input class="form-control" type="text" id="EditLastName">
+<br>
+<div class="center-block text-center">
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.saveName()">Save</button>
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.cancelName()">Cancel</button>
+</div>
+</div>
+<br>
+<div id ="emailInfo" class ="displayInfo" style="overflow: hidden">
+<div id ="emailVal">
+<div class="col-sm-3"><strong>Email</strong>:</div>
+<div id="emailVal" class= "col-sm-7"> <%=email %>
+</div>
+<a id = "emailEdit" style="cursor: pointer" onclick="JavaScript:Settings.handleEditEmail()" class="fa fa-pencil-square-o pull-right" aria-hidden="true"></a>
+</div>
+<%if (correspondanceEmail) { %>
+<div id ="CorrespondanceEmailVal">
+	
+<div class="col-sm-3"><strong>Correspondance Email</strong>:</div>
+<div id="corresEmailVal" class= "col-sm-7"> <%=correspondanceEmail %>
+</div>
+</div>
+<%} %>
+</div>
+
+<div id ="editEmails" style="display:none" class="col-sm-12">
+<div class="col-sm-5"><strong>Email</strong>: </div><div class="col-sm-7 text-right"><%=email%></div>
+<br>
+<div style='font-size: 100%' class="col-sm-12">You cannot change you email as it is same as your login Id</div>
+<br>
+<div class="col-sm-12" style="margin-bottom: 10px">
+<label for="editCorresEmail">New CorrespondanceEmail:</label>
+<input class="form-control" type="text" name = "editCorresEmail" id="editCorresEmail" placeholder="Set your Correspondance Email">
+</div>
+<br>
+<div class="center-block text-center col-sm-12">
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.saveCorresEmail()">Save</button>
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.cancelEmail()">Cancel</button>
+</div>
+</div>
+<br>
+<div class ="displayInfo" id="passwordInfo" style="overflow: hidden;">
+<div class= "col-sm-7"><strong>Update Password</strong></div>
+<a id = "passwordEdit" style="cursor: pointer" onclick="JavaScript:Settings.handleUpdatePassword()" class="fa fa-pencil-square-o pull-right" aria-hidden="true">
+</a>
+</div>
+
+<div id ="editPassword" style="display:none;margin:10px" class="col-sm-12">
+<label for="oldPassword">Old Password:</label>
+<input class="form-control" type="password" id="oldPassword">
+<br>
+<label for="newPassWord">New Password:</label>
+<input class="form-control" type="password" id="newPassWord">
+<br>
+<label for="verifyNewPassWord">Verify New Password:</label>
+<input class="form-control" type="password" id="verifyNewPassWord">
+<i id="passCorrect"style="display:none" class="fa fa-check-circle-o" aria-hidden="true"></i><i id="passInCorrect"style="display:none" class="fa fa-times" aria-hidden="true"></i>
+<div style="display: inline" id="divCheckPasswordMatch"></div>
+<br>
+<div class="center-block text-center">
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.saveNewPassword()">Save</button>
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.cancelEditPassword()">Cancel</button>
+</div>
+</div>
+<br>
+<div class ="displayInfo" id="dobInfo" style="overflow: hidden;">
+<div class= "col-sm-3"><strong>Date Of Birth</strong></div>
+<div id="dobVal" class= "col-sm-7"> <%=dob %>
+</div>
+<a id = "dobEdit" style="cursor: pointer" onclick="JavaScript:Settings.handleUpdateDOB()" class="fa fa-pencil-square-o pull-right" aria-hidden="true">
+</a>
+</div>
+
+<div id = "editDOBField" class="form-group" style="display:none">
+<label for="newdob">Date of Birth:</label>  
+<input class="form-control" id="newdob" placeholder="Date of Birth" name ="newdob">
+<br>
+<div class="center-block text-center">
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.saveNewDOB()">Save</button>
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.cancelEditDOB()">Cancel</button>
+</div>
+</div>
+<br>
+
+<div class ="displayInfo" id="genderInfo" style="overflow: hidden;">
+<div class= "col-sm-3"><strong>Gender</strong></div>
+<div id="genderVal" class= "col-sm-7"> <%=gender %>
+</div>
+<a id = "genderEdit" style="cursor: pointer" onclick="JavaScript:Settings.handleUpdateGender()" class="fa fa-pencil-square-o pull-right" aria-hidden="true">
+</a>
+</div>
+
+<div id = "editGenderField" class="form-group" style="display:none">
+<div class="col-sm-5"><strong>Gender</strong></div>
+<div id="genderButton" class="btn-group col-sm-7" data-toggle="buttons">
+<input type="radio" name="gender" value="male"> Male
+<input type="radio" name="gender" value="female"> Female
+</div>
+<br>
+<div class="center-block text-center">
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.saveNewGender()">Save</button>
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.handleUpdateGender()">Cancel</button>
+</div>
+</div>
+<br>
+
+<div class ="displayInfo" id="contactInfo" style="overflow: hidden;">
+<div class= "col-sm-3"><strong>Contact Number</strong></div>
+<div id="contactVal" class= "col-sm-7"> <%=contactNo %>
+</div>
+<a id = "contactEdit" style="cursor: pointer" onclick="JavaScript:Settings.handleUpdateContact()" class="fa fa-pencil-square-o pull-right" aria-hidden="true">
+</a>
+</div>
+
+<div id = "editContactField" class="form-group" style="display:none">
+<label for="newContact">New Contact:</label>  
+<input class="form-control" id="newContact" placeholder="Contact Number" name ="newContact">
+<br>
+<div class="center-block text-center">
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.saveNewContact()">Save</button>
+<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.cancelEditContact()">Cancel</button>
+</div>
+</div>
+
+</div>
+<br>
+<br>
+</div>
+<div id ="NotificationContainer" >
+<h3 style="color: blue">Notification Settings</h3>
+<hr>
+</div>
+</body>
+<script src="js/handleSettings.js"></script>
+<script>
+
+$(document).ready(function(){
+    $("#toggleEdit").click(function(){
+    	if(this.textContent=="Edit"){
+    		this.textContent="Close";
+    	}else{
+    		this.textContent="Edit";
+    	}
+
+         $("#editInfoFields").toggle();
+    });
+
+    $("#newdob").datepicker();
+    
+
+});
+$("#verifyNewPassWord").keyup(Settings.validatePassword);
+</script>
+</html>

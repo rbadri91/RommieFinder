@@ -122,11 +122,79 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	app.get('/reset',function(req,res){
 		console.log("user here:",req.user);
 		res.render('reset', {
-	      user: req.user,
 	      firstName: req.user.data.firstName,
 	      lastName: req.user.data.lastName
 	    });
-	})
+	});
+
+	app.get('/about',function(req,res){
+		res.render('about', {
+	      about: req.user.data.about
+	    });
+	});
+
+	app.get('/settings',function(req,res){
+		res.render('settings', {
+	      firstName: req.user.data.firstName,
+	      lastName: req.user.data.lastName,
+	      email:req.user.data.email,
+	      correspondanceEmail:req.user.data.correspondanceEmail,
+	      dob: req.user.data.dob,
+	      gender:req.user.data.gender,
+	      contactNo:req.user.data.contact
+	    });
+	});
+
+	app.post('/saveAboutMe',function(req,res){
+		req.user.data.about = req.body.aboutUpdate;
+		req.user.save();
+		res.send("Success");
+	});
+
+	app.post('/saveName',function(req,res){
+		req.user.data.firstName = req.body.firstName;
+		req.user.data.lastName = req.body.lastName;
+		req.user.save();
+		res.send("Success");
+	});
+
+	app.post('/saveCorresEmail',function(req,res){
+		req.user.data.correspondanceEmail = req.body.corresEmail;
+		req.user.save();
+		res.send("Success");
+	});
+
+	app.post('/updatePassword',function(req,res){
+		console.log("oldPassword here:",req.body.oldPassword);
+		if(!req.user.validPassword(req.body.oldPassword)){
+			console.log("it comes in error");
+			res.status(400).send('Oops!!Wrong Password')
+		}else{
+			req.user.data.password = req.user.generateHash(req.body.newPassword);
+			req.user.save();
+			console.log("it comes in success");
+			res.send("Success");
+		}
+		
+	});
+
+	app.post('/updateDOB',function(req,res){
+		req.user.data.dob = req.body.newDOB;
+		req.user.save();
+		res.send("Success");
+	});
+
+	app.post('/updateGender',function(req,res){
+		req.user.data.gender = req.body.gender;
+		req.user.save();
+		res.send("Success");
+	});
+
+	app.post('/updateContact',function(req,res){
+		req.user.data.contact = req.body.contactNo;
+		req.user.save();
+		res.send("Success");
+	});
 
 	app.get('/reset/:token', function(req, res) {
 	  User.findOne({ 'data.resetPasswordToken': req.params.token, 'data.resetPasswordExpires': { $gt: Date.now() } }, function(err, user) {

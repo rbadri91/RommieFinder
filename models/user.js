@@ -11,9 +11,14 @@ var userSchema = mongoose.Schema({
 
         // main credentails #password is encrypted has of actual password
         email        : String,
+        correspondanceEmail: String,
         password     : String,
         resetPasswordToken: String,
-        resetPasswordExpires: Date
+        resetPasswordExpires: Date,
+        about        : String,
+        dob          : String,
+        gender       : String,
+        contact     : Number,
 
         // // these will be google login session variables
         // refreshToken    : String,
