@@ -14,7 +14,6 @@
 </head>
 <style>
 body{
-	font-size: 1.6rem;
     font-family: "Open Sans", sans-serif;
     color: #3e454c;
     line-height: 1;
@@ -30,9 +29,10 @@ html{
 </style>
 <body>
 	<header class="cd-main-header">
-		<a href="#0" class="cd-nav-trigger">Menu<span></span></a>
+		<a href="#0" class="cd-nav-trigger"><span></span></a>
 		<nav class="cd-nav">
 			<ul class="cd-top-nav">
+				<li><a href="/">Home</a></li>
 				<li><a href="/logout">Logout</a></li>
 			</ul>
 		</nav>
@@ -41,21 +41,26 @@ html{
 	<div class="profileContainer">
 
 		<nav class="cd-side-nav">
-			<li class="overview active">
-					<a id ="overview" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">Overview</a>
-			</li>
-			<li class="about">
-					<a id ="about" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">About</a>
-			</li>
-			<li class="posts">
-					<a id ="posts" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">Posts</a>
-			</li>
-			<li class="settings">
-					<a id ="settings" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">Settings</a>
-			</li>
+			<ul>
+				<li class="overview active">
+						<a id ="overview" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">Overview</a>
+				</li>
+				<li class="about">
+						<a id ="about" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">About</a>
+				</li>
+				<li class="posts">
+						<a id ="posts" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">Posts</a>
+				</li>
+				<li class="preferrences">
+						<a id ="posts" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">Preferrence</a>
+				</li>
+				<li class="settings">
+						<a id ="settings" style="cursor:pointer" onclick="handleClick(this)" href="javascript:void(0)">Settings</a>
+				</li>
+			</ul>	
 		</nav>
 		<div class="content-wrapper">
-			<h1>Page content here</h1>
+			<!-- <h1>Page content here</h1> -->
 		</div>
 	</div>
 	<script src ="https://cdn.jsdelivr.net/jquery.menu-aim/0.1/jquery.menu-aim.min.js"></script>

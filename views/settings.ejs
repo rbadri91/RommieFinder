@@ -12,12 +12,13 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 	<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-	<script src="http://vsn4ik.github.io/bootstrap-checkbox/dist/js/bootstrap-checkbox.min.js" ></script>
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 </head>
 <body>
 <div id = "personalInfoContainer">
 <h3 style="color: blue">Personal information</h3> 
-<hr>
+<hr style="border-bottom: 1px solid blue">
 
 <div style="overflow: hidden">
 	<div class="col-sm-8"><span>Edit email ,password and contact information</span></div>
@@ -25,7 +26,7 @@
 </div>
 <br>
 
-<div id="editInfoFields" style="display:none">
+<div id="editInfoFields" class = "PersonalInfoWrapper" style="display:none">
 <div class ="displayInfo" id="nameSetInfo" style="overflow: hidden;">
 <div class= "col-sm-3"><strong>Name</strong>:</div>
 <div id ="nameVal" class= "col-sm-7"> <%=firstName %> <%=lastName %>
@@ -164,12 +165,19 @@
 </div>
 
 </div>
-<br>
-<br>
 </div>
 <div id ="NotificationContainer" >
 <h3 style="color: blue">Notification Settings</h3>
-<hr>
+<hr style="border-bottom: 1px solid blue">
+
+<div style ="overflow: hidden">
+<div class="col-sm-8" id ="eNotice"> Turn on Email Notification for comments on Posts</div>
+<div class="col-sm-4">
+  <div class="checkbox pull-right">
+	    <input type="checkbox" id= "emailNotif" data-toggle="toggle" data-size="small">
+  </div>
+</div>
+</div>
 </div>
 </body>
 <script src="js/handleSettings.js"></script>
@@ -185,10 +193,34 @@ $(document).ready(function(){
 
          $("#editInfoFields").toggle();
     });
+
    var gender=document.getElementById("genderVal").textContent.trim();
     $('input[name=gender][value="' + gender + '"]').prop('checked', true);
+
     $("#newdob").datepicker();
-    
+
+    var notifEnabled = <%= notifEnabled %>
+    if(notifEnabled){
+    	 $('#emailNotif').prop('checked',true);
+    }else{
+    	$('#emailNotif').prop('checked',false);
+    }
+
+    $('#emailNotif').change(function() {
+    	var notifEnabled=$(this).prop('checked');
+    	$.ajax({
+			type: "POST",
+			url: "/saveNotificationSetting",
+			data: {
+				notifEnabled:notifEnabled
+			},
+			async: false,
+			error: function(result) {
+				console.log(result);
+			}
+		});
+      
+    })
 
 });
 $("#verifyNewPassWord").keyup(Settings.validatePassword);

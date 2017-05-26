@@ -15,6 +15,7 @@ var userSchema = mongoose.Schema({
         password     : String,
         resetPasswordToken: String,
         resetPasswordExpires: Date,
+        notifEnabled : Boolean,
         about        : String,
         dob          : String,
         gender       : String,

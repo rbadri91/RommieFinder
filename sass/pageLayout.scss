@@ -5,6 +5,8 @@ $color-2: #1784c7; // Denim
 $color-3: #ffffff; // White
 $color-4: #ff7e66; // Salmon
 $color-5: blueviolet; 
+$color-6: #9d9d9d; // White
+$color-7: yellow; // Yellow
 $S:     480px;   
 $M:     768px;     
 $L:     1170px;  
@@ -140,11 +142,6 @@ $header-img: url('/images/skyline3.jpg');
     .content-wrapper {
         padding: $header-height-S 5% 3em;
 
-        h1 {
-            text-align: center;
-            padding: 3em 0;
-            font-size: 2rem;
-        }
     }
 
     &::before {
@@ -158,11 +155,6 @@ $header-img: url('/images/skyline3.jpg');
             margin-left: $sidebar-width-M;
             padding-top: $header-height-M;
 
-            h1 {
-                padding: 4em 0;
-                font-size: 3.2rem;
-                font-weight: 300;
-            }
         }
 
         &::before {
@@ -183,40 +175,34 @@ $header-img: url('/images/skyline3.jpg');
 }
 
 .cd-top-nav {
-    > li > a::before  {
-        display: none;
-    }
 
     > li a {
-        padding: 1em 5% !important;
+         padding: 1% 0 2%!important; 
+         padding-left: calc(5% + 24px) !important;
     }
 
-    @include MQ(M) {
-        height: 100%;
+    @include MQ(M) { 
 
         a {
             display: block;
-            font-size: 1.1rem;
-            color: $color-3;
+            color: $color-6;
+            text-decoration: none;
         }
 
         > li {
-            display: inline-block;
-            margin-right: 1em;
+            display: inline-block; 
             height: 100%;
-
-            &:last-of-type {
-                margin-right: 0;
-            }
+            margin-right: 0;
+            position: relative;
         }
 
         > li a {
-            padding: 1em .6em !important;
+
+              padding: 15px !important;
+              line-height: 20px;
+              text-decoration: none;
         }
 
-        img {
-            display: block;
-        }
     }
 
     @include MQ(L) {
@@ -239,15 +225,12 @@ $header-img: url('/images/skyline3.jpg');
     max-height: 100vh;
     overflow: hidden;
     @include font-smoothing;
-    @include transition(opacity .2s 0s, visibility 0s .2s);
 
     &.nav-is-visible {
         opacity: 1;
         visibility: visible;
         overflow: visible;
         -webkit-overflow-scrolling: touch;
-        @include transition(opacity .2s 0s, visibility 0s 0s);
-        max-height: none;
         box-shadow: 0 2px 10px rgba(#000, .2);
     }
     
@@ -259,23 +242,20 @@ $header-img: url('/images/skyline3.jpg');
         }
     }
 
-    .cd-label, a {
+    a {
         display: block;
         padding: 1em 5%;
-    }
-
-    .cd-label {
-        text-transform: uppercase;
-        font-weight: bold;
-        color: tint($color-5, 20%);
-        font-size: 1rem;
-        letter-spacing: .1em;
-    }
-
-    a {
         position: relative;
         color: $color-3;
-        font-size: 1.4rem;
+        font-size: 120%;
+    }
+
+    a:focus{
+        color:lightgreen; 
+    }
+
+    a:hover{
+        color:#df6c00; 
     }
 
     ul.cd-top-nav > li:last-of-type > a {
@@ -283,61 +263,10 @@ $header-img: url('/images/skyline3.jpg');
     }
 
     > ul > li > a {
-     padding: calc(2.2em + 24px) 0 2.4em;
+        //padding: calc(1em + 24px) 0 2.4em;
+        padding:1% 0 2%; 
         padding-left: calc(5% + 24px);
         border-bottom: 1px solid darken($color-1, 3%);
-
-        &::before {
-            /* icon before item name */
-            position: absolute;
-            content: '';
-            left: 5%;
-            @include center(y);
-            height: 16px;
-            width: 16px;
-        }
-    }
-
-    > ul > li.overview > a::before {
-        background-position: -64px 0;
-    }
-
-    > ul > li.notifications > a::before {
-        background-position: -80px 0;
-    }
-
-    > ul > li.comments > a::before {
-        background-position: -48px 0;
-    }
-
-    > ul > li.bookmarks > a::before {
-        background-position: -32px 0;
-    }
-
-    > ul > li.images > a::before {
-        background-position: 0 0;
-    }
-
-    > ul > li.users > a::before {
-        background-position: -16px 0;
-    }
-
-    .action-btn a {
-        display: block;
-        margin: 0 5%; 
-        padding: 1em 0;
-        background-color: $color-2;
-        border-radius: .25em;
-        border: none;
-        box-shadow: 0 1px 3px rgba(#000, .3), inset 0 1px 0 rgba(#fff, .2);
-        
-        text-align: center;
-        color: $color-3;
-        font-weight: bold;
-        
-        &::before {
-            display: none;
-        }
     }
 
     @include MQ(M) {
@@ -347,7 +276,6 @@ $header-img: url('/images/skyline3.jpg');
         width: $sidebar-width-M;
         min-height: 100vh;
         padding-top: $header-height-M;
-        /* reset style */
         visibility: visible;
         opacity: 1;
         overflow: visible;
@@ -362,37 +290,21 @@ $header-img: url('/images/skyline3.jpg');
         }
 
         > ul {
-            /* reset style */
             padding: 0;
-        }
-
-        .cd-label {
-            /* remove labels on minified version of the sidebar */
-            display: none;
-        }
+        }   
 
         a {
-            font-size: 1rem;
+            font-size: 120%;
             text-align: center;
         }
 
         > ul > li > a {
-            padding: calc(2.2em + 24px) 0 2.4em;
-
-            &::before {
-                @include center(x);
-                top: 2.4em;
-            }
+           // padding: calc(1.4em + 24px) 0 2.4em;
+            padding: 20% 0 30%;
         }
 
         .active > a {
-            /* current page */
-            box-shadow: inset 3px 0 0 $color-2;
-            background-color: darken($color-1, 5%);
-        }
-
-        .action-btn a { 
-            margin: 1em 10% 0;
+            box-shadow: inset 3px 0 0 $color-7;
         }
     }
 
@@ -418,21 +330,6 @@ $header-img: url('/images/skyline3.jpg');
             }
         }
 
-        .cd-label {
-            display: block;
-            padding: 1em 18px;
-        }
-        .action-btn {
-            text-align: left;
-
-            a {
-                margin: 0 18px;
-
-                .no-touch &:hover {
-                    background-color: lighten($color-2, 5%);
-                }
-            }
-        }
     }
 }
 .cd-nav {
@@ -476,7 +373,6 @@ $header-img: url('/images/skyline3.jpg');
     }
 
     span {
-        /* line in the center */
         position: absolute;
         top: 50%;
         right: 5px;
@@ -485,10 +381,8 @@ $header-img: url('/images/skyline3.jpg');
     }
 
     span::before, span::after {
-        /* other 2 lines */
         content: '';
         right: 0;
-        /* Force Hardware Acceleration in WebKit */
         @include transform(translateZ(0));
         @include backface-visibility(hidden);
         
@@ -531,7 +425,7 @@ $header-img: url('/images/skyline3.jpg');
   background-color:  #eee;
   margin-left: 10px;
   padding:10px;
-  border: 1px solid orange;
+  border: 1px solid red;
 }
 
 .cd-main-header {
@@ -588,3 +482,7 @@ input {
 }
 .special {height:100vh; display:table;width:100%;}
 .v-m {display:table-cell;vertical-align:middle}
+
+.PersonalInfoWrapper{
+    margin:1%;
+}

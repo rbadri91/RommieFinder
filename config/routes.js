@@ -116,6 +116,12 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
+	app.get('/overview',function(req,res){
+		res.render('overview', {
+	      about: req.user.data.about
+	    });
+	});
+
 	app.get('/about',function(req,res){
 		res.render('about', {
 	      about: req.user.data.about
@@ -130,7 +136,8 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	      correspondanceEmail:req.user.data.correspondanceEmail,
 	      dob: req.user.data.dob,
 	      gender:req.user.data.gender,
-	      contactNo:req.user.data.contact
+	      contactNo:req.user.data.contact,
+	      notifEnabled:req.user.data.notifEnabled
 	    });
 	});
 
@@ -178,6 +185,12 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.post('/updateContact',function(req,res){
 		req.user.data.contact = req.body.contactNo;
+		req.user.save();
+		res.send("Success");
+	});
+
+	app.post('/saveNotificationSetting',function(req,res){
+		req.user.data.notifEnabled = req.body.notifEnabled;
 		req.user.save();
 		res.send("Success");
 	});

@@ -18,9 +18,24 @@ module.exports = function(grunt) {
         livereload: true,
       }
     }
+  },
+  postcss: {
+      options: {
+          processors: [
+              require('autoprefixer')(),
+              require('cssnext')(),
+              require('precss')()
+          ]
+      },
+      dist: {
+        files: {
+          'public/stylesheets/pageLayout.css' : 'public/stylesheets/pageLayout.css'
+        }
+      }
   }  
 });
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-postcss');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.registerTask('default', ['sass']);
 }

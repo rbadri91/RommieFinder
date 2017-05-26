@@ -8,6 +8,15 @@ $(document).ready(function(){
 	var resizing = false;
 	moveNavigation();
 
+	$.ajax({
+        type:"GET",
+        url:"/overview",
+        datatype: 'html',
+        success: function(data){
+           $(".content-wrapper").html(data);
+        }
+    });
+
 	$(window).on('resize', function(){
 		if( !resizing ) {
 			(!window.requestAnimationFrame) ? setTimeout(moveNavigation, 300) : window.requestAnimationFrame(moveNavigation);
