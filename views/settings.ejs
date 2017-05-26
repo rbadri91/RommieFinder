@@ -42,8 +42,8 @@
 <input class="form-control" type="text" id="EditLastName">
 <br>
 <div class="center-block text-center">
-<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.saveName()">Save</button>
-<button class="btn btn-warning btn-sm" onclick="JavaScript:Settings.cancelName()">Cancel</button>
+<button class="btn btn-warning btn-lg" onclick="JavaScript:Settings.saveName()">Save</button>
+<button class="btn btn-warning btn-lg" onclick="JavaScript:Settings.cancelName()">Cancel</button>
 </div>
 </div>
 <br>
@@ -134,8 +134,8 @@
 <div id = "editGenderField" class="form-group" style="display:none">
 <div class="col-sm-5"><strong>Gender</strong></div>
 <div id="genderButton" class="btn-group col-sm-7" data-toggle="buttons">
-<input type="radio" name="gender" value="male"> Male
-<input type="radio" name="gender" value="female"> Female
+<input type="radio" name="gender" value="Male"> Male
+<input type="radio" name="gender" value="Female"> Female
 </div>
 <br>
 <div class="center-block text-center">
@@ -185,7 +185,8 @@ $(document).ready(function(){
 
          $("#editInfoFields").toggle();
     });
-
+   var gender=document.getElementById("genderVal").textContent.trim();
+    $('input[name=gender][value="' + gender + '"]').prop('checked', true);
     $("#newdob").datepicker();
     
 

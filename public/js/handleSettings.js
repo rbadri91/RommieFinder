@@ -170,13 +170,7 @@ var Settings = (function() {
 	}
 
 	function saveNewGender(){
-		var genderNo= document.getElementById("genderButton").value;
-		var gender;
-		if(genderNo ==1){
-			gender="Male"
-		}else{
-			gender="Female"
-		}
+		var gender= $('input[name="gender"]:checked').val();
 		$.ajax({
 			type: "POST",
 			url: "/updateGender",

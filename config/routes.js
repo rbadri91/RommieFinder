@@ -73,26 +73,16 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    function(token, done) {
 	      User.findOne({ 'data.email': req.body.email }, function(err, user) {
 	        if (!user) {
-	        	console.log("it comes here");
-	          // req.flash('error', 'No account with that email address exists.');
 	          return res.render('forgot', {messages : req.flash('error', 'No account with that email address exists.') });
 	        }
-	        console.log("it comes outside here");
-	        console.log("token here:",token);
-	        console.log("expires here :",Date.now() + 3600000);
 	        user.data.resetPasswordToken = token;
 	        user.data.resetPasswordExpires = Date.now() + 3600000;
-	        console.log("user here:",user.data.resetPasswordToken);
-	        console.log("user email here:",user.data.email);
-	        console.log("user email here 2:",user.email);
 	        user.save(function(err) {
-	          console.log("new user here:",user);
 	          done(err, token, user);
 	        });
 	      });
 	    },
 	    function(token, user, done) {
-	    	console.log("smtpTransport here:",smtpTransport);
 	   
 	      var mailOptions = {
 	        to: user.data.email,
@@ -104,7 +94,6 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	          'If you did not request this, please ignore this email and your password will remain unchanged.\n'
 	      };
 	      Transport.sendMail(mailOptions, function(error, response){
-	      	console.log("inside this");
 		     if(error){
 		            console.log(error);
 		        res.end("error");
@@ -165,14 +154,11 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	});
 
 	app.post('/updatePassword',function(req,res){
-		console.log("oldPassword here:",req.body.oldPassword);
 		if(!req.user.validPassword(req.body.oldPassword)){
-			console.log("it comes in error");
 			res.status(400).send('Oops!!Wrong Password')
 		}else{
 			req.user.data.password = req.user.generateHash(req.body.newPassword);
 			req.user.save();
-			console.log("it comes in success");
 			res.send("Success");
 		}
 		
