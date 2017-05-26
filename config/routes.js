@@ -122,6 +122,19 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
+	app.get('/preferences',function(req,res){
+		res.render('preferences', {
+	      about: req.user.data.about
+	    });
+	});
+
+	app.get('/posts',function(req,res){
+		res.render('posts', {
+	      about: req.user.data.about
+	    });
+	});
+
+
 	app.get('/about',function(req,res){
 		res.render('about', {
 	      about: req.user.data.about
