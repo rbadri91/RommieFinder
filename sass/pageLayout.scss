@@ -90,26 +90,31 @@ body {
         position:fixed;
         background:rgba(0,0,0,0.75);
     }
-     
-    .popup-inner {
-        max-width:700px;
-        @include setdim(90%, 50%,50%);
-        padding:40px;
-        position:absolute;
-        -webkit-transform:translate(-50%, -50%);
-        transform:translate(-50%, -50%);
-        box-shadow:0px 2px 6px rgba(0,0,0,1);
-        border-radius:3px;
-        background:#fff;
+
+    @include MQ(S) {
+
+        .popup-inner {
+            max-width:700px;
+            @include setdim(90%, 50%,50%, 80%);
+            overflow-y:scroll;
+            padding:40px;
+            position:absolute;
+            -webkit-transform:translate(-50%, -50%);
+            transform:translate(-50%, -50%);
+            box-shadow:0px 2px 6px rgba(0,0,0,1);
+            border-radius:3px;
+            background:#fff;
+        }
     }
 
     @include MQ(M) {
 
         .popup-inner {
             max-width:700px;
-            @include setdim(40%, 50%,50%);
+            @include setdim(40%,55%,50%,auto); 
+            overflow:visible;
             padding:40px;
-            position:absolute;
+            position:absolute; 
             -webkit-transform:translate(-50%, -50%);
             transform:translate(-50%, -50%);
             box-shadow:0px 2px 6px rgba(0,0,0,1);
