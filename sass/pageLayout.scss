@@ -82,49 +82,69 @@ body {
     @include clearfix;
 }
 
-.popup {
-	@include setdim(100%, 0px ,0px, 100%);
-    display:none;
-    position:fixed;
-    background:rgba(0,0,0,0.75);
+.popupWrapper{
+    
+    .popup {
+        @include setdim(100%, 0px ,0px, 100%);
+        display:none;
+        position:fixed;
+        background:rgba(0,0,0,0.75);
+    }
+     
+    .popup-inner {
+        max-width:700px;
+        @include setdim(90%, 50%,50%);
+        padding:40px;
+        position:absolute;
+        -webkit-transform:translate(-50%, -50%);
+        transform:translate(-50%, -50%);
+        box-shadow:0px 2px 6px rgba(0,0,0,1);
+        border-radius:3px;
+        background:#fff;
+    }
+
+    @include MQ(M) {
+
+        .popup-inner {
+            max-width:700px;
+            @include setdim(40%, 50%,50%);
+            padding:40px;
+            position:absolute;
+            -webkit-transform:translate(-50%, -50%);
+            transform:translate(-50%, -50%);
+            box-shadow:0px 2px 6px rgba(0,0,0,1);
+            border-radius:3px;
+            background:#fff;
+        }
+    }
+     
+    .popup-close {
+        @include setdim(30px, null,null, 30px , 0px, 50%);
+        padding-top:4px;
+        display:inline-block;
+        position:absolute;
+        transition:ease 0.25s all;
+        -webkit-transform:translate(50%, -50%);
+        transform:translate(50%, -50%);
+        border-radius:1000px;
+        background:rgba(0,0,0,0.8);
+        font-family:Arial, Sans-Serif;
+        font-size:20px;
+        text-align:center;
+        line-height:100%;
+        color:#fff;
+    }
+     
+    .popup-close:hover {
+        -webkit-transform:translate(50%, -50%) rotate(180deg);
+        transform:translate(50%, -50%) rotate(180deg);
+        background:rgba(0,0,0,1);
+        text-decoration:none;
+    }
+
 }
- 
-.popup-inner {
-    max-width:700px;
-    @include setdim(40%, 50%,50%);
-    padding:40px;
-    position:absolute;
-    -webkit-transform:translate(-50%, -50%);
-    transform:translate(-50%, -50%);
-    box-shadow:0px 2px 6px rgba(0,0,0,1);
-    border-radius:3px;
-    background:#fff;
-}
- 
-/* Close Button */
-.popup-close {
-	@include setdim(30px, null,null, 30px , 0px, 50%);
-    padding-top:4px;
-    display:inline-block;
-    position:absolute;
-    transition:ease 0.25s all;
-    -webkit-transform:translate(50%, -50%);
-    transform:translate(50%, -50%);
-    border-radius:1000px;
-    background:rgba(0,0,0,0.8);
-    font-family:Arial, Sans-Serif;
-    font-size:20px;
-    text-align:center;
-    line-height:100%;
-    color:#fff;
-}
- 
-.popup-close:hover {
-    -webkit-transform:translate(50%, -50%) rotate(180deg);
-    transform:translate(50%, -50%) rotate(180deg);
-    background:rgba(0,0,0,1);
-    text-decoration:none;
-}
+
+
 $header-img: url('/images/skyline3.jpg');
 
 .homePageContainer{
@@ -333,7 +353,6 @@ $header-img: url('/images/skyline3.jpg');
     }
 }
 .cd-nav {
-    /* top nav - not visible on mobile devices */ 
     display: none;
 
     /*margin: 0;
