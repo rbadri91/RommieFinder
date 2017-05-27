@@ -3,17 +3,102 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/stylesheets/pageLayout.css">
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 </head>
 <body>
-</body>
 <div id = "preferenceContainer">
-Preferences here
+<h3 class="text-center">Please set your Preference</h3>
+<br>
+<div id="sleepInfo" style="overflow: hidden;">
+	<div class="col-sm-6">What time do you go to sleep</div>
+	<div class="col-sm-6">
+		<select class="form-control" data-style="btn-primary" id="sleep">
+			<option value="0">Well before Midnight(9 PM)</option>
+			<option value="1">Around Midnight (12 AM)</option>
+			<option value="2">Well After Midnight (2 PM)</option>
+			<option value="3"> I have no preference</option>
+		</select>
+	</div>
 </div>
+<br>
+<div id="wakeupInfo" style="overflow: hidden;">
+	<div class="col-sm-6">What time do you wake up</div>
+	<div class="col-sm-6">
+		<select class="form-control" data-style="btn-primary" id="wakeUp">
+			<option value="0">Early(6 AM)</option>
+			<option value="1">Medium(8 AM)</option>
+			<option value="2">Late(10 AM)</option>
+			<option value="3">I have no specific time</option>
+		</select>
+	</div>
+</div>	
+<br>
+<div id="Visitors" style="overflow: hidden;">
+	<div class="col-sm-6">How do you feel about Visitors</div>
+	<div class="col-sm-6">
+		<select class="form-control" data-style="btn-primary" id="VisitorsComfort">
+					<option value="0">I am fine with few Visitors</option>
+					<option value="1">I like to be alone</option>
+					<option value="2">I have no problems with Visitors</option>
+		</select>
+	</div>
+</div>
+<br>
+<div id="MusicInfo" style="overflow: hidden;">
+	<div class="col-sm-8">Do you like listening to Music</div>
+	<div class="col-sm-4">
+		<div class="checkbox pull-right">
+		    <input type="checkbox" id= "music" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small">
+	 	</div>
+	</div>
+</div>
+
+<div id="smokeInfo" style="overflow: hidden;">
+	<div class="col-sm-8">Do you smoke</div>
+	<div class="col-sm-4">
+	  <div class="checkbox pull-right">
+		    <input type="checkbox" id= "smoke" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small">
+	 </div>
+	</div>
+</div>
+
+<div id="roomClenliness" style="overflow: hidden;">
+	<div class="col-sm-6">How do you keep your room</div>
+	<div class="col-sm-6">
+		<select class="form-control" data-style="btn-primary" id ="roomClean">
+					<option value="0">I like my room to be clean</option>
+					<option value="1">I like it to be a bit messy</option>
+					<option value="2">I dont mind it being messy</option>
+		</select>
+	</div>
+</div>
+<br>
+<div id="shareItems" style="overflow: hidden;">
+	<div class="col-sm-8">Are you comfortable sharing things</div>
+	<div class="col-sm-4">
+	  <div class="checkbox pull-right">
+		    <input type="checkbox" id= "share" data-toggle="toggle" data-on="Yes" data-off="No" data-size="small">
+	 </div>
+	</div>
+</div>
+<br>
+<div class="center-block text-center">
+<button class="btn btn-primary btn-sm" onclick="JavaScript:Preferences.SavePreferences()">Save</button>
+<button class="btn btn-primary btn-sm" onclick="JavaScript:Preferences.ResetPreferences()">Reset Changes</button>
+</div>
+
+</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="js/handlePreferences.js"></script>
 </html>

@@ -208,6 +208,18 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		res.send("Success");
 	});
 
+	app.post('/savePreference',function(req,res){
+			req.user.data.sleepTime=req.body.sleepTime;
+			req.user.data.wakeupTime=req.body.wakeupTime;
+			req.user.data.acceptVisitor=req.body.acceptVisitor;
+			req.user.data.listenMusic=req.body.listenMusic;
+			req.user.data.smoke=req.body.smoke;
+			req.user.data.roomClean=req.body.roomClean;
+			req.user.data.share=req.body.share;
+			req.user.save();
+			res.send("Success");
+	});
+
 	app.get('/reset/:token', function(req, res) {
 	  User.findOne({ 'data.resetPasswordToken': req.params.token, 'data.resetPasswordExpires': { $gt: Date.now() } }, function(err, user) {
 	    if (!user) {
