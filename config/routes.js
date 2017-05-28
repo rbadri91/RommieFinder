@@ -1,5 +1,5 @@
 var User            = require('../models/user.js');
-module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport){
+module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport, s3, bucketName){
 
 	app.get('/', function(req, res) {
 		var loggedIn =false;
@@ -118,7 +118,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/overview',function(req,res){
 		res.render('overview', {
-	      about: req.user.data.about
+
 	    });
 	});
 
@@ -137,14 +137,21 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/posts',function(req,res){
 		res.render('posts', {
-	      about: req.user.data.about
+
 	    });
 	});
 
 
 	app.get('/about',function(req,res){
+		var profileSrc="";
+		if(req.user.data.gender=="Male"){
+			profileSrc="/images/defaultUserMale.png";
+		}else{
+			profileSrc="/images/defaultUserFemale.jpg";
+		}
 		res.render('about', {
-	      about: req.user.data.about
+	      about: req.user.data.about,
+	      profilesrc:profileSrc
 	    });
 	});
 
@@ -225,6 +232,31 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			req.user.data.share=req.body.share;
 			req.user.save();
 			res.send("Success");
+	});
+
+	app.get('/sign-s3', (req, res) => {
+	  const fileName = req.query['file-name'];
+	  const fileType = req.query['file-type'];
+	  const s3Params = {
+	    Bucket: bucketName,
+	    Key: fileName,
+	    Expires: 60,
+	    ContentType: fileType,
+	    ACL: 'public-read'
+	  };
+
+	  s3.getSignedUrl('putObject', s3Params, (err, data) => {
+	    if(err){
+	      console.log(err);
+	      return res.end();
+	    }
+	    const returnData = {
+	      signedRequest: data,
+	      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+	    };
+	    res.write(JSON.stringify(returnData));
+	    res.end();
+	  });
 	});
 
 	app.get('/reset/:token', function(req, res) {

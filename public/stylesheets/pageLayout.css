@@ -83,8 +83,7 @@ body {
   margin-top: 50px;
   background-attachment: fixed;
   background-size: cover;
-  background-position: center;
-  background-image: url("/images/skyline3.jpg"); }
+  background-position: center; }
 
 .profileContainer .content-wrapper {
   padding: 45px 5% 3em; }
@@ -363,3 +362,39 @@ input {
 
 .PersonalInfoWrapper {
   margin: 1%; }
+
+#locationField {
+  background-image: url("/images/apartment1.jpg"); }
+
+.locQues {
+  font-family: Palatino,"Palatino Linotype","Palatino LT STD","Book Antiqua",Georgia,serif;
+  color: darkblue; }
+
+#profimage {
+  width: 150px;
+  height: 150px;
+  border-radius: 100%;
+  border: 1px solid black; }
+
+.profileDesc {
+  position: absolute;
+  top: 10px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(29, 106, 154, 0.72);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity .2s, visibility .2s;
+  border-radius: 100%; }
+
+.profileWrapper {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 100%; }
+
+.profileWrapper:hover .profileDesc {
+  visibility: visible;
+  opacity: 1; }

@@ -10,6 +10,7 @@
     "cookie-parse": "^0.4.0",
     "cookie-parser": "^1.4.3",
     "crypto": "0.0.3",
+    "dotenv": "^4.0.0",
     "ejs": "^2.5.6",
     "express": "~4.5.1",
     "express-session": "^1.15.2",

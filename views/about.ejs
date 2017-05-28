@@ -11,9 +11,25 @@
 	<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 </head>
+
+<!-- <div class="popupWrapper">
+<div class="popup" data-popup="popup-1" style ="z-index: 20">
+    <div class="popup-inner">
+      <div id = "loadContents"></div>
+      <br>
+      <br>
+        <a id="closepopUp" class="popup-close" data-popup1-close="popup-1" href="#">x</a>
+    </div>
+</div>
+</div> -->
+
 <body>
 <h2 class="text-center center-block">About Me</h2>
 <hr>
+<div class="profileWrapper text-center center-block">
+<input type="image" id="profimage"/>
+ <p class="profileDesc">Change Profile</p>
+</div>
 <div class= "row" id="aboutContent"><%= about %></div>
  <textarea style="font-family:sans-serif;width:70%; height:60%; overflow: hidden;display: none" id ="aboutMe" name="aboutMe" onkeyup="auto_grow(this)"></textarea>
 <br><br>
@@ -30,6 +46,11 @@ var saveContent = document.getElementById("saveContent");
 var cancel = document.getElementById("cancel");
 var aboutContentDiv = document.getElementById("aboutContent");
 var updateDiv = document.getElementById("updateDiv");
+
+$(function(){
+	var profileImagesrc = <%-JSON.stringify(profilesrc)%>
+		document.getElementById("profimage").src=profileImagesrc ;
+});
 	 function updateContent(){
 	 	var aboutContent = document.getElementById("aboutContent").textContent;
 	 	if(aboutMe.style.display == "none"){

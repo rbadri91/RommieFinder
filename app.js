@@ -19,6 +19,17 @@ var	Promise = require('promise');
 var fs = require('fs');
 var app = express();
 
+var dotenv = require('dotenv');
+
+dotenv.load();
+
+var AWS = require('aws-sdk');
+
+var s3 = new AWS.S3();
+var bucketName = process.env.S3_BUCKET;
+
+var s3Bucket = new AWS.S3( { params: {Bucket: bucketName} } )
+
 var MongoClient = require('mongodb').MongoClient;
 
 app.set('views', __dirname + '/views');
@@ -44,7 +55,7 @@ mongoose.connect(db.url, function(err) {
 
 mongoose.connection.on('connected', function () { 
 	
-require('./config/routes.js')(app , passport, async, nodemailer, crypto, smtpTransport);
+require('./config/routes.js')(app , passport, async, nodemailer, crypto, smtpTransport, s3, bucketName);
 
 });
 

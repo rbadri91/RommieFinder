@@ -23,7 +23,7 @@
 </div>
 </div>
 
-<body>
+<body onload="initialize()">
 
 
 <% include ../public/pageContent/navbar %>
@@ -38,13 +38,13 @@
                 </ol>
                 <div class="carousel-inner">
                   <div class="item active left">
-                  <img src="/images/skyline4.jpg">
+                  <img style="height:100vh" src="/images/skyline4.jpg">
                   </div>
                   <div class="item next left">
-                    <img src="/images/skyline5.jpg">
+                    <img style="height:100vh" src="/images/skyline5.jpg">
                   </div>
                    <div class="item">
-                    <img src="/images/skyline6.jpg">
+                    <img  style="height:100vh" src="/images/skyline6.jpg">
                   </div>
                 </div>
                 <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -55,8 +55,8 @@
                 </a>
             </div>
 
-
-        <div id="mainConent" style="position: absolute;top:50%; left:28%">
+    <div id="mainContent">
+        <div id="firstSection" style="position: absolute;top:50%; left:28%;height:40vh; ">
             <!-- <div class="my-row special">
             <div class="v-m"> -->
            <%if (!loggedIn) { %> 
@@ -71,26 +71,41 @@
             <div class="col-sm-4">
             <a id = "signup2" class=" text-center center-block btn btn-primary btn-lg" href="/signup" data-popup1-open="popup-1">Signup</a></div>
             </div>
+            </div>
             <%}else{ %>
                 <div id ="searchQuestion" class="center-block text-center">
                       <h2 class ="text-center center-block" style="color: Yellow">What do you want to do</h2>
                       <div class="row">
-                      <button class="btn btn-primary btn-lg">I have an apatment and i am looking for a roommate</button>
+                      <button class="btn btn-primary btn-lg" id="rmate" onclick="handlebuttonClick(this)">I have an apatment and i am looking for a roommate</button>
                       </div>
                       <br>
                       <div class="row">
-                      <button class="btn btn-primary btn-lg">I am looking for an apartment and a roommate</button>
+                      <button class="btn btn-primary btn-lg" id="aandrmate" onclick="handlebuttonClick(this)">I am looking for an apartment and a roommate</button>
                       </div> 
                       <br>
                       <div class="row">
-                      <button class="btn btn-primary btn-lg">I am looking for a subletter</button>
+                      <button class="btn btn-primary btn-lg" id="slet"onclick="handlebuttonClick(this)">I am looking for a subletter</button>
                       </div>   
                 </div>
-            <% } %>
-
-            <!-- </div> -->
-            <!-- </div> -->
-            </div>
+                </div>
+                <div id="locationField" style="height:100vh;width:100%;display:none">
+                  <div class="my-row special">
+                    <div class="v-m">
+                        <div id="findLoc" style="display:none;"> 
+                            <h2 class="text-center locQues">Where do you want to live</h2>
+                            <input class="form-control center-block input-lg" style="width:50%;"id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"></input>
+                        </div>
+                        <div id="neworViewPosts" class="center-block text-center" style="display:none">
+                              <button style="margin:10px" class="btn btn-lg">Create New posts</button>
+                              <button style="margin:10px" class="btn btn-lg">View your Posts</button>  
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            <% } %> 
+    </div> 
+            
+          
         </div>
 
 </body>
@@ -125,7 +140,6 @@ $(document).ready(function(){
 
 
      var loggedIn = <%= loggedIn %> 
-     console.log("loggedIn:",loggedIn);
      if(loggedIn){
         document.getElementById("profile").style.display="block";
         document.getElementById("login_logout").textContent ="Logout";
@@ -140,5 +154,47 @@ $(document).ready(function(){
      
 
 });
+
+function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+}
+
+function handlebuttonClick(el){
+    document.getElementById("locationField").style.display="block";
+    if(el.id=="aandrmate"){ 
+        document.getElementById("findLoc").style.display="block";
+        document.getElementById("neworViewPosts").style.display="none";
+    }else{
+        document.getElementById("neworViewPosts").style.display="block";
+        document.getElementById("findLoc").style.display="none";
+    }
+     $('html,body').animate({
+        scrollTop: $("#locationField").offset().top},
+        'slow');
+}
+
+var autocomplete;
+function initialize() {
+        autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('autocomplete')),
+                  { types: ['geocode'] });
+              google.maps.event.addListener(autocomplete, 'place_changed', function() {
+              });
+}
+
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_T0L3QXJI0RusVVZ-44z7IWk1i4XKUOk&libraries=places"
+        async defer></script>
 </html>
