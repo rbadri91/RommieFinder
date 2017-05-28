@@ -29,8 +29,36 @@
 <% include ../public/pageContent/navbar %>
 
         <div class="homePageContainer">
-            <div class="my-row special">
-            <div class="v-m">
+
+            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel-example-generic" data-slide-to="0" class=""></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                  <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner">
+                  <div class="item active left">
+                  <img src="/images/skyline4.jpg">
+                  </div>
+                  <div class="item next left">
+                    <img src="/images/skyline5.jpg">
+                  </div>
+                   <div class="item">
+                    <img src="/images/skyline6.jpg">
+                  </div>
+                </div>
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                  <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+
+
+        <div id="mainConent" style="position: absolute;top:50%; left:28%">
+            <!-- <div class="my-row special">
+            <div class="v-m"> -->
            <%if (!loggedIn) { %> 
             <div class="row">
                 <h2 class ="text-center center-block" style="color: white">Find your best Mate here</h2>
@@ -43,8 +71,25 @@
             <div class="col-sm-4">
             <a id = "signup2" class=" text-center center-block btn btn-primary btn-lg" href="/signup" data-popup1-open="popup-1">Signup</a></div>
             </div>
-            <%} %>
-            </div>
+            <%}else{ %>
+                <div id ="searchQuestion" class="center-block text-center">
+                      <h2 class ="text-center center-block" style="color: Yellow">What do you want to do</h2>
+                      <div class="row">
+                      <button class="btn btn-primary btn-lg">I have an apatment and i am looking for a roommate</button>
+                      </div>
+                      <br>
+                      <div class="row">
+                      <button class="btn btn-primary btn-lg">I am looking for an apartment and a roommate</button>
+                      </div> 
+                      <br>
+                      <div class="row">
+                      <button class="btn btn-primary btn-lg">I am looking for a subletter</button>
+                      </div>   
+                </div>
+            <% } %>
+
+            <!-- </div> -->
+            <!-- </div> -->
             </div>
         </div>
 

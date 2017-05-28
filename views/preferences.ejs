@@ -101,4 +101,43 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="js/handlePreferences.js"></script>
+<script>
+var sleepTime = <%= sleepTime %>  
+if(sleepTime){
+	document.getElementById('sleep').value=sleepTime;
+}
+var wakeupTime = <%= wakeupTime %>  
+if(wakeupTime){
+	document.getElementById('wakeUp').value=wakeupTime;
+}
+var acceptVisitor = <%= acceptVisitor %>  
+if(acceptVisitor){
+	document.getElementById('VisitorsComfort').value=acceptVisitor;
+}
+
+var listenMusic = <%= listenMusic %> 
+
+if(listenMusic){
+	$('#music').prop('checked',true);
+} 
+
+var smoke = <%= smoke %>  
+
+if(smoke){
+	$('#smoke').prop('checked',true);
+} 
+
+var roomClean = <%= roomClean %> 
+
+if(roomClean){
+	document.getElementById('roomClean').value=roomClean;
+} 
+
+var share = <%= share %> 
+
+if(share){
+	$('#share').prop('checked',true);
+} 
+
+</script>
 </html>

@@ -124,7 +124,14 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/preferences',function(req,res){
 		res.render('preferences', {
-	      about: req.user.data.about
+			sleepTime:req.user.data.sleepTime,
+			wakeupTime:req.user.data.wakeupTime,
+			acceptVisitor:req.user.data.acceptVisitor,
+			listenMusic:req.user.data.listenMusic,
+			smoke:req.user.data.smoke,
+			roomClean:req.user.data.roomClean,
+			share:req.user.data.share
+
 	    });
 	});
 
