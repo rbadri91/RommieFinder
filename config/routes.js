@@ -144,10 +144,15 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/about',function(req,res){
 		var profileSrc="";
-		if(req.user.data.gender=="Male"){
-			profileSrc="/images/defaultUserMale.png";
+
+		if(req.user.data.profileURL){
+			profileSrc = req.user.data.profileURL;
 		}else{
-			profileSrc="/images/defaultUserFemale.jpg";
+			if(req.user.data.gender=="Male"){
+				profileSrc="/images/defaultUserMale.png";
+			}else{
+				profileSrc="/images/defaultUserFemale.jpg";
+			}
 		}
 		res.render('about', {
 	      about: req.user.data.about,
@@ -166,6 +171,10 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	      contactNo:req.user.data.contact,
 	      notifEnabled:req.user.data.notifEnabled
 	    });
+	});
+
+	app.get('/createPosts',function(req,res){
+		res.render('newposts');
 	});
 
 	app.post('/saveAboutMe',function(req,res){
@@ -221,6 +230,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		req.user.save();
 		res.send("Success");
 	});
+	
 
 	app.post('/savePreference',function(req,res){
 			req.user.data.sleepTime=req.body.sleepTime;
@@ -234,9 +244,15 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			res.send("Success");
 	});
 
-	app.get('/sign-s3', (req, res) => {
-	  const fileName = req.query['file-name'];
+	app.get('/sign-s3', function(req, res){
+	  var userId = req.user._id.toString();
+	  var fol1= userId.substring(0,2);
+	  var fol2 =userId.substring(2,9);
+	  var fol3 =userId.substring(9,18);
+	  var fol4 =userId.substring(18,24);
+	  var  fileName = req.query['file-name'];
 	  const fileType = req.query['file-type'];
+	  fileName = fol1 +"/"+ fol2 +"/" +fol3 +"/" +fol4 +"/"+"profile"+"/"+fileName;
 	  const s3Params = {
 	    Bucket: bucketName,
 	    Key: fileName,
@@ -250,10 +266,13 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	      console.log(err);
 	      return res.end();
 	    }
+	    console.log("data here:",data);
 	    const returnData = {
 	      signedRequest: data,
-	      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+	      url: `https://${bucketName}.s3.amazonaws.com/${fileName}`
 	    };
+	    req.user.data.profileURL = returnData.url;
+	    req.user.save();
 	    res.write(JSON.stringify(returnData));
 	    res.end();
 	  });

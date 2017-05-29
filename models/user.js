@@ -2,6 +2,12 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
 
+var myPosts = mongoose.Schema({
+    postType: String,
+    imageUrl: [String],
+    timestamp: String
+});
+
 var userSchema = mongoose.Schema({
 
     data             : {
@@ -27,6 +33,8 @@ var userSchema = mongoose.Schema({
         dob          : String,
         gender       : String,
         contact     : Number,
+        profileURL  : String,
+        Posts       : [myPosts]
 
         // // these will be google login session variables
         // refreshToken    : String,

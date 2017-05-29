@@ -76,16 +76,13 @@
                 <div id ="searchQuestion" class="center-block text-center">
                       <h2 class ="text-center center-block" style="color: Yellow">What do you want to do</h2>
                       <div class="row">
-                      <button class="btn btn-primary btn-lg" id="rmate" onclick="handlebuttonClick(this)">I have an apatment and i am looking for a roommate</button>
+                      <button class="btn btn-primary btn-lg" id="rmate" onclick="handlebuttonClick(this)">I want a roommate/subletter</button>
                       </div>
                       <br>
                       <div class="row">
                       <button class="btn btn-primary btn-lg" id="aandrmate" onclick="handlebuttonClick(this)">I am looking for an apartment and a roommate</button>
                       </div> 
-                      <br>
-                      <div class="row">
-                      <button class="btn btn-primary btn-lg" id="slet"onclick="handlebuttonClick(this)">I am looking for a subletter</button>
-                      </div>   
+                      <br>   
                 </div>
                 </div>
                 <div id="locationField" style="height:100vh;width:100%;display:none">
@@ -96,8 +93,8 @@
                             <input class="form-control center-block input-lg" style="width:50%;"id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"></input>
                         </div>
                         <div id="neworViewPosts" class="center-block text-center" style="display:none">
-                              <button style="margin:10px" class="btn btn-lg">Create New posts</button>
-                              <button style="margin:10px" class="btn btn-lg">View your Posts</button>  
+                              <a href ="createPosts" style="margin:10px;background-color: red;color: white" class="btn btn-lg">Create New posts</a>
+                              <a href ="#" style="margin:10px;background-color: red;color: white" class="btn btn-lg">View your Posts</a>  
                         </div>
                     </div>
                   </div>
@@ -154,6 +151,10 @@ $(document).ready(function(){
      
 
 });
+
+// $(function(){
+
+// })
 
 function geolocate() {
         if (navigator.geolocation) {

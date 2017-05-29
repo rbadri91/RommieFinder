@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/pageLayout.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+</head>
+<body onload="initialize()">
+<div id = "newPostsContainer" style="height:100%">
+<h2 class="text-center">What do you want to do</h2>
+<div class="center-block text-center">
+<button class="btn btn-primary" id="sublet" onclick="handleButtonClick(this)">I have a room to sublet</button>
+<button class="btn btn-primary" id="roommate" onclick="handleButtonClick(this)">I am looking for a roomate</button>
+</div>
+
+	<div id="uploadPosts" class="text-center center-block"> 
+	        <h2 class="text-center locQues">Where do you Stay</h2>
+	        <input class="form-control center-block input-lg" style="width:50%;"id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
+	       <br>
+	        <label  class="btn btn-default btn-file" for="FileUpload_1">Upload Picture </label>
+            <input type="file"  id ="FileUpload_1" accept="image/*" capture="camera" value="" onchange="handleFileUploadChange(this)" style="display: none;">
+            <input type="text" style= "width:300px"name="fileName_1" id="fileName_1">
+			<button class="btn btn-info center-block" id="uploadMore" onclick="createFileUpload()" style="display:none">Upload More pictures</button>
+			<br>
+			<button class="btn btn-info center-block" id="postButton">Post</button>
+	</div>
+</div>
+
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+var autocomplete;
+var postReason;
+function initialize() {
+        autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('autocomplete')),
+                  { types: ['geocode'] });
+              google.maps.event.addListener(autocomplete, 'place_changed', function() {
+              });
+}
+
+function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+}
+
+function handleButtonClick(el){
+		if(el.id =="sublet"){
+			postReason = "sublet";
+		}else{
+			postReason = "Roommate";
+		}
+ $("#uploadPosts").toggleClass('active');			
+}
+var inputCount=2;
+function createFileUpload(){
+	var mainDiv=document.getElementById("uploadPosts");
+	var fileInput = document.createElement("input");
+	fileInput.type="file";
+	fileInput.id="FileUpload_"+inputCount;
+	fileInput.accept="image/*";
+	fileInput.capture="camera";
+	fileInput.onchange = function(){
+		handleFileUploadChange(this);
+	};
+	mainDiv.insertBefore(fileInput,document.getElementById("uploadMore"));
+}
+
+function handleFileUploadChange(el){
+	var id=el.id;
+	var number= id.substring(id.lastIndexOf("_")+1);
+	document.getElementById("fileName_"+number).value = el.value;
+	document.getElementById("uploadMore").style.display="block";
+}
+
+function getSignedRequest(file){
+      const xhr = new XMLHttpRequest();
+      console.log("name here:",file.name);
+      var fileName= file.name;
+      var profileName="userProfile"+ fileName.substring(fileName.lastIndexOf("."));
+      xhr.open('GET', `/sign-s3?file-name=${profileName}&file-type=${file.type}`);
+      xhr.responseType ="text";
+      xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+          if(xhr.status === 200){
+            var response = JSON.parse(xhr.response);
+            uploadFile(file, response.signedRequest, response.url);
+          }
+          else{
+            alert('Could not get signed URL.');
+          }
+        }
+      };
+      xhr.send();
+    }
+
+    function uploadFile(file, signedRequest, url){
+      const xhr = new XMLHttpRequest();
+      xhr.open('PUT', signedRequest);
+      xhr.onreadystatechange = () => {
+        if(xhr.readyState === 4){
+          if(xhr.status === 200){
+            document.getElementById('profimage').src = url;
+          }
+          else{
+            alert('Could not upload file.');
+          }
+        }
+      };
+      xhr.send(file);
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_T0L3QXJI0RusVVZ-44z7IWk1i4XKUOk&libraries=places"
+        async defer></script>
+</html>

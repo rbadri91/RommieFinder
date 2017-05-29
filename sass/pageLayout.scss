@@ -527,16 +527,16 @@ $header-img: url('/images/apartment1.jpg');
 
 .profileDesc {
   position: absolute;
-  top: 10px;
+  //top: 0px;
   bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(29, 106, 154, 0.72);
+  left: 25px;
+ // right: 0;
+  //background: rgba(29, 106, 154, 0.72);
   color: #fff;
   visibility: hidden;
   opacity: 0;
   transition: opacity .2s, visibility .2s;
-  border-radius: 100%; 
+  //border-radius: 100%; 
 }
 
 .profileWrapper{
@@ -550,4 +550,33 @@ $header-img: url('/images/apartment1.jpg');
 .profileWrapper:hover .profileDesc {
   visibility: visible;
   opacity: 1;
+}
+
+#uploadPosts{
+position: absolute;
+  bottom:0;
+  width:100%;
+  display:none;
+ transform: translateY(0);
+  transition: transform .8s ease-in-out, opacity .8s ease-in-out; 
+}
+
+#uploadPosts.active{
+    display: block;
+    transform: translateY(-100%);
+    animation: animTranlate .5s ease-in-out;
+}
+
+@keyframes animTranlate {
+  0% {
+    display: none;
+  }
+  1% {
+    display: block;
+    transform: translateY(0);
+  }
+  100% {
+    display: block;
+    transform: translateY(-100%);
+  }
 }
