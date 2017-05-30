@@ -1,8 +1,10 @@
 var User            = require('../models/user.js');
+var Posts            = require('../models/posts.js');
 module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport, s3, bucketName){
 
 	app.get('/', function(req, res) {
 		var loggedIn =false;
+		req.session.current_url = "home";
 		if(req.session.loggedIn)loggedIn = req.session.loggedIn;
 		res.render('index',{title : 'Welcome', loggedIn : loggedIn});
 	});
@@ -57,7 +59,8 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/profile', ensureLoggedIn,isLoggedIn,function(req, res) {
 		req.session.loaded=true;
-		res.render('profile', {title: 'Profile Page'});
+		var prevUrl=req.session.current_url.toString();
+		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl)});
 		
 	});
 
@@ -136,10 +139,15 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	});
 
 	app.get('/posts',ensureLoggedIn,function(req,res){
-		console.log("posts here:",req.user.data.Posts[0].imageUrl[0]);
-		res.render('posts', {
-			posts: req.user.data.Posts
-	    });
+		Posts.find({user:req.user._id },function(err,datas){
+			if(err) throw err;
+			console.log("datas here:",datas);
+			res.render('posts', {
+				posts: datas
+		    });
+		});
+		// console.log("posts here:",req.user.data.Posts[0].imageUrl[0]);
+		
 	});
 
 
@@ -357,8 +365,16 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			}
 
 			today =  mm + '-' + dd +"-"+yyyy;
-			req.user.data.Posts.push({"postType":postType,"imageUrl":imageURL,"postDesc":postDesc,"postLocation":location,"timestamp":today})
-			req.user.save();
+			var posts = new Posts();
+			posts.postType = postType;
+			posts.imageUrl = imageURL;
+			posts.postDesc = postDesc;
+			posts.postLocation = location;
+			posts.timestamp = today;
+			posts.user = req.user._id;
+			posts.save();
+			// req.user.data.Posts.push({"postType":postType,"imageUrl":imageURL,"postDesc":postDesc,"postLocation":location,"timestamp":today})
+			// req.user.save();
 			res.send("Success");
 	});
 

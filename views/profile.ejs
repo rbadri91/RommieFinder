@@ -37,7 +37,7 @@ html{
 			</ul>
 		</nav>
 	</header>
-
+<div id="fromLocation"><%=prevUrl%></div>
 	<div class="profileContainer">
 
 		<nav class="cd-side-nav">
@@ -65,4 +65,13 @@ html{
 	</div>
 	<script src ="https://cdn.jsdelivr.net/jquery.menu-aim/0.1/jquery.menu-aim.min.js"></script>
 	<script src="js/handleUserProfile.js"></script>
+	<script>
+	$(function(){
+		var prevURL =JSON.parse(document.getElementById("fromLocation").textContent);
+		if(prevURL =="home"){
+			document.getElementById("posts").click();
+		}
+	});
+		
+	</script>
 </body>	
