@@ -563,7 +563,7 @@ position: absolute;
 
 #uploadPosts.active{
     display: block;
-    transform: translateY(-100%);
+    transform: translateY(-70%);
     animation: animTranlate .5s ease-in-out;
 }
 
@@ -577,6 +577,6 @@ position: absolute;
   }
   100% {
     display: block;
-    transform: translateY(-100%);
+    transform: translateY(-70%);
   }
 }

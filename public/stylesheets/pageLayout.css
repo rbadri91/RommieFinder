@@ -405,7 +405,7 @@ input {
 
 #uploadPosts.active {
   display: block;
-  transform: translateY(-100%);
+  transform: translateY(-70%);
   animation: animTranlate .5s ease-in-out; }
 
 @keyframes animTranlate {
@@ -416,4 +416,4 @@ input {
     transform: translateY(0); }
   100% {
     display: block;
-    transform: translateY(-100%); } }
+    transform: translateY(-70%); } }

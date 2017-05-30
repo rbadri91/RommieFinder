@@ -252,7 +252,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	  var fol4 =userId.substring(18,24);
 	  var  fileName = req.query['file-name'];
 	  const fileType = req.query['file-type'];
-	  fileName = fol1 +"/"+ fol2 +"/" +fol3 +"/" +fol4 +"/"+"profile"+"/"+fileName;
+	  fileName = fol1 +"/"+ fol2 +"/" +fol3 +"/" +fol4 +"/"+fileName;
 	  const s3Params = {
 	    Bucket: bucketName,
 	    Key: fileName,
@@ -332,6 +332,33 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	  ], function(err) {
 	    res.redirect('/');
 	  });
+	});
+
+	app.post('/createNewPost',function(req,res){
+			var postContents = req.body.postDesc;
+			console.log("postContents:",postContents);
+			var location = postContents.location;
+			var postDesc = postContents.desc;
+			var imageURL = postContents.urls;
+			var postType = postContents.postReason;
+			var today,ddd,m,yyyy;
+			today = new Date();
+			dd = today.getDate();
+			mm = today.getMonth() + 1;
+			yyyy = today.getFullYear();
+
+			if (dd < 10) {
+				dd = '0' + dd
+			}
+
+			if (mm < 10) {
+				mm = '0' + mm
+			}
+
+			today =  mm + '-' + dd +"-"+yyyy;
+			req.user.data.Posts.push({"postType":postType,"imageUrl":imageURL,"postDesc":postDesc,"postLocation":location,"timestamp":today})
+			req.user.save();
+			res.send("Success");
 	});
 
 	function isLoggedIn(req, res, next) {

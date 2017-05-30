@@ -5,6 +5,8 @@ var bcrypt   = require('bcrypt-nodejs');
 var myPosts = mongoose.Schema({
     postType: String,
     imageUrl: [String],
+    postDesc: String,
+    postLocation : String,
     timestamp: String
 });
 

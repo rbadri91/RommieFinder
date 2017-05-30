@@ -119,7 +119,8 @@ $(function(){
       console.log("name here:",file.name);
       var fileName= file.name;
       var profileName="userProfile"+ fileName.substring(fileName.lastIndexOf("."));
-      xhr.open('GET', `/sign-s3?file-name=${profileName}&file-type=${file.type}`);
+      var filePath ="profile/"+profileName
+      xhr.open('GET', `/sign-s3?file-name=${filePath}&file-type=${file.type}`);
       xhr.responseType ="text";
       xhr.onreadystatechange = () => {
         if(xhr.readyState === 4){

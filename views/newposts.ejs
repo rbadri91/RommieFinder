@@ -6,36 +6,49 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/stylesheets/pageLayout.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 </head>
 <body onload="initialize()">
 <div id = "newPostsContainer" style="height:100%">
 <h2 class="text-center">What do you want to do</h2>
 <div class="center-block text-center">
 <button class="btn btn-primary" id="sublet" onclick="handleButtonClick(this)">I have a room to sublet</button>
-<button class="btn btn-primary" id="roommate" onclick="handleButtonClick(this)">I am looking for a roomate</button>
+<button class="btn btn-primary" id="roommate" onclick="handleButtonClick(this)">I am looking for a roommate</button>
 </div>
 
 	<div id="uploadPosts" class="text-center center-block"> 
-	        <h2 class="text-center locQues">Where do you Stay</h2>
+	        <h2 class="text-center locQues" id="loc"></h2>
 	        <input class="form-control center-block input-lg" style="width:50%;"id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
 	       <br>
-	        <label  class="btn btn-default btn-file" for="FileUpload_1">Upload Picture </label>
-            <input type="file"  id ="FileUpload_1" accept="image/*" capture="camera" value="" onchange="handleFileUploadChange(this)" style="display: none;">
-            <input type="text" style= "width:300px"name="fileName_1" id="fileName_1">
+	       	<div class="form-group">
+		        <label  class="btn btn-default btn-file" for="FileUpload_1">Select Picture </label>
+	            <input type="file" id ="FileUpload_1" accept="image/*" capture="camera" value="" onchange="handleFileUploadChange(this)" style="display: none;">
+	            <input class ="form-control center-block" type="text" style= "width:30%;display:inline" name="fileName_1" id="fileName_1">
+	            <button class="btn btn-info" id="Upload_1" onclick ="handleImageUpload(this)">Upload Image</button>
+            </div>
+            <br>
 			<button class="btn btn-info center-block" id="uploadMore" onclick="createFileUpload()" style="display:none">Upload More pictures</button>
 			<br>
-			<button class="btn btn-info center-block" id="postButton">Post</button>
+			<textarea  class="form-control center-block" style="font-family:sans-serif;width:70%; height:100%; overflow: hidden;" placeholder ="Describe your Apartment..." id ="apartmentDesc" name="apartmentDesc" onkeyup="auto_grow(this)"></textarea>
+			<br>
+			<button class="btn btn-info center-block" id="postButton" onclick="handlePostClick()">Post</button>
 	</div>
 </div>
 
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script>
 var autocomplete;
 var postReason;
+var tranformValue =-100;
+
+var subletURL =[];
+var roommateURL =[];
 function initialize() {
         autocomplete = new google.maps.places.Autocomplete(
         (document.getElementById('autocomplete')),
@@ -63,27 +76,71 @@ function geolocate() {
 function handleButtonClick(el){
 		if(el.id =="sublet"){
 			postReason = "sublet";
+			document.getElementById("loc").textContent="Where do you want to Sublet";
 		}else{
+			document.getElementById("loc").textContent="Where do you stay";
 			postReason = "Roommate";
 		}
+
+document.getElementById("uploadPosts").classList.remove("active");
  $("#uploadPosts").toggleClass('active');			
 }
-var inputCount=2;
+var inputCount = 1;
 function createFileUpload(){
+
+	tranformValue +=20;
+	inputCount ++;
 	var mainDiv=document.getElementById("uploadPosts");
+	mainDiv.style.transform="translateY("+tranformValue+"%)";
+	var wrapperDiv = document.createElement("div");
+	wrapperDiv.className ="form-group";
 	var fileInput = document.createElement("input");
 	fileInput.type="file";
 	fileInput.id="FileUpload_"+inputCount;
 	fileInput.accept="image/*";
-	fileInput.capture="camera";
+	fileInput.setAttribute("capture","camera");
+	fileInput.style.display="none";
 	fileInput.onchange = function(){
+		console.log("it comes to onchange");
 		handleFileUploadChange(this);
 	};
-	mainDiv.insertBefore(fileInput,document.getElementById("uploadMore"));
+
+	var fileInputLabel = document.createElement("label");
+	fileInputLabel.className ="btn btn-default btn-file";
+	fileInputLabel.setAttribute("for" ,"FileUpload_"+ inputCount);
+	fileInputLabel.textContent = "Select Picture";
+
+	var fileSelectText = document.createElement("input");
+	fileSelectText.type ="text";
+	fileSelectText.className="form-control center-block";
+	fileSelectText.name ="fileName_"+inputCount;
+	fileSelectText.id ="fileName_"+inputCount;
+	fileSelectText.style.width="30%";
+	fileSelectText.style.display="inline";
+	var uploadButton = document.createElement("button");
+	uploadButton.className = "btn btn-info";
+	uploadButton.id ="Upload_"+ inputCount;
+	uploadButton.onclick =function(){
+		handleImageUpload(this);
+	}
+	uploadButton.textContent = "Upload Image";
+	wrapperDiv.appendChild(fileInputLabel);
+	wrapperDiv.appendChild(fileInput);
+	wrapperDiv.appendChild(fileSelectText);
+	wrapperDiv.appendChild(uploadButton);
+	var breakDiv = document.createElement("br");
+	mainDiv.insertBefore(wrapperDiv,document.getElementById("uploadMore"));
+	mainDiv.insertBefore(breakDiv,document.getElementById("uploadMore"));
+	inputCount ++;
 }
 
 function handleFileUploadChange(el){
 	var id=el.id;
+	if(inputCount==1) {
+		tranformValue =-50;
+		document.getElementById("uploadPosts").style.transition ="initial";
+		document.getElementById("uploadPosts").style.transform="translateY("+tranformValue+"%)";
+	}
 	var number= id.substring(id.lastIndexOf("_")+1);
 	document.getElementById("fileName_"+number).value = el.value;
 	document.getElementById("uploadMore").style.display="block";
@@ -93,8 +150,9 @@ function getSignedRequest(file){
       const xhr = new XMLHttpRequest();
       console.log("name here:",file.name);
       var fileName= file.name;
-      var profileName="userProfile"+ fileName.substring(fileName.lastIndexOf("."));
-      xhr.open('GET', `/sign-s3?file-name=${profileName}&file-type=${file.type}`);
+      var filePath=postReason+"/"+fileName;
+      console.log("filePath:",filePath);
+      xhr.open('GET', `/sign-s3?file-name=${filePath}&file-type=${file.type}`);
       xhr.responseType ="text";
       xhr.onreadystatechange = () => {
         if(xhr.readyState === 4){
@@ -108,15 +166,30 @@ function getSignedRequest(file){
         }
       };
       xhr.send();
-    }
+}
 
-    function uploadFile(file, signedRequest, url){
-      const xhr = new XMLHttpRequest();
+function auto_grow(element) {
+	    element.style.height = "5px";
+	    element.style.height = (element.scrollHeight)+"px";
+}
+
+function uploadFile(file, signedRequest, url){
+      var xhr = new XMLHttpRequest();
       xhr.open('PUT', signedRequest);
       xhr.onreadystatechange = () => {
         if(xhr.readyState === 4){
           if(xhr.status === 200){
-            document.getElementById('profimage').src = url;
+          if(postReason =="sublet"){
+          		subletURL.push(url);
+          }else{
+          		roommateURL.push(url);
+          }
+          	
+          swal(
+					'Success!',
+					'Your changes have been saved!',
+					'success'
+			  )
           }
           else{
             alert('Could not upload file.');
@@ -124,7 +197,65 @@ function getSignedRequest(file){
         }
       };
       xhr.send(file);
+}
+
+function handleImageUpload(el){
+	var id = el.id;
+	var count = id.substring(id.lastIndexOf("_")+1);
+	console.log("count here:",count);
+	var files = document.getElementById('FileUpload_'+count ).files;
+    var file = files[0];
+    if(file == null){
+        return alert('No file selected.');
     }
+    getSignedRequest(file);
+
+}
+
+function handlePostClick(){
+	var location = document.getElementById("autocomplete").value;
+	var apartmentDescription = document.getElementById("apartmentDesc").value;
+	if(location==""){
+		swal(
+			  'Oops...',
+			  'You forgot to metion your Location!',
+			  'error'
+		)
+		return;
+	}else if(apartmentDescription ==""){
+		swal(
+			  'Oops...',
+			  'You forgot to Describe your apartment!',
+			  'error'
+		)
+		return;
+	}
+
+	var postDesc={"location":location,"desc":apartmentDescription,"postReason":postReason};
+	if(postReason =="sublet"){
+		postDesc["urls"]=subletURL;
+	}else{
+		postDesc["urls"]=roommateURL;
+	}
+	$.ajax({
+			type: "POST",
+			url: "/createNewPost",
+			data: {
+				postDesc: postDesc
+			},
+			async: false,
+			success: function(result) {
+				swal(
+					'Success!',
+					'Your Post has been created!',
+					'success'
+				)
+			},
+			error: function(result) {
+				alert('error');
+			}
+		});
+}
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_T0L3QXJI0RusVVZ-44z7IWk1i4XKUOk&libraries=places"
         async defer></script>
