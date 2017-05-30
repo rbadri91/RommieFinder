@@ -55,7 +55,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		res.redirect('/');
 	});
 
-	app.get('/profile', isLoggedIn,function(req, res) {
+	app.get('/profile', ensureLoggedIn,isLoggedIn,function(req, res) {
 		req.session.loaded=true;
 		res.render('profile', {title: 'Profile Page'});
 		
@@ -116,13 +116,13 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.get('/overview',function(req,res){
+	app.get('/overview',ensureLoggedIn,function(req,res){
 		res.render('overview', {
 
 	    });
 	});
 
-	app.get('/preferences',function(req,res){
+	app.get('/preferences',ensureLoggedIn,function(req,res){
 		res.render('preferences', {
 			sleepTime:req.user.data.sleepTime,
 			wakeupTime:req.user.data.wakeupTime,
@@ -135,14 +135,15 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.get('/posts',function(req,res){
+	app.get('/posts',ensureLoggedIn,function(req,res){
+		console.log("posts here:",req.user.data.Posts[0].imageUrl[0]);
 		res.render('posts', {
-
+			posts: req.user.data.Posts
 	    });
 	});
 
 
-	app.get('/about',function(req,res){
+	app.get('/about',ensureLoggedIn,function(req,res){
 		var profileSrc="";
 
 		if(req.user.data.profileURL){
@@ -160,7 +161,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.get('/settings',function(req,res){
+	app.get('/settings',ensureLoggedIn,function(req,res){
 		res.render('settings', {
 	      firstName: req.user.data.firstName,
 	      lastName: req.user.data.lastName,
@@ -173,30 +174,30 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.get('/createPosts',function(req,res){
+	app.get('/createPosts',ensureLoggedIn,function(req,res){
 		res.render('newposts');
 	});
 
-	app.post('/saveAboutMe',function(req,res){
+	app.post('/saveAboutMe',ensureLoggedIn,function(req,res){
 		req.user.data.about = req.body.aboutUpdate;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/saveName',function(req,res){
+	app.post('/saveName',ensureLoggedIn,function(req,res){
 		req.user.data.firstName = req.body.firstName;
 		req.user.data.lastName = req.body.lastName;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/saveCorresEmail',function(req,res){
+	app.post('/saveCorresEmail',ensureLoggedIn,function(req,res){
 		req.user.data.correspondanceEmail = req.body.corresEmail;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/updatePassword',function(req,res){
+	app.post('/updatePassword',ensureLoggedIn,function(req,res){
 		if(!req.user.validPassword(req.body.oldPassword)){
 			res.status(400).send('Oops!!Wrong Password')
 		}else{
@@ -207,32 +208,32 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		
 	});
 
-	app.post('/updateDOB',function(req,res){
+	app.post('/updateDOB',ensureLoggedIn,function(req,res){
 		req.user.data.dob = req.body.newDOB;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/updateGender',function(req,res){
+	app.post('/updateGender',ensureLoggedIn,function(req,res){
 		req.user.data.gender = req.body.gender;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/updateContact',function(req,res){
+	app.post('/updateContact',ensureLoggedIn,function(req,res){
 		req.user.data.contact = req.body.contactNo;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/saveNotificationSetting',function(req,res){
+	app.post('/saveNotificationSetting',ensureLoggedIn,function(req,res){
 		req.user.data.notifEnabled = req.body.notifEnabled;
 		req.user.save();
 		res.send("Success");
 	});
 	
 
-	app.post('/savePreference',function(req,res){
+	app.post('/savePreference',ensureLoggedIn,function(req,res){
 			req.user.data.sleepTime=req.body.sleepTime;
 			req.user.data.wakeupTime=req.body.wakeupTime;
 			req.user.data.acceptVisitor=req.body.acceptVisitor;
@@ -271,7 +272,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	      signedRequest: data,
 	      url: `https://${bucketName}.s3.amazonaws.com/${fileName}`
 	    };
-	    
+
 	    if(fileName.indexOf("sublet")==-1 && fileName.indexOf("Roommate")==-1){
 	    		req.user.data.profileURL = returnData.url;
 	    		req.user.save();
@@ -338,7 +339,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	  });
 	});
 
-	app.post('/createNewPost',function(req,res){
+	app.post('/createNewPost',ensureLoggedIn,function(req,res){
 			var postContents = req.body.postDesc;
 			console.log("postContents:",postContents);
 			var location = postContents.location;

@@ -13,7 +13,8 @@ var express = require('express'),
 	crypto = require('crypto');
 	nodemailer = require('nodemailer'),
 	smtpTransport = require("nodemailer-smtp-transport"),
-	db = require("./config/database.js");
+	db = require("./config/database.js"),
+	ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 
 var	Promise = require('promise');
 var fs = require('fs');
