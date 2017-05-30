@@ -271,8 +271,12 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	      signedRequest: data,
 	      url: `https://${bucketName}.s3.amazonaws.com/${fileName}`
 	    };
-	    req.user.data.profileURL = returnData.url;
-	    req.user.save();
+	    
+	    if(fileName.indexOf("sublet")==-1 && fileName.indexOf("Roommate")==-1){
+	    		req.user.data.profileURL = returnData.url;
+	    		req.user.save();
+	    }
+	   
 	    res.write(JSON.stringify(returnData));
 	    res.end();
 	  });
