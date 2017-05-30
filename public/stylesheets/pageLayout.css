@@ -396,7 +396,7 @@ input {
   opacity: 1; }
 
 #uploadPosts {
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%;
   display: none;
@@ -405,7 +405,7 @@ input {
 
 #uploadPosts.active {
   display: block;
-  transform: translateY(-70%);
+  transform: translateY(20%);
   animation: animTranlate .5s ease-in-out; }
 
 @keyframes animTranlate {
@@ -416,4 +416,4 @@ input {
     transform: translateY(0); }
   100% {
     display: block;
-    transform: translateY(-70%); } }
+    transform: translateY(20%); } }

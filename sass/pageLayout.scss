@@ -553,7 +553,7 @@ $header-img: url('/images/apartment1.jpg');
 }
 
 #uploadPosts{
-position: absolute;
+position: relative;
   bottom:0;
   width:100%;
   display:none;
@@ -563,7 +563,7 @@ position: absolute;
 
 #uploadPosts.active{
     display: block;
-    transform: translateY(-70%);
+    transform: translateY(20%);
     animation: animTranlate .5s ease-in-out;
 }
 
@@ -577,6 +577,6 @@ position: absolute;
   }
   100% {
     display: block;
-    transform: translateY(-70%);
+    transform: translateY(20%);
   }
 }

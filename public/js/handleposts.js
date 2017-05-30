@@ -19,7 +19,6 @@ var newPosts = (function() {
 
 	function createFileUpload(){
 
-		tranformValue +=20;
 		inputCount ++;
 		var mainDiv=document.getElementById("uploadPosts");
 		mainDiv.style.transform="translateY("+tranformValue+"%)";
@@ -68,7 +67,7 @@ var newPosts = (function() {
 	function handleFileUploadChange(el){
 		var id=el.id;
 		if(inputCount==1) {
-			tranformValue =-50;
+			tranformValue =20;
 			document.getElementById("uploadPosts").style.transition ="initial";
 			document.getElementById("uploadPosts").style.transform="translateY("+tranformValue+"%)";
 		}
@@ -144,7 +143,7 @@ var newPosts = (function() {
 	}
 
 	function handlePostClick(){
-		var location = document.getElementById("autocomplete").value;
+		var location = document.getElementById("autocomplete2").value;
 		var apartmentDescription = document.getElementById("apartmentDesc").value;
 		if(location==""){
 			swal(

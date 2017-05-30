@@ -174,10 +174,6 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.get('/createPosts',ensureLoggedIn,function(req,res){
-		res.render('newposts');
-	});
-
 	app.post('/saveAboutMe',ensureLoggedIn,function(req,res){
 		req.user.data.about = req.body.aboutUpdate;
 		req.user.save();
