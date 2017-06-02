@@ -20,7 +20,7 @@ var Preferences = (function() {
 				roomClean: roomClean,
 				share: share
 			},
-			async: false,
+			async: true,
 			success: function(result) {
 				swal(
 					'Success!',

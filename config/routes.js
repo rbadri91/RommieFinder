@@ -4,7 +4,6 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/', function(req, res) {
 		var loggedIn =false;
-		req.session.current_url = "home";
 		if(req.session.loggedIn)loggedIn = req.session.loggedIn;
 		res.render('index',{title : 'Welcome', loggedIn : loggedIn});
 	});
@@ -57,11 +56,73 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		res.redirect('/');
 	});
 
-	app.get('/profile', ensureLoggedIn,isLoggedIn,function(req, res) {
+	app.get('/profile',isLoggedIn,function(req, res) {
 		req.session.loaded=true;
-		var prevUrl=req.session.current_url.toString();
-		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl)});
+		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify("home")});
 		
+	});
+
+	app.get('/viewUserPosts',isLoggedIn,function(req, res) {
+		var prevUrl = "viewUserPosts"
+		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl)});
+	});
+
+	app.post('/viewFullPost',isLoggedIn,function(req,res){
+		req.session.currentPost = req.body.post;
+		req.session.current_url ="viewFullPost";
+		req.session.currPostDate = req.body.post.timestamp;
+		res.end("Success");
+	});
+
+	app.post('/saveLocation',isLoggedIn,function(req,res){ //savePostType
+		var oldLocation = req.body.oldLocation;
+		var postType = req.body.postType;
+		var date = req.body.date;
+		var location = req.body.location;
+		Posts.findOne({"postType":postType,"timestamp":date,"postLocation":oldLocation},function(err,data){
+			if(err) return err;
+			data.postLocation= location;
+			data.save();
+			res.send("Success");
+		});
+
+	});
+
+	app.post('/savePostType',isLoggedIn,function(req,res){ 
+		var postType = req.body.postType;
+		var date = req.body.date;
+		var location = req.body.location;
+		Posts.findOne({"user":req.user._id,"timestamp":date,"postLocation":location},function(err,data){
+			console.log("data here:",data);
+			if(err) return err;
+			data.postType= postType;
+			data.save();
+			res.send("Success");
+		});
+
+	});
+
+	app.post('/saveNewPostDesc',isLoggedIn,function(req,res){
+		var postType = req.body.postType;
+		var date = req.body.date;
+		var postContent = req.body.postContent;
+		Posts.findOne({"user":req.user._id,"timestamp":date,"postType":postType},function(err,data){
+			if(err) return err;
+			if(data){
+				data.postDesc= postContent;
+				data.save();
+				res.send("Success");
+			}else{
+				res.send("No Post found");
+			}
+			
+		});
+	});
+
+
+	app.get('/viewFullPost',isLoggedIn,function(req,res){
+		var post = req.session.currentPost;
+		res.render('updatePosts',{title:'Update Posts',post:post});
 	});
 
 	app.post('/forgot', function(req, res, next) {
@@ -119,13 +180,13 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.get('/overview',ensureLoggedIn,function(req,res){
+	app.get('/overview',isLoggedIn,function(req,res){
 		res.render('overview', {
 
 	    });
 	});
 
-	app.get('/preferences',ensureLoggedIn,function(req,res){
+	app.get('/preferences',isLoggedIn,function(req,res){
 		res.render('preferences', {
 			sleepTime:req.user.data.sleepTime,
 			wakeupTime:req.user.data.wakeupTime,
@@ -138,7 +199,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.get('/posts',ensureLoggedIn,function(req,res){
+	app.get('/posts',isLoggedIn,function(req,res){
 		Posts.find({user:req.user._id },function(err,datas){
 			if(err) throw err;
 			console.log("datas here:",datas);
@@ -151,7 +212,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	});
 
 
-	app.get('/about',ensureLoggedIn,function(req,res){
+	app.get('/about',isLoggedIn,function(req,res){
 		var profileSrc="";
 
 		if(req.user.data.profileURL){
@@ -169,7 +230,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.get('/settings',ensureLoggedIn,function(req,res){
+	app.get('/settings',isLoggedIn,function(req,res){
 		res.render('settings', {
 	      firstName: req.user.data.firstName,
 	      lastName: req.user.data.lastName,
@@ -182,26 +243,26 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    });
 	});
 
-	app.post('/saveAboutMe',ensureLoggedIn,function(req,res){
+	app.post('/saveAboutMe',isLoggedIn,function(req,res){
 		req.user.data.about = req.body.aboutUpdate;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/saveName',ensureLoggedIn,function(req,res){
+	app.post('/saveName',isLoggedIn,function(req,res){
 		req.user.data.firstName = req.body.firstName;
 		req.user.data.lastName = req.body.lastName;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/saveCorresEmail',ensureLoggedIn,function(req,res){
+	app.post('/saveCorresEmail',isLoggedIn,function(req,res){
 		req.user.data.correspondanceEmail = req.body.corresEmail;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/updatePassword',ensureLoggedIn,function(req,res){
+	app.post('/updatePassword',isLoggedIn,function(req,res){
 		if(!req.user.validPassword(req.body.oldPassword)){
 			res.status(400).send('Oops!!Wrong Password')
 		}else{
@@ -212,32 +273,31 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		
 	});
 
-	app.post('/updateDOB',ensureLoggedIn,function(req,res){
+	app.post('/updateDOB',isLoggedIn,function(req,res){
 		req.user.data.dob = req.body.newDOB;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/updateGender',ensureLoggedIn,function(req,res){
+	app.post('/updateGender',isLoggedIn,function(req,res){
 		req.user.data.gender = req.body.gender;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/updateContact',ensureLoggedIn,function(req,res){
+	app.post('/updateContact',isLoggedIn,function(req,res){
 		req.user.data.contact = req.body.contactNo;
 		req.user.save();
 		res.send("Success");
 	});
 
-	app.post('/saveNotificationSetting',ensureLoggedIn,function(req,res){
+	app.post('/saveNotificationSetting',isLoggedIn,function(req,res){
 		req.user.data.notifEnabled = req.body.notifEnabled;
 		req.user.save();
 		res.send("Success");
 	});
-	
 
-	app.post('/savePreference',ensureLoggedIn,function(req,res){
+	app.post('/savePreference',isLoggedIn,function(req,res){
 			req.user.data.sleepTime=req.body.sleepTime;
 			req.user.data.wakeupTime=req.body.wakeupTime;
 			req.user.data.acceptVisitor=req.body.acceptVisitor;
@@ -281,10 +341,72 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    		req.user.data.profileURL = returnData.url;
 	    		req.user.save();
 	    }
+
+	    if(req.session.current_url =="viewFullPost"){
+	    	var postType ="";
+		    if(fileName.indexOf("sublet") !=-1){
+		    	postType = "sublet";
+		    }else if(fileName.indexOf("Roommate") !=-1){ 
+		    	postType = "Roommate";
+		    }
+		    Posts.findOne({"user":req.user._id,"timestamp":req.session.currPostDate,"postType":postType},function(err,data){
+		    	if(data){
+			    	data.imageUrl.push(returnData.url);
+			    	data.save();
+			    	res.write(JSON.stringify(returnData));
+		    		res.end();
+		    	}
+		    })
+	    }else{
+	    	res.write(JSON.stringify(returnData));
+	    	res.end();
+	    }
+
+	    
+
+	    //req.session.currPostDate
+
 	   
-	    res.write(JSON.stringify(returnData));
-	    res.end();
+	    
 	  });
+	});
+
+	app.post("/deleteImages",isLoggedIn,function(req,res){
+			var filesArray = req.body.filesArray;
+			var fullFileURL = req.body.fullFilePath;
+			var date = req.body.date;
+			var postType = req.body.postType;
+			var objects = [];
+			for(var file of filesArray){
+			  objects.push({Key : file});
+			}
+			console.log("objects here:",objects);
+			var options = {
+			  Bucket: bucketName,
+			  Delete: {
+			    Objects: objects
+			  }
+			};
+
+			console.log("options here:",options);
+
+			s3.deleteObjects(options, function(err, data){
+				if(data){
+					Posts.findOne({"user":req.user._id,"timestamp":date,"postType":postType},function(err,data){
+						if(data){
+							var index = data.imageUrl.indexOf(fullFileURL);
+							if (index > -1) {
+								data.imageUrl.splice(index, 1);
+							}
+							data.save();
+						}
+						res.send("success");
+					});
+					
+				}else{
+					res.end("error");
+				}
+			});
 	});
 
 	app.get('/reset/:token', function(req, res) {
@@ -343,7 +465,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	  });
 	});
 
-	app.post('/createNewPost',ensureLoggedIn,function(req,res){
+	app.post('/createNewPost',isLoggedIn,function(req,res){
 			var postContents = req.body.postDesc;
 			console.log("postContents:",postContents);
 			var location = postContents.location;
@@ -380,6 +502,22 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	function isLoggedIn(req, res, next) {
 		if(req.isAuthenticated()) return next();
-		res.redirect('/notloggedin');
+		res.redirect('/');
 	};
+
+	function deleteFile() {
+	    var bucketInstance = new AWS.S3();
+	    var params = {
+	        Bucket: 'BUCKET_NAME',
+	        Key: 'FILENAME'
+	    };
+	    bucketInstance.deleteObject(params, function (err, data) {
+	        if (data) {
+	            console.log("File deleted successfully");
+	        }
+	        else {
+	            console.log("Check if you have sufficient permissions : "+err);
+	        }
+	    });
+	}
 }

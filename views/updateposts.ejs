@@ -8,9 +8,150 @@
 <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_T0L3QXJI0RusVVZ-44z7IWk1i4XKUOk&libraries=places"
+        async defer></script>
 </head>
-<body>
+<body onload="initialize()">
 
+<div id="updatePostsContainer">
+
+	<% if(post) {%>
+		<h3 class ="text-center center-block" style="color:blue;text-decoration: underline">Post Images</h3>
+		<div id="imageContainer" class="text-center center-block">
+		<% for(var i=0;i<post.imageUrl.length;i++ ) {%>
+			<img class="text-center center-block" id="imageEl_<%=i%>" src ='<%=post.imageUrl[i]%>' height = "20%" width="40%" alt = "Post Image" style="display:inline-block" />
+			<input type="checkbox" id ="image_<%=i%>"/>
+		<% } %>
+		</div>
+
+		<br>
+
+		<button class ="btn btn-info text-center center-block" onclick ="JavaScript:UpdatePosts.onDeleteImages()">Delete Images</button>
+		<hr style="border-color: darkblue">
+
+		<h3 class ="text-center center-block" style="color:blue;text-decoration: underline">Post Description</h3>
+		<div class ="displayInfo">
+
+		<div id ="locationDisplay">
+		<strong>Location:</strong> <div id="locationVal" style="display:inline"><%=post.postLocation %></div>
+		<a href ="#" onclick="JavaScript:UpdatePosts.handleEditLocation()" class="fa fa-pencil-square-o" aria-hidden="true">
+		</a>
+		</div>
+
+		<div id="updateLocation" style="display:none">
+		<label for="EditLocation" class="text-center center-block"> New Location:</label>
+		<input class="form-control center-block text-center" type="text" style="width:40%" id="EditLocation" name= "EditLocation">
+		<br>
+		<div class="row center-block text-center"><button class="btn btn-warning btn-sm" onclick="JavaScript:UpdatePosts.saveLocation()">Save</button>
+		<button class="btn btn-warning btn-sm" onclick="JavaScript:UpdatePosts.cancelEditLocation()">Cancel</button></div>
+		</div>
+
+		</div>
+		<br>
+
+		<div class ="displayInfo">
+		<strong>Date:</strong> 
+		<div id="date"><%=post.timestamp %></div>
+		</div>
+
+		<br>
+
+		<div class ="displayInfo">
+
+		<div id ="postInfo" style="display: inline-block;">
+		<strong>Post Type:</strong>
+		<div style="display:inline-block" id="postType" value ='<%=post.postType %>'>
+		<%if(post.postType == "sublet"){ %>
+		Looking for Subletter
+		<%}else{%>
+		Looking for Roomate
+		<%}%>
+		</div>
+		<a href ="#" onclick="JavaScript:UpdatePosts.handleEditPostType()" class="fa fa-pencil-square-o" aria-hidden="true">
+		</a>
+		</div>
+
+		<div id="updatePostType" class="text-center center-block"style="display:none">
+			<input type="radio" name="postType" value="sublet">Looking for Subletter
+			<input type="radio" name="postType" value="Roommate">Looking for Roomate
+			<br>
+			<div class="row center-block text-center">
+			<button class="btn btn-warning btn-sm" onclick="JavaScript:UpdatePosts.savePostType()">Save</button>
+			<button class="btn btn-warning btn-sm" onclick="JavaScript:UpdatePosts.cancelEditPostType()">Cancel</button></div>
+		</div>
+
+		</div>
+
+		<br>
+
+		<div class="displayInfo" >
+		<div id ="postDescr">
+		<div name ="postDesc" id="postDesc"><%=post.postDesc %></div>
+		<button class= "btn btn-primary btn-sm center-block" id ="updateDiv" onclick="JavaScript:UpdatePosts.updateContent()">Update</button>
+		</div>
+		<div id ="editDescWrapper" style="display:none">
+			<textarea style="font-family:sans-serif;width:70%; height:60%; overflow: hidden" id ="postDescription" name="postDescription" onkeyup="JavaScript:UpdatePosts.auto_grow(this)"></textarea>
+			<br><br>
+			<div class="text-center center-block">
+			<button class= "btn btn-primary btn-sm center-block" id ="saveContent" onclick="JavaScript:UpdatePosts.savePostContent()" style="display: inline">Save</button>
+			<button class= "btn btn-primary btn-sm center-block" id ="cancel" onclick="JavaScript:UpdatePosts.cancelUpdate()" style="display: inline">Cancel</button>
+			</div>
+		</div>
+		
+		</div>
+
+		<hr style="border-color: darkblue">
+		<h3 class ="text-center center-block" style="color:blue;text-decoration: underline">Upload More Images</h3>
+            <div class="form-group center-block text-center">
+                <label  class="btn btn-default btn-file" for="FileUpload_1">Select Picture </label>
+                <input type="file" id ="FileUpload_1" accept="image/*" capture="camera" value="" onchange="JavaScript:UpdatePosts.handleFileUploadChange(this)" style="display: none;">
+                <input class ="form-control center-block" type="text" style= "width:30%;display:inline" name="fileName_1" id="fileName_1">
+                <button class="btn btn-info" id="Upload_1" onclick ="JavaScript:UpdatePosts.handleImageUpload(this)">Upload Image</button>
+            </div>
+
+            <br>
+                    <button class="btn btn-info center-block" id="uploadMore" onclick="JavaScript:UpdatePosts.createFileUpload()" style="display:none">Upload More pictures</button>
+            <br>
+
+        <br>
+	<% } %>
+</div>
 </body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script>
+var autocomplete;
+var imageURLLength =0;
+$(function(){
+	imageURLLength = <%=post.imageUrl.length %>
+	UpdatePosts.setImageURLLength(imageURLLength);
+});
+function geolocate() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var geolocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            var circle = new google.maps.Circle({
+              center: geolocation,
+              radius: position.coords.accuracy
+            });
+            autocomplete.setBounds(circle.getBounds());
+          });
+        }
+}
+
+function initialize() {
+        autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('EditLocation')),
+                  { types: ['geocode'] });
+              google.maps.event.addListener(autocomplete, 'place_changed', function() {
+              });  
+}
+</script>
+<script src="js/handleUpdatePosts.js"></script>

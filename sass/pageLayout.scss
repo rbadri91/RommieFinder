@@ -448,7 +448,7 @@ body {
   background-color:  #eee;
   margin-left: 10px;
   padding:10px;
-  border: 1px solid red;
+  border: 1px solid orange;
 }
 
 .cd-main-header {
@@ -579,4 +579,10 @@ position: relative;
     display: block;
     transform: translateY(20%);
   }
+}
+.viewMore{
+    display:block;
+    bottom: 0px;
+    position: relative;
+    cursor:pointer;
 }
