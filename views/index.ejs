@@ -9,6 +9,7 @@
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
 <div class="popupWrapper">
 <div class="popup" data-popup="popup-1" style ="z-index: 20">
     <div class="popup-inner">
@@ -25,7 +26,6 @@
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 
 
 <body>
@@ -94,10 +94,56 @@
                 <div id="locationField" style="height:100vh;width:100%;display:none">
                   <div class="my-row special">
                     <div class="v-m">
-                        <div id="findLoc" style="display:none;"> 
+                     <div id ="setOptions" class="displayInfo" style="display:none;margin:auto;width:70%">
+                        <div id="findLoc" class="center-block"> 
                             <h2 class="text-center locQues">Where do you want to live</h2>
-                            <input class="form-control center-block input-lg" style="width:50%;"id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text">
+                            <input class="form-control center-block input-lg" style="width:50%;" id="autocomplete" placeholder="Enter your address" onFocus="geolocate()" type="text">
                         </div>
+                        <br>
+                        <div id ="roomandPrice" style="overflow: hidden"">
+                            <div id ="roomType" class="col-sm-6">
+                                <label for="noRoom">Select Room Type</label>
+                                <select class="form-control center-block" data-style="btn-primary" style="width:50%;display: inline" id="noRoom" name ="noRoom">
+                                    <option value="0">Select Value</option>
+                                    <option value="1">1 bedroom 1 bed</option>
+                                    <option value="2">1 bedroom 2 beds</option>
+                                    <option value="3">2 bedroom 2 beds</option>
+                                    <option value="4">2 bedroom 4 beds</option>
+                                </select>
+                            </div>
+                            <div id = "PriceRange" class="col-sm-6">
+                                <label for="priceVal" >Select Price Range</label>
+                                <select class="form-control center-block" data-style="btn-primary" style="width:50%;display: inline" id="priceVal" name ="priceVal">
+                                    <option value="0">Select Value</option>
+                                    <option value="1">500 -1000</option>
+                                    <option value="2">1000-2000</option>
+                                    <option value="3">2000-3000</option>
+                                    <option value="4"> >=3000 </option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group" id="childandPets" style="overflow: hidden">
+                                    <div class="col-sm-6">
+                                       <label for="finePets">Ok with Pets</label>
+                                       <select class="form-control" data-style="btn-primary" style="width:50%;display: inline" id="finePets" name ="finePets"> 
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                       <label for="fineChildrens">Ok with Childrens</label>
+                                       <select class="form-control" data-style="btn-primary" style="width:50%;display: inline" id="fineChildrens" name ="fineChildrens"> 
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                        </div>
+                        <br>
+                        <div class="center-block">
+                        <button onclick= "handleSearchClick()"class="btn btn-info center-block btn-lg ">Search</button>
+                        </div>
+                      </div>
                         <div id="neworViewPosts" class="center-block text-center" style="display:none">
                               <button href ="createPosts" onclick="handleCreatePostClick()" style="margin:10px;background-color: red;color: white" class="btn btn-lg">Create New posts</button>
                               <a href ="/viewUserPosts" style="margin:10px;background-color: red;color: white" class="btn btn-lg">View your Posts</a>  
@@ -106,7 +152,7 @@
                   </div>
                 </div>
 
-                <div id = "newPostsContainer" style="height:100vh;width:100%;display:none">
+                <div id = "newPostsContainer" style="height:100vh;width:100vw;display:none">
                     <div id="optionContainer" style="top:10%;position: relative">
                     <h2 class="text-center">What do you want to do</h2>
                     <div class="center-block text-center">
@@ -115,23 +161,59 @@
                     </div>
                     </div>
 
-                        <div id="uploadPosts" class="text-center center-block"> 
+                        <div id="uploadPosts" class="text-center center-block displayInfo" style="width:70%;margin:auto"> 
                                 <h2 class="text-center locQues" id="loc"></h2>
-                                <input class="form-control center-block input-lg" style="width:50%;" id="autocomplete2" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
+                                <input class="form-control center-block input-lg" style="width:70%;" id="autocomplete2" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
                                <br>
-                                <div class="form-group">
+                                <div class="form-group center-block text-center" style="width: 100%;margin:auto">
                                     <label  class="btn btn-default btn-file" for="FileUpload_1">Select Picture </label>
                                     <input type="file" id ="FileUpload_1" accept="image/*" capture="camera" value="" onchange="JavaScript:newPosts.handleFileUploadChange(this)" style="display: none;">
-                                    <input class ="form-control center-block" type="text" style= "width:30%;display:inline" name="fileName_1" id="fileName_1">
+                                    <input class ="form-control center-block" type="text" style= "width:50%;display:inline" name="fileName_1" id="fileName_1">
                                     <button class="btn btn-info" id="Upload_1" onclick ="JavaScript:newPosts.handleImageUpload(this)">Upload Image</button>
                                 </div>
                                 <br>
                                 <button class="btn btn-info center-block" id="uploadMore" onclick="JavaScript:newPosts.createFileUpload()" style="display:none">Upload More pictures</button>
                                 <br>
+                                <div class="form-group" style="overflow: hidden">
+                                    <div class="col-sm-5">
+                                      <label for="Price" class="text-center">Price:</label>
+                                      <input class="form-control center-block" id="Price" placeholder="Price in $" style="width:70%;display: inline" name ="Price">
+                                     </div> 
+                                     <div class="col-sm-7">
+                                        <label for="RoomNo">Select Room Type</label>
+                                         <select class="form-control" data-style="btn-primary" style="width:60%;display: inline" id="RoomNo" name ="RoomNo">
+                                            <option value="0">Select Value</option>
+                                            <option value="1">1 bedroom 1 beds</option>
+                                            <option value="2">1 bedroom 2 beds</option>
+                                            <option value="3">2 bedroom 2 beds</option>
+                                            <option value="4">2 bedroom 4 beds</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" id="childandPets" style="overflow: hidden">
+                                    <div class="col-sm-6">
+                                       <label for="hasPets">Do you have Pets</label>
+                                       <select class="form-control" data-style="btn-primary" style="width:50%;display: inline" id="hasPets" name ="hasPets"> 
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                       <label for="hasChildrens">Do you have Childrens</label>
+                                       <select class="form-control" data-style="btn-primary" style="width:50%;display: inline" id="hasChildrens" name ="hasChildrens"> 
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
                                 <textarea  class="form-control center-block" style="font-family:sans-serif;width:70%; height:100%; overflow: hidden;" placeholder ="Describe your Apartment..." id ="apartmentDesc" name="apartmentDesc" onkeyup="JavaScript:newPosts.auto_grow(this)"></textarea>
                                 <br>
-                                <button class="btn btn-info center-block" id="postButton" onclick="JavaScript:newPosts.handlePostClick()">Post</button>
+                                <button class="btn btn-info center-block btn-md" id="postButton" onclick="JavaScript:newPosts.handlePostClick()">Post</button>
                         </div>
+                </div>
+                <div id ="userMatchesContainer" style="height:100vh;width:100vw;display: none;padding-top: 75px">
+                <h2 class="text-center">The following are your matches</h2>
                 </div>
             <% } %> 
     </div> 
@@ -145,7 +227,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="js/handleposts.js"></script>
 <script>
-
+var postMatchCount =0;
+var postMatchesInfo =[];
 $(document).ready(function(){
 
      $('#signup').click(function (){
@@ -210,11 +293,12 @@ function geolocate() {
 function handlebuttonClick(el){
     document.getElementById("locationField").style.display="block";
     if(el.id=="aandrmate"){ 
-        document.getElementById("findLoc").style.display="block";
+        document.getElementById("setOptions").style.display="block";
         document.getElementById("neworViewPosts").style.display="none";
+        document.getElementById("newPostsContainer").style.display ="none";
     }else{
         document.getElementById("neworViewPosts").style.display="block";
-        document.getElementById("findLoc").style.display="none";
+        document.getElementById("setOptions").style.display="none";
     }
      $('html,body').animate({
         scrollTop: $("#locationField").offset().top},
@@ -246,6 +330,191 @@ function initialize() {
               });      
 
               
+}
+
+function handleSearchClick(){
+    var placeVal = document.getElementById("autocomplete").value;
+    var noRooms = document.getElementById("noRoom").value;
+    var priceRange = document.getElementById("priceVal").value;
+    var fineWithPets = document.getElementById("finePets").value;
+    var fineWithChildrens = document.getElementById("fineChildrens").value;
+    if(placeVal == ""){
+        swal(
+                  'Oops...',
+                  'You forgot to Select where you want to live!',
+                  'error'
+            )
+    }else if(noRooms =="0"){
+        swal(
+                  'Oops...',
+                  'You forgot to Select the number of rooms!',
+                  'error'
+            )
+    }else if(priceRange =="0"){
+        swal(
+                  'Oops...',
+                  'You forgot to Select the price Range!',
+                  'error'
+            )
+    }
+
+    $.ajax({
+                type: "POST",
+                url: "/SearchMatches",
+                data: {
+                    placeVal: placeVal,
+                    noRooms : noRooms,
+                    priceRange: priceRange,
+                    fineWithPets:fineWithPets,
+                    fineWithChildrens:fineWithChildrens
+                },
+                async: false,
+                success: function(result) {
+                    postMatchCount =0;
+                    console.log("result here:",result);
+                    postMatchesInfo =result;
+                    for(var i=0;i<result.length;i++){
+                        createUserInfoWrapper(result[i]);
+                    }
+                    document.getElementById("userMatchesContainer").style.display= "block";
+                    $('html,body').animate({
+                        scrollTop: $("#userMatchesContainer").offset().top},
+                        'slow');
+                
+                },
+                error: function(result) {
+                    alert('error');
+                }
+    });
+
+
+
+}
+
+function createUserInfoWrapper(userandPostInfo){
+    var postInfo = userandPostInfo.postInfo;
+    var userInfo  = userandPostInfo.userInfo;
+    console.log("userInfo here:",userInfo);
+    var usersInfoWrapper = document.getElementById("userMatchesContainer");
+    var postMatchWrapper = document.createElement("div");
+    postMatchWrapper.style.overflow = "hidden";
+    postMatchWrapper.className = "center-block displayInfo";
+    postMatchWrapper.style.position = "relative";
+    postMatchWrapper.style.cursor ="pointer";
+    postMatchWrapper.style.width ="70%";
+    postMatchWrapper.style.margin ="auto";
+    postMatchWrapper.id ="Wrapper_"+postMatchCount;
+
+    postMatchWrapper.onclick = function(){
+        handlePostMatchClick(this);
+    };
+    usersInfoWrapper.appendChild(postMatchWrapper);
+    var imageWrapper = document.createElement("div");
+    imageWrapper.style.display="inline-block";
+    imageWrapper.style.overflow="hidden";
+    imageWrapper.style.margin="2%";
+    postMatchWrapper.appendChild(imageWrapper);
+    var postImage = document.createElement("img");
+    postImage.src = postInfo.imageUrl[0];
+    postImage.setAttribute("alt","post image");
+    postImage.style.width="200px";
+    postImage.style.height="200px";
+    postImage.style.top =0;
+    postImage.style.position = "absolute";
+    imageWrapper.appendChild(postImage);
+
+    var profileImage = document.createElement("img");
+    profileImage.src = userInfo.data.profileURL;
+    profileImage.style.display ="inline-block";
+    profileImage.style.width="50px";
+    profileImage.style.height="50px";
+    profileImage.style.top = 0;
+    profileImage.style.left = "15%";
+    profileImage.style.position="absolute";
+    profileImage.style.borderRadius = "100%";
+    imageWrapper.appendChild(profileImage);
+    imageWrapper.style.width="200px";
+
+    var postInfoDiv = document.createElement("div");
+    postInfoDiv.style.display ="inline-block";
+    postMatchWrapper.appendChild(postInfoDiv);
+    
+
+    var postLocation = document.createElement("div");
+    postLocation.textContent ="Location: " + postInfo.postLocation;
+    postInfoDiv.appendChild(postLocation);
+
+    var postPrice = document.createElement("div"); 
+    postPrice.textContent ="Price: " + postInfo.price;
+    postInfoDiv.appendChild(postPrice);
+
+    var roomType ="";
+    if(postInfo.roomType == "1"){
+        roomType ="1 bedroom 1 bed";
+    }else if(postInfo.roomType =="2"){
+        roomType ="1 bedroom 2 beds";
+    }else if(postInfo.roomType =="3"){
+        roomType ="2 bedroom 2 beds";
+    }else if(postInfo.roomType =="4"){
+        roomType ="2 bedroom 4 beds ";
+    }
+
+    var roomTypeDiv = document.createElement("div");
+    roomTypeDiv.textContent ="Room/Apartment Type: " + roomType;
+    postInfoDiv.appendChild(roomTypeDiv);
+
+    var postDateDiv = document.createElement("div");
+    postDateDiv.textContent ="Post Date: " + postInfo.timestamp;
+    postInfoDiv.appendChild(postDateDiv);
+
+    var roomDescriptionDiv =document.createElement("div");
+    roomDescriptionDiv.textContent =postInfo.postDesc;
+    roomDescriptionDiv.style.overflow ="hidden";
+    roomDescriptionDiv.style.textOverflow ="ellipsis";
+    postInfoDiv.appendChild(roomDescriptionDiv);
+
+    var listedByDiv = document.createElement("div");
+    listedByDiv.textContent ="Listed By : " + userInfo.data.firstName + " " +userInfo.data.lastName;
+    postInfoDiv.appendChild(listedByDiv);
+
+    var genderDiv =  document.createElement("div"); 
+    genderDiv.textContent ="Gender: " + userInfo.data.gender;
+    postInfoDiv.appendChild(genderDiv);
+
+    var ageDiv =  document.createElement("div");
+    var date = new Date();
+    var userDob = userInfo.data.dob;
+    var age = date.getFullYear() - userDob.substring(userDob.lastIndexOf("/")+1);
+    ageDiv.textContent ="Age: "+ age;
+    postInfoDiv.appendChild(ageDiv);
+    var breakDiv = document.createElement("br");
+    usersInfoWrapper.appendChild(breakDiv);
+    postMatchCount++;
+}
+
+function handlePostMatchClick(el){
+    var elId = el.id;
+    console.log("id here:",elId);
+    var index = elId.substring(elId.lastIndexOf("_")+1);
+    console.log("index here:",index);
+    var postDetails= postMatchesInfo[index];
+    console.log("postDetails here:",postDetails);
+
+    $.ajax({
+        type: "POST",
+         url: "/viewPostDetails",
+        async:false,
+        data:{
+            userandPostInfo:postDetails
+        },
+        success:function(result){
+            location.href ="/viewPostDetails";
+        },
+        error: function(){
+
+        }
+
+    })
 }
 
 </script>

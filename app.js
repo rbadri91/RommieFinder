@@ -75,7 +75,7 @@ mongoose.connect(db.url, function(err) {
 
 mongoose.connection.on('connected', function () { 
 	
-require('./config/routes.js')(app , passport, async, nodemailer, crypto, smtpTransport, s3, bucketName);
+require('./config/routes.js')(app , passport, async, nodemailer, crypto, smtpTransport, s3, bucketName, Promise);
 
 });
 

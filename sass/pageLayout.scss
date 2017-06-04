@@ -447,6 +447,7 @@ body {
 .displayInfo{
   background-color:  #eee;
   margin-left: 10px;
+  margin-right: 10px;
   padding:10px;
   border: 1px solid orange;
 }
@@ -582,7 +583,8 @@ position: relative;
 }
 .viewMore{
     display:block;
-    bottom: 0px;
-    position: relative;
+    cursor:pointer;
+}
+.deletePost{
     cursor:pointer;
 }

@@ -176,8 +176,17 @@
 </div>
 </div>
 </div>
+<script>
+var notifEnabled=false;
+</script>
+<% if(notifEnabled){ %>
+<script>
+notifEnabled = <%= notifEnabled %>
+</script>
+<% } %>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 <script src="js/handleSettings.js"></script>
 <script>
@@ -196,7 +205,7 @@ $(function(){
     $('input[name=gender][value="' + gender + '"]').prop('checked', true);
     $("#newdob").datepicker();
 
-    var notifEnabled = <%= notifEnabled %>
+    
     if(notifEnabled){
     	 $('#emailNotif').prop('checked',true);
     }else{
@@ -204,12 +213,12 @@ $(function(){
     }
 
     $('#emailNotif').change(function() {
-    	var notifEnabled=$(this).prop('checked');
+    	var emailNotifEnabled=$(this).prop('checked');
     	$.ajax({
 			type: "POST",
 			url: "/saveNotificationSetting",
 			data: {
-				notifEnabled:notifEnabled
+				notifEnabled:emailNotifEnabled
 			},
 			async: false,
 			error: function(result) {

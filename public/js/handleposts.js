@@ -8,8 +8,10 @@ var newPosts = (function() {
 			if(el.id =="sublet"){
 				postReason = "sublet";
 				document.getElementById("loc").textContent="Where do you want to Sublet";
+				document.getElementById("childandPets").style.display ="none";
 			}else{
 				document.getElementById("loc").textContent="Where do you stay";
+				document.getElementById("childandPets").style.display ="block";
 				postReason = "Roommate";
 			}
 
@@ -45,7 +47,7 @@ var newPosts = (function() {
 		fileSelectText.className="form-control center-block";
 		fileSelectText.name ="fileName_"+inputCount;
 		fileSelectText.id ="fileName_"+inputCount;
-		fileSelectText.style.width="30%";
+		fileSelectText.style.width="50%";
 		fileSelectText.style.display="inline";
 		var uploadButton = document.createElement("button");
 		uploadButton.className = "btn btn-info";
@@ -145,6 +147,10 @@ var newPosts = (function() {
 	function handlePostClick(){
 		var location = document.getElementById("autocomplete2").value;
 		var apartmentDescription = document.getElementById("apartmentDesc").value;
+		var price = document.getElementById("Price").value;
+		var roomType = document.getElementById("RoomNo").value;
+		var pets,children;
+
 		if(location==""){
 			swal(
 				  'Oops...',
@@ -159,13 +165,34 @@ var newPosts = (function() {
 				  'error'
 			)
 			return;
+		}else if(price==""){
+			swal(
+				  'Oops...',
+				  'You forgot to Mention the price!',
+				  'error'
+			)
+			return;
+		}
+		else if(roomType=="0"){
+			swal(
+				  'Oops...',
+				  'You forgot to Select the room type!',
+				  'error'
+			)
+			return;
 		}
 
-		var postDesc={"location":location,"desc":apartmentDescription,"postReason":postReason};
+		var postDesc={"location":location,"desc":apartmentDescription,"postReason":postReason,"price":price,"roomType":roomType};
 		if(postReason =="sublet"){
 			postDesc["urls"]=subletURL;
 		}else{
 			postDesc["urls"]=roommateURL;
+		}
+		if(postReason =="Roommate"){
+			pets = document.getElementById("hasPets").value;
+			children = document.getElementById("hasChildrens").value;
+			postDesc["pets"]=pets;
+			postDesc["children"]=children;
 		}
 		$.ajax({
 				type: "POST",

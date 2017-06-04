@@ -6,6 +6,10 @@ var PostsSchema = mongoose.Schema({
     postDesc: String,
     postLocation : String,
     timestamp: String,
+    price:Number,
+    roomType: Number,
+    hasPets: Number,
+    hasChildren: Number,
     user: mongoose.Schema.ObjectId
 });
 

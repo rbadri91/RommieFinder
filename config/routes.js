@@ -1,6 +1,6 @@
 var User            = require('../models/user.js');
 var Posts            = require('../models/posts.js');
-module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport, s3, bucketName){
+module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport, s3, bucketName, Promise){
 
 	app.get('/', function(req, res) {
 		var loggedIn =false;
@@ -151,7 +151,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	      var mailOptions = {
 	        to: user.data.email,
 	        from: 'badri.dev01@yahoo.com',
-	        subject: 'Node.js Password Reset',
+	        subject: 'RommieFinder Password Reset',
 	        text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
 	          'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
 	          'http://' + req.headers.host + '/reset/' + token + '\n\n' +
@@ -291,10 +291,103 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		res.send("Success");
 	});
 
+	app.post("/SearchMatches",isLoggedIn,function(req,res){
+		var place = req.body.placeVal;
+		var roomType = parseInt(req.body.noRooms);
+		var priceRange = req.body.priceRange;
+		var fineWithChildrens = parseInt(req.body.fineWithChildrens);
+		var fineWithPets = parseInt(req.body.fineWithPets);
+		var lowerpriceVal = 0;
+		var upperpriceVal = 0;
+		console.log("place:",place);
+		console.log("roomType:",roomType);
+		console.log("priceRange:",priceRange);
+		console.log("fineWithChildrens:",fineWithChildrens);
+		console.log("fineWithPets:",fineWithPets);
+		if(priceRange == "1"){
+			lowerpriceVal = 500;
+			upperpriceVal =1000;
+		}else if(priceRange == "2"){
+			lowerpriceVal = 1000;
+			upperpriceVal =2000;
+		}else if(priceRange == "3"){
+			lowerpriceVal = 2000;
+			upperpriceVal =3000;
+		}
+		else if(priceRange == "4"){
+			lowerpriceVal =3000;
+		}
+		console.log("lowerpriceVal:",lowerpriceVal);
+		console.log("upperpriceVal:",upperpriceVal);
+
+		var sleepTime = req.user.sleepTime;
+		var wakeupTime =req.user.wakeupTime;
+		var acceptVisitor =req.user.acceptVisitor;
+		var listenMusic =req.user.listenMusic;
+		var smoke =req.user.smoke;
+		var roomClean =req.user.roomClean;
+		var share =req.user.share;
+		var pets = req.user.pets;
+
+		// Posts.find({"roomType":roomType,"postLocation":place,"hasPets":fineWithPets,"hasChildren":fineWithChildrens},function(err,data){
+		// 	console.log("data here:",data);
+		// });
+
+		Posts.find({"roomType":roomType,"postLocation":place,"hasPets":fineWithPets,"hasChildren":fineWithChildrens,"price":{$gt:lowerpriceVal,$lt:upperpriceVal}},function(err,lists){
+			if(err){
+				return err;
+			}
+			console.log("lists here:",lists);
+			var userandPostInfo =[];
+			var promises = [];
+			async.each(lists,function(list,callback){
+				console.log("list here:",list);
+				promises.push( new Promise((resolve) => {
+					User.findOne({
+						"_id" :list.user,
+						"sleepTime":sleepTime,
+						"wakeupTime":wakeupTime,
+						"acceptVisitor":acceptVisitor,
+						"listenMusic":listenMusic,
+						"smoke":smoke,
+						"roomClean":roomClean,
+						"share":share,
+						"pets":pets
+					},function(err,data){
+						if(err){
+								res.end("error");
+						}
+						if(data){
+							console.log("data here:",data);
+							var userInfo =data;
+							var postInfo = list;
+							userandPostInfo.push({"userInfo":userInfo,"postInfo":postInfo});
+						}
+						resolve();
+					});
+				}));
+			})
+			Promise.all(promises).then(() => {
+				res.send(userandPostInfo);
+            }).catch((e) => {
+				   res.end("error");
+			})
+		});
+	});
+
 	app.post('/saveNotificationSetting',isLoggedIn,function(req,res){
 		req.user.data.notifEnabled = req.body.notifEnabled;
 		req.user.save();
 		res.send("Success");
+	});
+
+	app.post('/viewPostDetails',isLoggedIn,function(req,res){
+		req.session.postSelected = req.body.userandPostInfo;
+		res.send("Success");
+	});
+
+	app.get('/viewPostDetails',isLoggedIn,function(req,res){
+		res.render('postDescription',{"postDescription": req.session.postSelected})
 	});
 
 	app.post('/savePreference',isLoggedIn,function(req,res){
@@ -370,6 +463,34 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	    
 	  });
 	});
+
+	app.post("/deletePost",isLoggedIn,function(req,res){
+		var filesArray = req.body.fileUrls;
+		var postType = req.body.postType;
+		var postLocation = req.body.postLocation;
+		var objects = [];
+		for(var file of filesArray){
+			  objects.push({Key : file});
+		}
+		var options = {
+			Bucket: bucketName,
+			Delete: {
+			    Objects: objects
+			}
+		};
+
+		s3.deleteObjects(options, function(err, data){
+			if(data){
+				Posts.find({"user":req.user._id,"postType":postType,"postLocation":postLocation}).remove().exec();
+				res.send("success");
+			}else{
+				res.end("error");
+			}
+			
+		
+
+		});
+	});	
 
 	app.post("/deleteImages",isLoggedIn,function(req,res){
 			var filesArray = req.body.filesArray;
@@ -472,6 +593,8 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			var postDesc = postContents.desc;
 			var imageURL = postContents.urls;
 			var postType = postContents.postReason;
+			var price= parseInt(postContents.price);
+			var roomType = postContents.roomType;
 			var today,ddd,m,yyyy;
 			today = new Date();
 			dd = today.getDate();
@@ -494,6 +617,14 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			posts.postLocation = location;
 			posts.timestamp = today;
 			posts.user = req.user._id;
+			posts.price = price;
+			posts.roomType =roomType;
+			if(postContents.pets){
+				posts.hasPets =postContents.pets;
+			}
+			if(postContents.children){
+				posts.hasChildren =postContents.children;
+			}
 			posts.save();
 			// req.user.data.Posts.push({"postType":postType,"imageUrl":imageURL,"postDesc":postDesc,"postLocation":location,"timestamp":today})
 			// req.user.save();
