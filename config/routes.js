@@ -1,11 +1,14 @@
 var User            = require('../models/user.js');
 var Posts            = require('../models/posts.js');
+var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport, s3, bucketName, Promise){
 
 	app.get('/', function(req, res) {
 		var loggedIn =false;
+		var hasUpdatedProfile = false;
 		if(req.session.loggedIn)loggedIn = req.session.loggedIn;
-		res.render('index',{title : 'Welcome', loggedIn : loggedIn});
+		if(req.user && req.user.data.hasUpdatedProfile) hasUpdatedProfile = req.user.data.hasUpdatedProfile;
+		res.render('index',{title : 'Welcome', loggedIn : loggedIn, hasUpdatedProfile: hasUpdatedProfile});
 	});
 
 	app.get('/signup', function(req, res) {
@@ -57,6 +60,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	});
 
 	app.get('/profile',isLoggedIn,function(req, res) {
+		console.log("it comes here:");
 		req.session.loaded=true;
 		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify("home")});
 		
@@ -64,6 +68,11 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/viewUserPosts',isLoggedIn,function(req, res) {
 		var prevUrl = "viewUserPosts"
+		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl)});
+	});
+
+	app.get('/viewUserPreference',isLoggedIn,function(req, res) {
+		var prevUrl = "viewUserPreference";
 		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl)});
 	});
 
@@ -214,7 +223,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/about',isLoggedIn,function(req,res){
 		var profileSrc="";
-
+		console.log("req.user:",req.user);
 		if(req.user.data.profileURL){
 			profileSrc = req.user.data.profileURL;
 		}else{
@@ -244,6 +253,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	});
 
 	app.post('/saveAboutMe',isLoggedIn,function(req,res){
+		console.log("req.user here about:",req.user);
 		req.user.data.about = req.body.aboutUpdate;
 		req.user.save();
 		res.send("Success");
@@ -375,6 +385,12 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		});
 	});
 
+	app.get('/callback',
+	  passport.authenticate('auth0', { failureRedirect: '/' }),
+	  function(req, res) {
+	    res.redirect(req.session.returnTo || '/profile');
+	});
+
 	app.post('/saveNotificationSetting',isLoggedIn,function(req,res){
 		req.user.data.notifEnabled = req.body.notifEnabled;
 		req.user.save();
@@ -398,6 +414,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			req.user.data.smoke=req.body.smoke;
 			req.user.data.roomClean=req.body.roomClean;
 			req.user.data.share=req.body.share;
+			req.user.data.hasUpdatedProfile = true;
 			req.user.save();
 			res.send("Success");
 	});

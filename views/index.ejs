@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+ <script src="https://cdn.auth0.com/js/lock/10.16/lock.min.js"></script>
 <div class="popupWrapper">
 <div class="popup" data-popup="popup-1" style ="z-index: 20">
     <div class="popup-inner">
@@ -26,8 +27,6 @@
 <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/plain" src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
-
-
 <body>
 
 
@@ -79,6 +78,7 @@
             </div>
             </div>
             <%}else{ %>
+                  <%if(hasUpdatedProfile){%>
                 <div id ="searchQuestion" class="center-block text-center">
                       <h2 class ="text-center center-block" style="color: Yellow">What do you want to do</h2>
                       <div class="row">
@@ -215,6 +215,7 @@
                 <div id ="userMatchesContainer" style="height:100vh;width:100vw;display: none;padding-top: 75px">
                 <h2 class="text-center">The following are your matches</h2>
                 </div>
+                <% } %>
             <% } %> 
     </div> 
             
@@ -256,7 +257,6 @@ $(document).ready(function(){
          return false;
      })
 
-
      var loggedIn = <%= loggedIn %> 
      if(loggedIn){
         document.getElementById("profile").style.display="block";
@@ -269,6 +269,22 @@ $(document).ready(function(){
         document.getElementById("login_logout").href ="/login";
         document.getElementById("signup").style.display="block";
      }
+
+    var hasUpdatedProfile = <%= hasUpdatedProfile %> 
+    if(loggedIn && !hasUpdatedProfile){
+        swal({
+            title: "Please update your profile",
+            text: "Please update your profile for the app to function properly",
+            type: "warning",
+            confirmButtonText: "Update My Profile",
+            closeOnConfirm: false,
+          },
+          function(isConfirm){
+            if (isConfirm) {
+              location.href ="/viewUserPreference";
+            } 
+          });
+    }
      
 
 });

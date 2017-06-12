@@ -1,6 +1,7 @@
 // load all the things we need
 var LocalStrategy   = require('passport-local').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+var Auth0Strategy = require('passport-auth0');
 
 var User            = require('../models/user.js');
 
@@ -20,6 +21,7 @@ module.exports = function(passport) {
     // used to serialize the user for the session
     passport.serializeUser(function(data, done) {
         done(null, data.id);
+        // done(null, user);
     });
 
     // used to deserialize the user
@@ -27,6 +29,7 @@ module.exports = function(passport) {
         User.findById(id, function(err, data) {
             done(err, data);
         });
+         // done(null, user);
     });
 
     // =========================================================================
@@ -70,6 +73,7 @@ module.exports = function(passport) {
                         newUser.data.lastName = req.body.lastName;
                         newUser.data.contact = req.body.contact;
                         newUser.data.dob = req.body.dob;
+                        newUser.data.hasUpdatedProfile = false;
                         // save the user
                         newUser.save(function(err) {
                             if (err)
@@ -120,6 +124,35 @@ module.exports = function(passport) {
         });
 
     }));
+
+    // var strategy = new Auth0Strategy({
+    //     domain:       process.env.AUTH0_DOMAIN,
+    //     clientID:     process.env.AUTH0_CLIENT_ID,
+    //     clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    //     callbackURL:  process.env.AUTH0_CALLBACK_URL || 'http://localhost:8000/callback'
+    //   }, function(accessToken, refreshToken, extraParams, profile, done) {
+    //     // accessToken is the token to call Auth0 API (not needed in the most cases)
+    //     // extraParams.id_token has the JSON Web Token
+    //     // profile has all the information from the user
+    //     return done(null, profile);
+    //   });
+
+    // passport.use(strategy);
+
+    // var webAuth = new auth0.WebAuth({
+    //     domain:       'badri91.auth0.com',
+    //     clientID:     'FZ7VX1szNu6GckL-hU7mOSjkiKpSPPC3'
+    // });
+
+    // // Trigger login with google
+    // webAuth.authorize({
+    //     connection: 'google-oauth2'
+    // });
+
+    //   // Trigger login with github
+    // webAuth.authorize({
+    //     connection: 'github'
+    // });
 
     // =========================================================================
     // GOOGLE ==================================================================

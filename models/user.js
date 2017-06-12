@@ -36,6 +36,7 @@ var userSchema = mongoose.Schema({
         gender       : String,
         contact     : Number,
         profileURL  : String,
+        hasUpdatedProfile : Boolean
         // Posts       : [myPosts]
 
         // // these will be google login session variables
