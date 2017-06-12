@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
  <div class ="form center-block ">
           <h2>Signup</h2>
           <form class="register-form" id="register_form" action='/signup' method='post'>
@@ -21,15 +24,8 @@
             </div>
             <div class="form-group">
               <label for="confirmPassword">Password:</label>
-              <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword">
-            </div>
-            <div id = "dobField" class="form-group" style="display:block">
-              <label for="dob">Date of Birth:</label>  
-            <input class="form-control" id="dob" placeholder="Date of Birth" name ="dob">
-            </div>
-            <div id = "contactField" class="form-group" style="display:block">
-              <label for="contact">Contact Number:</label>  
-            <input class="form-control" id="contact" placeholder="Phone Number" name ="contact">
+              <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm Password" name="confirmPassword"><i id="passCorrect"style="display:none" class="fa fa-check-circle-o" aria-hidden="true"></i><i id="passInCorrect"style="display:none" class="fa fa-times" aria-hidden="true"></i>
+              <div style="display: inline" id="divCheckPasswordMatch"></div>
             </div>
             <button type="submit" class="btn btn-warning btn-lg">Sign Up</button>
             <p class="message">Already registered? <a href="/login">Sign In</a></p>
@@ -38,6 +34,29 @@
  <script>
  $(document).ready(function() {
     $("#dob").datepicker();
+    $("#confirmPassword").keyup(validatePassword);
   });
+
+  function validatePassword() {
+    var password = $("#password").val();
+    var confirmPassword = $("#confirmPassword").val();
+
+    if(password == "")
+        return false;
+
+    if (password != confirmPassword){
+        $('#passInCorrect').css("display","inline");
+        $('#passCorrect').css("display","none");
+        $("#divCheckPasswordMatch").html("Passwords do not match");
+        return false;
+    }
+    else{
+        $('#passCorrect').css("display","inline");
+        $('#passInCorrect').css("display","none");
+        $("#divCheckPasswordMatch").html("Passwords match.");
+        return true;
+    }
+        
+ }
  </script>
 </html>        
