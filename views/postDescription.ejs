@@ -67,8 +67,8 @@ document.getElementById("signup").style.display="none";
 	<br>
 	<div class = "postDescription displayInfo">
 		<h3 class="text-center">Description of the Apartment</h3>
-		<div><i class="fa fa-map-marker" aria-hidden="true"></i> <%=postDescription.postInfo.postLocation %></div>
-		<div><i class="fa fa-calendar" aria-hidden="true"></i> <%=postDescription.postInfo.timestamp %></div>
+		<div><i class="fa fa-map-marker" aria-hidden="true"></i> <div id="location" style="display: inline"><%=postDescription.postInfo.postLocation %></div></div>
+		<div><i class="fa fa-calendar" aria-hidden="true"></i> <div id="date" style="display: inline"><%=postDescription.postInfo.timestamp %></div></div>
 		<div><i class="fa fa-money" aria-hidden="true"></i> <%=postDescription.postInfo.price %></div>
 		<% if(postDescription.postInfo.roomType == "1") {%>
 		<div><i class="fa fa-bed" aria-hidden="true"></i> 1 bedroom 1 bed</div>
@@ -94,10 +94,10 @@ document.getElementById("signup").style.display="none";
 	<img src ='<%=postDescription.userInfo.data.profileURL%>' height = "100%" width="100%" alt = "" />
 	</div>
 	<div class = "content" style="display:inline-block;margin:2%">
-	<div>Name:<%=postDescription.userInfo.data.firstName%> <%=postDescription.userInfo.data.lastName%></div>
-	<div>Gender: <%=postDescription.userInfo.data.gender %></div>
-	<div>Email: <%=postDescription.userInfo.data.email %></div>
-	<div>Contact: <%=postDescription.userInfo.data.contact %></div>
+	<div><strong>Name: </strong><%=postDescription.userInfo.data.firstName%> <%=postDescription.userInfo.data.lastName%></div>
+	<div><strong>Gender: </strong> <%=postDescription.userInfo.data.gender %></div>
+	<div><i class="fa fa-envelope" aria-hidden="true"></i> <strong>Email: </strong> <div id ="email" style="display: inline"><%=postDescription.userInfo.data.email %></div></div>
+	<div><i class="fa fa-phone" aria-hidden="true"></i> <strong>Contact: </strong> <%=postDescription.userInfo.data.contact %></div>
 	</div>
 </div>
 </div>
@@ -106,7 +106,10 @@ document.getElementById("signup").style.display="none";
 <h3>Nearby Locations</h3>
 <div id="NearbyLocation" class="well" style="height:300px;width:40%;display: inline-block;overflow: scroll">
 </div>
-
+<br>
+<div style="clear:both;padding: 3%" class="center-block text-center">
+<button class="btn btn-info btn-lg btn-md" id="postInterest" onclick="handlePostInterest(this)">Add to Favorites</button>
+</div>
 </body>
 
 
@@ -129,6 +132,15 @@ var address = <%-JSON.stringify(postDescription.postInfo.postLocation)%>;
 var latitude =0;
 var longitude =0;
 var latlanglocation =0;
+
+$(function(){
+  hasFavorited =<%= hasFavorited%>
+  if(hasFavorited){
+    document.getElementById("postInterest").textContent ="Remove from Favorites";
+  }else{
+    document.getElementById("postInterest").textContent ="Add to Favorites";
+  }
+});
 
 function initialize() {
   geocoder = new google.maps.Geocoder();
@@ -227,6 +239,38 @@ function addPlacesToPanel(places){
 
 function onError(error) {
   error = data;
+}
+
+function handlePostInterest(el){
+    var date = document.getElementById("date").textContent;
+    var location = document.getElementById("location").textContent;
+    var listerEmail = document.getElementById("email").textContent;
+    var buttonText = document.getElementById("postInterest").textContent;
+    if(buttonText=="Add to Favorites"){
+        postInterest ="Interested";
+    }else{
+        postInterest ="UnInterested";
+    }
+      $.ajax({
+      type: "POST",
+      url: "/updatePostInterest",
+      data:{
+          date: date,
+          location: location,
+          listerEmail:listerEmail,
+          postInterest:buttonText
+      },
+      success:function(result){
+        if(buttonText=="Add to Favorites"){
+          document.getElementById("postInterest").textContent="Remove From Favorites"
+        }else{
+          document.getElementById("postInterest").textContent="Add to Favorites"
+        }
+      },
+      error: function(result) {
+        console.log(result);
+      }
+    });
 }
 
 

@@ -111,6 +111,43 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	});
 
+	app.post('/updatePostInterest',isLoggedIn,function(req,res){ 
+		var date = req.body.date;
+		var location = req.body.location;
+		var emailId = req.body.listerEmail;
+		var postInterest = req.body.postInterest;
+		User.findOne({"data.email":emailId},function(err,user){
+			if(err) res.end("User Not found")
+			if(user){
+				Posts.findOne({"user":user._id,"timestamp":date,"postLocation":location},function(err,data){
+					
+					if(err) res.end("Post Not found")
+					if(postInterest =="Interested"){
+						if(data.hasInterests && data.hasInterests.indexOf(req.user._id) ==-1){
+							data.hasInterests.push(req.user._id);
+							data.save();
+						}else if(!data.hasInterests){
+							data.hasInterests =[];
+							data.hasInterests[0] =req.user._id;
+							data.save();
+						}
+					}else{
+						if(data.hasInterests && data.hasInterests.indexOf(req.user._id) !=-1){
+							var index = data.hasInterests.indexOf(req.user._id);
+							data.hasInterests.splice(index,1);
+							data.save();
+						}
+					}	
+					
+					
+					res.send("Success");
+				});
+			}
+		})
+		
+
+	});
+
 	app.post('/savePostStatus',isLoggedIn,function(req,res){ 
 		var postStatus = req.body.postCurrStatus;
 		var date = req.body.date;
@@ -419,7 +456,8 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	});
 
 	app.get('/viewPostDetails',isLoggedIn,function(req,res){
-		res.render('postDescription',{"postDescription": req.session.postSelected})
+		var hasFavorited = (req.session.postSelected.postInfo.hasInterests.indexOf(req.user._id)!=1);
+		res.render('postDescription',{"postDescription": req.session.postSelected,"hasFavorited":hasFavorited})
 	});
 
 	app.post('/savePreference',isLoggedIn,function(req,res){

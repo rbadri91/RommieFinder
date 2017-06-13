@@ -11,6 +11,7 @@ var PostsSchema = mongoose.Schema({
     hasPets: Number,
     hasChildren: Number,
     status:String,
+    hasInterests:[mongoose.Schema.ObjectId],
     user: mongoose.Schema.ObjectId
 });
 
