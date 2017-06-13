@@ -23,6 +23,7 @@
 <div>Price: <%=posts[i].price %></div>
 <div>postType: <%=posts[i].postType %></div>
 <div>postStatus: <%=posts[i].status %></div>
+<div>Favorited by <%=posts[i].hasInterests.length %> persons</div>
 <br>
 <a  id="viewMore_<%=i%>" onclick="handleViewPostClick(this)" class ="viewMore">View/Edit Posts</a>
 <br>
