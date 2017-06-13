@@ -10,6 +10,7 @@ var PostsSchema = mongoose.Schema({
     roomType: Number,
     hasPets: Number,
     hasChildren: Number,
+    status:String,
     user: mongoose.Schema.ObjectId
 });
 

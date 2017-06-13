@@ -95,6 +95,16 @@ document.getElementById("signup").style.display="none";
 
 		<br>
 
+		<div class="displayInfo" style="overflow: hidden;">
+			<div id ="postStatus"  style="display:inline;">
+				<strong>Post Status:</strong>
+				<select class="form-control" data-style="btn-primary" style="width:30%;display: inline" id="postCurrStatus"> 
+				            <option value="available">available</option>
+				            <option value="Closed">Closed</option>
+				</select>
+			</div>
+		</div>
+		<br>
 		<div class="displayInfo" >
 		<div id ="postDescr">
 		<div name ="postDesc" id="postDesc"><%=post.postDesc %></div>
@@ -136,6 +146,28 @@ var imageURLLength =0;
 $(function(){
 	imageURLLength = <%=post.imageUrl.length %>
 	UpdatePosts.setImageURLLength(imageURLLength);
+	var postStatus = <%- JSON.stringify(post.status)%>;
+	document.getElementById("postCurrStatus").value = postStatus;
+
+	$('#postCurrStatus').change(function() {
+    	var postCurrStatus = $("#postCurrStatus option:selected").text();
+    	var date=document.getElementById("date").textContent;
+		var location = document.getElementById("locationVal").textContent;
+    	$.ajax({
+			type: "POST",
+			url: "/savePostStatus",
+			data: {
+				location:location,
+				date:date,
+				postCurrStatus:postCurrStatus
+			},
+			async: false,
+			error: function(result) {
+				console.log(result);
+			}
+		});
+      
+    })
 });
 function geolocate() {
         if (navigator.geolocation) {

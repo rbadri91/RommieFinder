@@ -83,7 +83,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		res.end("Success");
 	});
 
-	app.post('/saveLocation',isLoggedIn,function(req,res){ //savePostType
+	app.post('/saveLocation',isLoggedIn,function(req,res){
 		var oldLocation = req.body.oldLocation;
 		var postType = req.body.postType;
 		var date = req.body.date;
@@ -111,6 +111,20 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	});
 
+	app.post('/savePostStatus',isLoggedIn,function(req,res){ 
+		var postStatus = req.body.postCurrStatus;
+		var date = req.body.date;
+		var location = req.body.location;
+		Posts.findOne({"user":req.user._id,"timestamp":date,"postLocation":location},function(err,data){
+			console.log("data here:",data);
+			if(err) return err;
+			data.status= postStatus;
+			data.save();
+			res.send("Success");
+		});
+
+	});
+
 	app.post('/saveNewPostDesc',isLoggedIn,function(req,res){
 		var postType = req.body.postType;
 		var date = req.body.date;
@@ -131,6 +145,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/viewFullPost',isLoggedIn,function(req,res){
 		var post = req.session.currentPost;
+		console.log("post here:",post);
 		res.render('updateposts',{title:'Update Posts',post:post});
 	});
 
@@ -611,7 +626,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			var postDesc = postContents.desc;
 			var imageURL = postContents.urls;
 			var postType = postContents.postReason;
-			var price= parseInt(postContents.price);
+			var price = parseInt(postContents.price);
 			var roomType = postContents.roomType;
 			var today,ddd,m,yyyy;
 			today = new Date();
@@ -643,6 +658,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			if(postContents.children){
 				posts.hasChildren =postContents.children;
 			}
+			posts.status ="available";
 			posts.save();
 			// req.user.data.Posts.push({"postType":postType,"imageUrl":imageURL,"postDesc":postDesc,"postLocation":location,"timestamp":today})
 			// req.user.save();
