@@ -16,8 +16,15 @@
         async defer></script>
 </head>
 <body onload="initialize()">
-
-<div id="updatePostsContainer">
+<% include ../public/pageContent/navbar %>
+<script>
+document.getElementById("profile").style.display ="block";
+document.getElementById("home").style.display ="block";
+document.getElementById("login_logout").textContent ="Logout";
+document.getElementById("login_logout").style.href ="/logout"
+document.getElementById("signup").style.display="none";
+</script>
+<div id="updatePostsContainer" style="margin:6%">
 
 	<% if(post) {%>
 		<h3 class ="text-center center-block" style="color:blue;text-decoration: underline">Post Images</h3>

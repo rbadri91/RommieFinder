@@ -131,7 +131,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/viewFullPost',isLoggedIn,function(req,res){
 		var post = req.session.currentPost;
-		res.render('updatePosts',{title:'Update Posts',post:post});
+		res.render('updateposts',{title:'Update Posts',post:post});
 	});
 
 	app.post('/forgot', function(req, res, next) {
