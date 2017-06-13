@@ -7,7 +7,7 @@ $color-4: #ff7e66; // Salmon
 $color-5: blueviolet; 
 $color-6: #9d9d9d; // White
 $color-7: yellow; // Yellow
-$S:     480px;   
+$S:     320px;   
 $M:     768px;     
 $L:     1170px;  
 
@@ -95,7 +95,7 @@ body {
 
         .popup-inner {
             max-width:700px;
-            @include setdim(90%, 50%,50%, 80%);
+            @include setdim(70%, 50%,50%, 80%);
             overflow-y:scroll;
             padding:40px;
             position:absolute;
@@ -138,6 +138,11 @@ body {
         text-align:center;
         line-height:100%;
         color:#fff;
+    }
+    @include MQ(S) {
+        .popup-close {
+            @include setdim(30px, null,null, 30px , 10px, 50%);
+        }
     }
      
     .popup-close:hover {
