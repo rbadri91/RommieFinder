@@ -23,7 +23,7 @@ var userSchema = mongoose.Schema({
         password     : String,
         resetPasswordToken: String,
         resetPasswordExpires: Date,
-        notifEnabled : Boolean,
+        notifEnabled : String,
         sleepTime:    String,
         wakeupTime:   String,
         acceptVisitor: String,

@@ -393,6 +393,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.post('/saveNotificationSetting',isLoggedIn,function(req,res){
 		req.user.data.notifEnabled = req.body.notifEnabled;
+		req.user.markModified('data.notifEnabled');
 		req.user.save();
 		res.send("Success");
 	});

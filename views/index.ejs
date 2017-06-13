@@ -259,6 +259,7 @@ $(document).ready(function(){
      })
 
      var loggedIn = <%= loggedIn %> 
+     document.getElementById("home").style.display="none";
      if(loggedIn){
         document.getElementById("profile").style.display="block";
         document.getElementById("login_logout").textContent ="Logout";

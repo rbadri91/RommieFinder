@@ -5,12 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 	
 	<link rel="stylesheet" type="text/css" href="/stylesheets/pageLayout.css">
-	<!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" /> -->
-	<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css" rel="stylesheet">
-	
 </head>
 <body>
 <div id = "personalInfoContainer">
@@ -170,9 +166,13 @@
 <div style ="overflow: hidden">
 <div class="col-sm-8" id ="eNotice"> Turn on Email Notification for comments on Posts</div>
 <div class="col-sm-4">
-  <div class="checkbox pull-right">
-	    <input type="checkbox" id= "emailNotif" data-toggle="toggle" data-size="small">
- </div>
+  <!-- <div class="checkbox pull-right">
+	    <input type="checkbox" id= "emailNotif" data-toggle="toggle" data-size="small" data-on="Yes" data-off="No">
+ </div> -->
+ <select class="form-control pull-right" data-style="btn-primary" style="width:50%;display: inline" id="emailNotif"> 
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+ </select>
 </div>
 </div>
 </div>
@@ -181,7 +181,7 @@ var notifEnabled=false;
 </script>
 <% if(notifEnabled){ %>
 <script>
-notifEnabled = <%= notifEnabled %>
+notifEnabled = <%- JSON.stringify(notifEnabled) %>
 </script>
 <% } %>
 </body>
@@ -206,14 +206,14 @@ $(function(){
     $("#newdob").datepicker();
 
     
-    if(notifEnabled){
-    	 $('#emailNotif').prop('checked',true);
+    if(notifEnabled =="Yes"){
+    	 document.getElementById("emailNotif").value ="1";
     }else{
-    	$('#emailNotif').prop('checked',false);
+    	 document.getElementById("emailNotif").value ="0";
     }
 
     $('#emailNotif').change(function() {
-    	var emailNotifEnabled=$(this).prop('checked');
+    	var emailNotifEnabled = $("#emailNotif option:selected").text();
     	$.ajax({
 			type: "POST",
 			url: "/saveNotificationSetting",
