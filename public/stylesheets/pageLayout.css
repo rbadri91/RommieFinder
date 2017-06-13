@@ -403,6 +403,13 @@ input {
   visibility: visible;
   opacity: 1; }
 
+@media only screen and (min-width: 320px) {
+  #mainContent #firstSection {
+    position: absolute;
+    top: 40%;
+    width: 90%;
+    left: 5vw; } }
+
 #uploadPosts {
   position: relative;
   bottom: 0;

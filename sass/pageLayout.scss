@@ -558,6 +558,18 @@ $header-img: url('/images/apartment1.jpg');
   opacity: 1;
 }
 
+#mainContent{
+        
+        @include MQ(S) {
+            #firstSection{
+                position:absolute;
+                top:40%;
+                width:90%;
+                left:5vw;
+            }
+        }
+}
+
 #uploadPosts{
 position: relative;
   bottom:0;
