@@ -4,7 +4,7 @@ $color-1: #3e454c; // Mako
 $color-2: #1784c7; // Denim
 $color-3: #ffffff; // White
 $color-4: #ff7e66; // Salmon
-$color-5: blueviolet; 
+$color-5: #854dba; 
 $color-6: #9d9d9d; // White
 $color-7: yellow; // Yellow
 $S:     320px;   
@@ -609,4 +609,8 @@ position: relative;
 }
 .deletePost{
     cursor:pointer;
+}
+.profileNav{
+    color: #9d9d9d;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
 }
