@@ -5,6 +5,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/', function(req, res) {
 		var loggedIn =false;
+		console.log("it comes here");
 		var hasUpdatedProfile = false;
 		if(req.session.loggedIn)loggedIn = req.session.loggedIn;
 		if(req.user && req.user.data.hasUpdatedProfile) hasUpdatedProfile = req.user.data.hasUpdatedProfile;
@@ -19,7 +20,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	        service: "Yahoo",
 	        auth: {
 	          user: 'badri.dev01@yahoo.com',
-	          pass: 'test@123'
+	          pass: 'TestDeveloper123'
 	        }
 	});
 
@@ -456,6 +457,8 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	});
 
 	app.get('/viewPostDetails',isLoggedIn,function(req,res){
+		console.log("post here:",req.session.postSelected);
+		console.log("post info  here:",req.session.postSelected.postInfo);
 		var hasFavorited = (req.session.postSelected.postInfo.hasInterests.indexOf(req.user._id)!=1);
 		res.render('postDescription',{"postDescription": req.session.postSelected,"hasFavorited":hasFavorited})
 	});
@@ -701,6 +704,42 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			// req.user.data.Posts.push({"postType":postType,"imageUrl":imageURL,"postDesc":postDesc,"postLocation":location,"timestamp":today})
 			// req.user.save();
 			res.send("Success");
+	});
+
+	app.get("/notifyUser", function(req, res) {
+	  res.render('notifyUser');
+	});
+
+	app.post('/notifyLister',isLoggedIn,function(req,res){
+			var uName = req.body.uName;
+			var uEmail = req.body.uEmail;
+			var uContact = req.body.uContact;
+			var uMessage = req.body.uMessage;
+			var lEmail = req.body.lEmail;
+			User.findOne({"data.email":lEmail},function(err,user){
+				if(err) res.send(err);
+				if(user){
+					if(user.data.notifEnabled){
+
+							var mailOptions = {
+					        to: "rbadri01@gmail.com",
+					        from: 'badri.dev01@yahoo.com',
+					        subject: 'A Message for an interested Person',
+					        text: 'An Person named '+uName+" has shared the following message\n\n"+
+					        	  uMessage +'\n\n The users contact details are:\n\n'+
+					        	  'Email Id: '+uEmail +'\n\n Contact: '+uContact
+					      };
+					      Transport.sendMail(mailOptions, function(error, response){
+						     if(error){
+						        res.end("error");
+						     }else{
+						        res.send("success");   
+						     }
+						  });
+					}
+				}
+		});
+
 	});
 
 	function isLoggedIn(req, res, next) {

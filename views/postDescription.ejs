@@ -26,10 +26,23 @@
 document.getElementById("profile").style.display ="block";
 document.getElementById("home").style.display ="block";
 document.getElementById("login_logout").textContent ="Logout";
+document.getElementById("login_logout").removeAttribute("data-popup1-open");
 document.getElementById("login_logout").style.href ="/logout"
 document.getElementById("signup").style.display="none";
 </script>
 <div id = "PostInfoContainer" style="margin-top:7%;width:60%;display: inline-block;float: left">
+
+<div class="popupWrapper">
+<div class="popup" data-popup="popup-1" style ="z-index: 20">
+    <div class="popup-inner">
+      <div id = "notifyUserWrapper">
+      </div>
+      <br>
+      <br>
+        <a id="closepopUp" class="popup-close" data-popup1-close="popup-1" href="#">x</a>
+    </div>
+</div>
+</div>
 
 <div id ="postWrapper">
 	<div id="imageContainer" class="text-center center-block" style="width:95%;">
@@ -109,6 +122,7 @@ document.getElementById("signup").style.display="none";
 <br>
 <div style="clear:both;padding: 3%" class="center-block text-center">
 <button class="btn btn-info btn-lg btn-md" id="postInterest" onclick="handlePostInterest(this)">Add to Favorites</button>
+<button class="btn btn-info btn-lg btn-md" id ="notifyUser"class="notifyUser" data-popup1-open="popup-1" >Notify Lister</button>
 </div>
 </body>
 
@@ -140,6 +154,29 @@ $(function(){
   }else{
     document.getElementById("postInterest").textContent ="Add to Favorites";
   }
+
+  $('#notifyUser').click(function (){
+      console.log("it comes inside click");
+        $("#notifyUserWrapper").empty();
+         $("#notifyUserWrapper").load("/notifyUser");
+         return false;
+  })
+
+
+    $('[data-popup1-open]').on('click', function(e)  {
+
+            var targeted_popup_class = jQuery(this).attr('data-popup1-open');
+            $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
+            e.preventDefault();
+    });
+    $('[data-popup1-close]').on('click', function(e)  {
+
+            var targeted_popup_class = jQuery(this).attr('data-popup1-close');
+            $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
+            
+            e.preventDefault();
+    });
+
 });
 
 function initialize() {
@@ -271,6 +308,11 @@ function handlePostInterest(el){
         console.log(result);
       }
     });
+}
+
+function auto_grow(element) {
+      element.style.height = "5px";
+      element.style.height = (element.scrollHeight)+"px";
 }
 
 

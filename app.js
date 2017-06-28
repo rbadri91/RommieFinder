@@ -104,5 +104,5 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(morgan('dev'));
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
-console.log(process.env.PORT || 8000);
-app.listen(process.env.PORT || 8000);
+console.log(process.env.PORT || 8008);
+app.listen(process.env.PORT || 8008);

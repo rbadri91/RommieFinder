@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<div class ="form center-block ">
+          <div class="form-group">
+              <label for="userName">Name:</label>
+              <input class="form-control" id="userName" placeholder="Your Name Here" name ="userName">
+          </div>
+          <div class="form-group">
+              <label for="useremail">Email:</label>
+              <input type="email" class="form-control" id="useremail" placeholder="Your Email Address" name ="useremail">
+          </div>
+          <div class="form-group">
+              <label for="usercontact">Contact Number:</label>
+              <input type="contact" class="form-control" id="usercontact" placeholder="Your Contact Number" name ="usercontact">
+          </div>
+          <div class="form-group">
+            <label for="userMessage">Your Message:</label>
+            <textarea class="form-control" style="font-family:sans-serif;overflow: hidden;" onkeyup="auto_grow(this)" id="userMessage" placeholder="Write a short message to the user"></textarea>
+          </div>
+          <button type="submit" class="btn btn-info  center-block text-center btn-lg" onclick="handleSendMessageClick()">Send message</button>
+</div>
+<script>
+$(function(){
+  $('[data-popup1-open]').on('click', function(e)  {
+
+              var targeted_popup_class = jQuery(this).attr('data-popup1-open');
+              $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
+              e.preventDefault();
+      });
+      $('[data-popup1-close]').on('click', function(e)  {
+
+              var targeted_popup_class = jQuery(this).attr('data-popup1-close');
+              $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
+              
+              e.preventDefault();
+  });
+});
+
+function handleSendMessageClick(){
+  var uName = document.getElementById("userName").value;
+  var uEmail = document.getElementById("useremail").value;
+  var uContact = document.getElementById("usercontact").value;
+  var uMessage = document.getElementById("userMessage").value;
+  var lEmail = document.getElementById("email").textContent;
+  console.log("lEmail here:",lEmail);
+  $.post( "/notifyLister", 
+    {
+      uName:uName,
+      uEmail: uEmail,
+      uContact:uContact,
+      uMessage:uMessage,
+      lEmail:lEmail
+    },
+    function( data ) {
+      $('[data-popup1-close]').click();
+      $("#notifyUserWrapper").empty();
+    });
+}
+</script>
+

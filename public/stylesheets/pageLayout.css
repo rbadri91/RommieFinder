@@ -44,7 +44,7 @@ body {
     top: 55%;
     left: 50%;
     overflow: visible;
-    padding: 40px;
+    padding: 20px;
     position: absolute;
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -55,8 +55,8 @@ body {
 .popupWrapper .popup-close {
   width: 30px;
   height: 30px;
+  top: 0;
   right: 0px;
-  bottom: 50%;
   padding-top: 4px;
   display: inline-block;
   position: absolute;
@@ -402,6 +402,9 @@ input {
   width: 150px;
   height: 150px;
   border-radius: 100%; }
+
+#profileWrapper {
+  overflow: hidden; }
 
 .profileWrapper:hover .profileDesc {
   visibility: visible;
