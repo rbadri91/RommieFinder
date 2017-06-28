@@ -313,6 +313,26 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		
 	});
 
+	app.post('/notifReadStatus',isLoggedIn,function(req,res){
+		for(var i=0;i<req.user.data.notifications.length;i++){
+			if(req.user.data.notifications[i].name === req.body.name){
+				req.user.data.notifications[i].isRead = req.body.isRead;
+				req.user.save();
+			}
+		}
+		res.send("Success");
+	});
+
+	app.post('/notifDelete',isLoggedIn,function(req,res){
+		for(var i=0;i<req.user.data.notifications.length;i++){
+			if(req.user.data.notifications[i].name === req.body.name){
+				req.user.data.notifications.splice(i, 1);
+				req.user.save();
+			}
+		}
+		res.send("Success");
+	});
+
 	app.get('/settings',isLoggedIn,function(req,res){
 		res.render('settings', {
 	      firstName: req.user.data.firstName,

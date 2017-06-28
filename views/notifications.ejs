@@ -13,7 +13,7 @@
 <div id= "notificationPanel" class="notificationPanelBody">
 <div id = "notificationBox" class="notificationContainer"> 
 <% for(var i=0;i<notifications.length;i++) { %>
-	<div id ="notificationId" class="notificationListed notification-borderbottom">
+	<div id ="notificationId_<%=notifications[i].name %>" class="notificationListed notification-borderbottom">
 	<div class="user-info-container addVerticalSeparator">
 	<div class="name-not">
 		<strong>Name: </strong><%=notifications[i].name %>
@@ -32,12 +32,16 @@
 	</div>
 	</div>
 	<div class="readNotif text-center addVerticalSeparator">
-		<input type="checkbox" id= "notif_<%=i%>" class="checkboxclass" name ="notif_<%=i%>">
-		<label for ="notif_<%=i%>" class="checkboxholder"></label>
-		<label for ="notif_<%=i%>" class="checkboxDescirption" >Mark As Read </label>
+		<% if(notifications[i].isRead){%>
+		<input type="checkbox" id= "notif_<%=notifications[i].name %>" class="checkboxclass" onchange="handleReadChange(this) name ="notif_<%=i%>" checked>
+		<%}else{ %>
+		<input type="checkbox" id= "notif_<%=notifications[i].name %>" class="checkboxclass" name ="notif_<%=notifications[i].name%>" onchange="handleReadChange(this)">
+		<%} %>
+		<label for ="notif_<%=notifications[i].name %>" class="checkboxholder"></label>
+		<label for ="notif_<%=notifications[i].name %>" class="checkboxDescirption" >Mark As Read </label>
 	</div>
 	<div class="notif-remove">
-		<a class="btn" style ="font-size:150%" id ="notif_<%=notifications[i].name %>" onclick="handleRemoveProduct(this)">
+		<a class="btn" style ="font-size:150%" id ="notif_button_<%=notifications[i].name %>" onclick="handleRemoveProduct(this)">
 			<i class="fa fa-trash-o" aria-hidden="true"></i>
 		</a>
 	</div>
@@ -47,3 +51,32 @@
 </div>
 </div>
 </body>
+<script>
+function handleReadChange(el){
+	var id = el.id;
+	var name = id.substring("notif_".length,id.length);
+	var isRead = el.checked;
+	console.log("name here:",name);
+	console.log("isRead here:",isRead);
+	 $.post( "/notifReadStatus", 
+	    {
+	      name:name,
+	      isRead:isRead
+	    },
+	    function( data ) {
+	    	// document.getElementById("notificationBox").removeChild(document.getElementById("notificationId_"+name));
+	    });
+}
+function handleRemoveProduct(el){
+	var id = el.id;
+	var name = id.substring("notif_button_".length,id.length);
+	$.post( "/notifDelete", 
+	    {
+	      name:name
+	    },
+	    function( data ) {
+	    	document.getElementById("notificationBox").removeChild(document.getElementById("notificationId_"+name));
+	});
+
+}
+</script>
