@@ -302,9 +302,10 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	app.get('/notification',isLoggedIn,function(req,res){
 			var notificationArray =[];
-			if(user.data.notifications){
-				notificationArray= user.data.notifications;
+			if(req.user.data.notifications){
+				notificationArray= req.user.data.notifications;
 			}
+			console.log("notificationArray:",notificationArray)
 			res.render('notifications', {
 				notifications: notificationArray
 		    });
@@ -741,11 +742,13 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 				if(user){
 					var notificationObject={"name":uName,"email":uEmail,"contact":uContact,"message":uMessage,"isRead":false};
 					user.data.notifications.push(notificationObject);
-					if(user.data.notifEnabled){
+					user.markModified('data.notifications');
+					user.save();
+					if(user.data.notifEnabled=="Yes"){
 
 							var mailOptions = {
-					        to: "rbadri01@gmail.com",
-					        from: req.body.lEmail,
+					        to: lEmail,
+					        from: "badri.dev01@yahoo.com",
 					        subject: 'A Message for an interested Person',
 					        text: 'An Person named '+uName+" has shared the following message\n\n"+
 					        	  uMessage +'\n\n The users contact details are:\n\n'+
@@ -788,7 +791,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 	function isHTTPS(req, res, next) {
 		//console.log(req.header['x-forwarded-proto']);
-		if(req.headers['x-forwarded-proto'] != 'https' && req.headers.host != 'localhost:5000') {
+		if(req.headers['x-forwarded-proto'] != 'https' && req.headers.host != 'localhost:8008') {
 			//console.log('https://'+ req.headers.host);
 			//console.log(req.url);
 			res.redirect('https://'+ req.headers.host+req.url);

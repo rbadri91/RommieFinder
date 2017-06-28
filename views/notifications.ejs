@@ -4,8 +4,8 @@
 <meta charset="UTF-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=Edge"/> 
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title><%=title%></title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <h2 class="text-center center-block">Notifications</h2>
@@ -14,11 +14,36 @@
 <div id = "notificationBox" class="notificationContainer"> 
 <% for(var i=0;i<notifications.length;i++) { %>
 	<div id ="notificationId" class="notificationListed notification-borderbottom">
-	<div class="chosenprodContainer">
-	<div class="prodName">
+	<div class="user-info-container addVerticalSeparator">
+	<div class="name-not">
+		<strong>Name: </strong><%=notifications[i].name %>
+	</div>
+	<br>
+	<div class="email-not">
+		<strong>Email: </strong><%=notifications[i].email %>
+	</div>
+	<br>
+	<div class="contact-not">
+		<strong>Contact No: </strong><%=notifications[i].contact %>
+	</div>
+	<br>
+	<div class="message-not">
+		<%=notifications[i].message %>
+	</div>
+	</div>
+	<div class="readNotif text-center addVerticalSeparator">
+		<input type="checkbox" id= "notif_<%=i%>" class="checkboxclass" name ="notif_<%=i%>">
+		<label for ="notif_<%=i%>" class="checkboxholder"></label>
+		<label for ="notif_<%=i%>" class="checkboxDescirption" >Mark As Read </label>
+	</div>
+	<div class="notif-remove">
+		<a class="btn" style ="font-size:150%" id ="notif_<%=notifications[i].name %>" onclick="handleRemoveProduct(this)">
+			<i class="fa fa-trash-o" aria-hidden="true"></i>
+		</a>
 	</div>
 	</div>
 <% }%>
+</div>
 </div>
 </div>
 </body>

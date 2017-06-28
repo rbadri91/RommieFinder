@@ -636,7 +636,52 @@ position: relative;
     -webkit-box-direction: normal;
     flex-direction: row;
     width: 100%;
+    background: #efefef;
 }
 .notification-borderbottom{
-        border-bottom: 1px solid rgba(0,0,0,.2);
+    //    border-bottom: 1px solid rgba(0,0,0,.2);
+    box-shadow: 1px 5px 8px rgba(156, 39, 176,.2);
+}
+.user-info-container{
+    -webkit-box-flex: 1;
+    flex: 1;
+    padding: 20px 10px;
+}
+.checkboxclass{
+  width: 22px;
+  height: 22px;
+  float: left;
+  cursor: pointer;
+}
+.checkboxholder{
+  float: left;
+  width: 22px;
+}
+.checkboxDescirption{
+    padding-left: 10px;
+    position: relative;
+    float: left;
+    height: 100%;
+    cursor: pointer;
+    padding-left: 8px;
+    line-height: 22px;
+    margin-bottom: 0;
+}
+.readNotif{
+    padding: 20px 20px 20px 10px;
+}
+.notif-remove{
+    display: flex;
+    -webkit-box-flex: 0;
+    -webkit-flex: 0 0 40px;
+    -ms-flex: 0 0 40px;
+    flex: 0 0 40px;
+    color: #777;
+    font-size: 20px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.addVerticalSeparator{
+     border-right: 1px solid rgba(0,0,0,.2);
 }
