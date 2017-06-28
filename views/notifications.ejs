@@ -11,7 +11,8 @@
 <h2 class="text-center center-block">Notifications</h2>
 <div class="notification-content">
 <div id= "notificationPanel" class="notificationPanelBody">
-<div id = "notificationBox" class="notificationContainer"> 
+<div id = "notificationBox" class="notificationContainer">
+ <% if(notifications.length > 0){%>
 <% for(var i=0;i<notifications.length;i++) { %>
 	<div id ="notificationId_<%=notifications[i].name %>" class="notificationListed notification-borderbottom">
 	<div class="user-info-container addVerticalSeparator">
@@ -45,6 +46,11 @@
 			<i class="fa fa-trash-o" aria-hidden="true"></i>
 		</a>
 	</div>
+	</div>
+<% }%>
+<% }else{%>
+	<div class="notificationListed">
+		<h3 class="text-center center-block">You have no Notifications</h3>
 	</div>
 <% }%>
 </div>
