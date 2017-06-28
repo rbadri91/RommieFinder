@@ -617,3 +617,26 @@ position: relative;
     color: #9d9d9d;
     text-shadow: 0 -1px 0 rgba(0,0,0,.25);
 }
+.notification-content{
+    -webkit-box-flex: 1;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    color:grey;
+    font-family: 'Cardo', Helvetica, Arial, sans-serif;
+}
+.notificationPanelBody{
+    position: relative;
+    border-top: 0;
+    background-color: #FFF;
+    height: 100%;
+}
+.notificationListed{
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    width: 100%;
+}
+.notification-borderbottom{
+        border-bottom: 1px solid rgba(0,0,0,.2);
+}

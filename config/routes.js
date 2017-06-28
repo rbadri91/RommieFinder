@@ -3,6 +3,14 @@ var Posts            = require('../models/posts.js');
 var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
 module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport, s3, bucketName, Promise){
 
+	app.get('*', isHTTPS, function(req, res, next) {
+		next();
+	});
+
+	app.post('*', isHTTPS, function(req, res, next) {
+		next();
+	});
+
 	app.get('/', function(req, res) {
 		var loggedIn =false;
 		console.log("it comes here");
@@ -290,6 +298,18 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	      about: req.user.data.about,
 	      profilesrc:profileSrc
 	    });
+	});
+
+	app.get('/notification',isLoggedIn,function(req,res){
+			var notificationArray =[];
+			if(user.data.notifications){
+				notificationArray= user.data.notifications;
+			}
+			res.render('notifications', {
+				notifications: notificationArray
+		    });
+		// console.log("posts here:",req.user.data.Posts[0].imageUrl[0]);
+		
 	});
 
 	app.get('/settings',isLoggedIn,function(req,res){
@@ -719,6 +739,8 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			User.findOne({"data.email":lEmail},function(err,user){
 				if(err) res.send(err);
 				if(user){
+					var notificationObject={"name":uName,"email":uEmail,"contact":uContact,"message":uMessage,"isRead":false};
+					user.data.notifications.push(notificationObject);
 					if(user.data.notifEnabled){
 
 							var mailOptions = {
@@ -733,11 +755,12 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 						     if(error){
 						        res.end("error");
 						     }else{
-						        res.send("success");   
+						        console.log("message sent");   
 						     }
 						  });
 					}
 				}
+				res.send("Success")
 		});
 
 	});
@@ -761,5 +784,15 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	            console.log("Check if you have sufficient permissions : "+err);
 	        }
 	    });
+	}
+
+	function isHTTPS(req, res, next) {
+		//console.log(req.header['x-forwarded-proto']);
+		if(req.headers['x-forwarded-proto'] != 'https' && req.headers.host != 'localhost:5000') {
+			//console.log('https://'+ req.headers.host);
+			//console.log(req.url);
+			res.redirect('https://'+ req.headers.host+req.url);
+		}
+		else next();
 	}
 }

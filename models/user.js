@@ -10,6 +10,14 @@ var bcrypt   = require('bcrypt-nodejs');
 //     timestamp: String
 // });
 
+var myNotification = mongoose.Schema({
+    name: String,
+    email:String,
+    contact: Number,
+    message: String,
+    isRead:Boolean
+    });
+
 var userSchema = mongoose.Schema({
 
     data             : {
@@ -36,7 +44,8 @@ var userSchema = mongoose.Schema({
         gender       : String,
         contact     : Number,
         profileURL  : String,
-        hasUpdatedProfile : Boolean
+        hasUpdatedProfile : Boolean,
+        notifications:[myNotification]
         // Posts       : [myPosts]
 
         // // these will be google login session variables
