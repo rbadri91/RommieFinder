@@ -287,6 +287,22 @@ body {
         color:#df6c00; 
     }
 
+    .count {
+        /* notification badge */
+        position: absolute;
+        @include center(y);
+        right: calc(5% + 16px + 0.4em);
+
+        padding: 0.2em 0.4em;
+        background-color: $color-4;
+        border-radius: .25em;
+
+        color: $color-3;
+        font-weight: bold;
+        font-size: 1rem;
+        text-align: center;
+    }
+
     ul.cd-top-nav > li:last-of-type > a {
         border-bottom: none;
     }
@@ -298,13 +314,22 @@ body {
         border-bottom: 1px solid darken($color-1, 3%);
     }
 
+    > ul > li > a> i {
+            position: absolute;
+            content: '';
+            left: 5%;
+            @include center(y);
+            height: 16px;
+            width: 16px;
+    }
+
     @include MQ(M) {
         position: relative;
         float: left;
         top: auto;
         width: $sidebar-width-M;
         min-height: 100vh;
-        padding-top: $header-height-M;
+        padding-top: 30px;
         visibility: visible;
         opacity: 1;
         overflow: visible;
@@ -323,17 +348,36 @@ body {
         }   
 
         a {
-            font-size: 120%;
+            font-size: 100%;
             text-align: center;
         }
 
         > ul > li > a {
            // padding: calc(1.4em + 24px) 0 2.4em;
-            padding: 20% 0 30%;
+            padding: 30% 0 20%;
         }
+
+         > ul > li > a> i {
+                @include center(x);
+                top: 0.9em;
+        }
+       
 
         .active > a {
             box-shadow: inset 3px 0 0 $color-7;
+        }
+
+        .count {
+            height: 8px;
+            width: 8px;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(#000, .2);
+            padding: 0;
+            top: 0.5em;
+            @include transform(translateX(-50%));
+            left: calc(50% + 5px);
+            right: auto;
+            color: transparent;
         }
     }
 
@@ -352,11 +396,30 @@ body {
             padding: 1em 1em 1em 42px;
             text-align: left;
             border-bottom: none;
+            font-size: 120%;
 
             &::before {
                 @include center(y);
                 left: 18px;
             }
+        }
+
+         > ul > li > a> i {
+                @include center(y);
+                left: 18px;
+        }
+
+        .count {
+            /* reset style */
+            color: $color-3;
+            height: auto;
+            width: auto;
+            border-radius: .25em;
+            padding: .2em .4em;
+            @include center(y);
+            right: 18px;
+            left: auto;
+            box-shadow: none;
         }
 
     }
@@ -661,14 +724,16 @@ position: relative;
     padding-left: 10px;
     position: relative;
     float: left;
-    height: 100%;
     cursor: pointer;
     padding-left: 8px;
     line-height: 22px;
     margin-bottom: 0;
 }
 .readNotif{
+    display: flex;
     padding: 20px 20px 20px 10px;
+    align-items: center;
+    justify-content: center;
 }
 .notif-remove{
     display: flex;

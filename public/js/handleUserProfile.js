@@ -10,7 +10,7 @@ $(document).ready(function(){
 
 	$.ajax({
         type:"GET",
-        url:"/overview",
+        url:"/about",
         datatype: 'html',
         success: function(data){
            $(".content-wrapper").html(data);

@@ -34,7 +34,7 @@
 	</div>
 	<div class="readNotif text-center addVerticalSeparator">
 		<% if(notifications[i].isRead){%>
-		<input type="checkbox" id= "notif_<%=notifications[i].name %>" class="checkboxclass" onchange="handleReadChange(this) name ="notif_<%=i%>" checked>
+		<input type="checkbox" id= "notif_<%=notifications[i].name %>" class="checkboxclass" onchange="handleReadChange(this)" name ="notif_<%=i%>" checked>
 		<%}else{ %>
 		<input type="checkbox" id= "notif_<%=notifications[i].name %>" class="checkboxclass" name ="notif_<%=notifications[i].name%>" onchange="handleReadChange(this)">
 		<%} %>
@@ -70,7 +70,26 @@ function handleReadChange(el){
 	      isRead:isRead
 	    },
 	    function( data ) {
-	    	// document.getElementById("notificationBox").removeChild(document.getElementById("notificationId_"+name));
+	    		var notificationCount = parseInt(document.getElementById("notifcount").textContent);
+	    	if(isRead){
+	    		if(notificationCount>1){
+	    			document.getElementById("notifcount").textContent = notificationCount -1;
+	    		}else{
+	    			document.getElementById("notifcount").textContent = "";
+	    			document.getElementById("notifcount").classList.remove("count");
+	    		}
+	    	}else{
+	    			var countElement = document.getElementById("notifcount")
+	    			var notificationCount = parseInt(countElement.textContent);
+	    			if(!isNaN(notificationCount)){
+	    				countElement.textContent = notificationCount+1;
+	    			}else{
+	    				countElement.className="count";
+	    				countElement.textContent =1;
+	    			}
+
+	    			
+	    	} 
 	    });
 }
 function handleRemoveProduct(el){
@@ -86,3 +105,4 @@ function handleRemoveProduct(el){
 
 }
 </script>
+</html>

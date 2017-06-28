@@ -71,7 +71,14 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	app.get('/profile',isLoggedIn,function(req, res) {
 		console.log("it comes here:");
 		req.session.loaded=true;
-		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify("home")});
+		var unreadNotifCount =0;
+		for(var i=0;i< req.user.data.notifications.length;i++){
+			if(!req.user.data.notifications[i].isRead){
+				unreadNotifCount++;
+			}
+		} 
+		console.log("unreadNotifCount:",unreadNotifCount);
+		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify("home"),unreadNotifCount:unreadNotifCount});
 		
 	});
 

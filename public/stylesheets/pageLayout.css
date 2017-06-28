@@ -169,12 +169,43 @@ body {
     color: lightgreen; }
   .cd-side-nav a:hover {
     color: #df6c00; }
+  .cd-side-nav .count {
+    /* notification badge */
+    position: absolute;
+    top: 50%;
+    bottom: auto;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    right: calc(5% + 16px + 0.4em);
+    padding: 0.2em 0.4em;
+    background-color: #ff7e66;
+    border-radius: .25em;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center; }
   .cd-side-nav ul.cd-top-nav > li:last-of-type > a {
     border-bottom: none; }
   .cd-side-nav > ul > li > a {
     padding: 1% 0 2%;
     padding-left: calc(5% + 24px);
     border-bottom: 1px solid #373d44; }
+  .cd-side-nav > ul > li > a > i {
+    position: absolute;
+    content: '';
+    left: 5%;
+    top: 50%;
+    bottom: auto;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    height: 16px;
+    width: 16px; }
   @media only screen and (min-width: 768px) {
     .cd-side-nav {
       position: relative;
@@ -182,7 +213,7 @@ body {
       top: auto;
       width: 110px;
       min-height: 100vh;
-      padding-top: 50px;
+      padding-top: 30px;
       visibility: visible;
       opacity: 1;
       overflow: visible;
@@ -194,12 +225,36 @@ body {
       .cd-side-nav > ul {
         padding: 0; }
       .cd-side-nav a {
-        font-size: 120%;
+        font-size: 100%;
         text-align: center; }
       .cd-side-nav > ul > li > a {
-        padding: 20% 0 30%; }
+        padding: 30% 0 20%; }
+      .cd-side-nav > ul > li > a > i {
+        left: 50%;
+        right: auto;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+        top: 0.9em; }
       .cd-side-nav .active > a {
-        box-shadow: inset 3px 0 0 yellow; } }
+        box-shadow: inset 3px 0 0 yellow; }
+      .cd-side-nav .count {
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+        padding: 0;
+        top: 0.5em;
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        transform: translateX(-50%);
+        left: calc(50% + 5px);
+        right: auto;
+        color: transparent; } }
   @media only screen and (min-width: 1170px) {
     .cd-side-nav {
       width: 200px; }
@@ -210,7 +265,8 @@ body {
       .cd-side-nav > ul > li > a {
         padding: 1em 1em 1em 42px;
         text-align: left;
-        border-bottom: none; }
+        border-bottom: none;
+        font-size: 120%; }
         .cd-side-nav > ul > li > a::before {
           top: 50%;
           bottom: auto;
@@ -219,7 +275,33 @@ body {
           -ms-transform: translateY(-50%);
           -o-transform: translateY(-50%);
           transform: translateY(-50%);
-          left: 18px; } }
+          left: 18px; }
+      .cd-side-nav > ul > li > a > i {
+        top: 50%;
+        bottom: auto;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+        left: 18px; }
+      .cd-side-nav .count {
+        /* reset style */
+        color: #ffffff;
+        height: auto;
+        width: auto;
+        border-radius: .25em;
+        padding: .2em .4em;
+        top: 50%;
+        bottom: auto;
+        -webkit-transform: translateY(-50%);
+        -moz-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        -o-transform: translateY(-50%);
+        transform: translateY(-50%);
+        right: 18px;
+        left: auto;
+        box-shadow: none; } }
 
 .cd-nav {
   display: none;
@@ -494,14 +576,16 @@ input {
   padding-left: 10px;
   position: relative;
   float: left;
-  height: 100%;
   cursor: pointer;
   padding-left: 8px;
   line-height: 22px;
   margin-bottom: 0; }
 
 .readNotif {
-  padding: 20px 20px 20px 10px; }
+  display: flex;
+  padding: 20px 20px 20px 10px;
+  align-items: center;
+  justify-content: center; }
 
 .notif-remove {
   display: flex;
