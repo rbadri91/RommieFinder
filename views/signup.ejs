@@ -29,7 +29,7 @@
               <div style="display: inline" id="divCheckPasswordMatch"></div>
             </div>
             <button type="submit" class="btn btn-warning btn-lg">Sign Up</button>
-            <p class="message">Already registered? <a href="/login">Sign In</a></p>
+            <p class="message">Already registered? <a style="cursor: pointer" onclick="handleLoginCLick()">Sign In</a></p>
           </form>
  </div>
  <script>
@@ -58,6 +58,9 @@
         return true;
     }
         
+ }
+ function handleLoginCLick(){
+  document.getElementById("login_logout").click();
  }
  </script>
 </html>        
