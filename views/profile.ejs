@@ -68,6 +68,8 @@ html{
 						Notifications
 						<% if (unreadNotifCount > 0){%>
 							<span id ="notifcount" class="count"><%=unreadNotifCount%></span>
+						<%}else{ %>
+							<span id ="notifcount"></span>
 						<%}%>
 						</a>
 				</li>
