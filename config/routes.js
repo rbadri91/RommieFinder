@@ -723,7 +723,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 
 							var mailOptions = {
 					        to: "rbadri01@gmail.com",
-					        from: 'badri.dev01@yahoo.com',
+					        from: req.body.lEmail,
 					        subject: 'A Message for an interested Person',
 					        text: 'An Person named '+uName+" has shared the following message\n\n"+
 					        	  uMessage +'\n\n The users contact details are:\n\n'+
