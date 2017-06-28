@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet">
 </head>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
@@ -66,7 +67,7 @@
             <div class="v-m">
  -->           <%if (!loggedIn) { %> 
             <div class="row">
-                <h2 class ="text-center center-block" style="color: white">Find your best Mate here</h2>
+                <h2 class ="text-center center-block mainHeader" style="color: white">Find your best Mate here</h2>
             </div>
             <div class="row">
                 <h3 class ="text-center center-block" style="color: white"> Your final stop to find your best roomate</h3>
@@ -77,6 +78,20 @@
             <div class="col-sm-4">
             <a id = "signup2" class=" text-center center-block btn btn-primary btn-lg" href="/signup" data-popup1-open="popup-1">Signup</a></div>
             </div>
+            </div>
+            <div class="secondSub">
+            <div class="why-rommie">
+                <div class="col-xs-12 col-md-10 col-md-offset-1">
+                    <div class="innerContainer">
+                      <div class="row">
+                        <h2 class ="mainHeader text-center">Why Use RommieFinder?</h2>
+                      </div>
+                      <div class="reason-con">
+                          RoomieFinder helps you to find your best match.Leave the stress in finding your potential roomate to RoommieFinder. RommieFinder lists your potential matches based on your preferences, budget and other lifestyles.It is the duty of RommieFinder to make your life comfortable.Whether you are finding a roomate or want to sublet your apartment you are just a few clicks away.Sign up today for one of the best roommate finder in town.
+                      </div>
+                    </div>
+                </div>
+            </div>        
             </div>
             <%}else{ %>
                   <%if(hasUpdatedProfile){%>
@@ -224,7 +239,19 @@
         </div>
 
 </body>
-
+<footer>
+  <div class = "innerfooterContainer">
+  <ul style="display: inline-block;">
+    <li><a>About Me</a></li>
+  </ul>
+  <ul class="icons" style="display: inline-block;">
+              <li><a href="https://twitter.com/badri_91" class="icon fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+              <li><a href="https://www.facebook.com/badrinath.radhakrishnan" target="_blank" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+              <li><a href="https://github.com/rbadri91" class="icon fa-github" target="_blank"><span class="label">Github</span></a></li>
+              <li><a href="#" class="icon fa-envelope" target="_blank"><span class="label">Email</span></a></li>
+  </ul>
+  </div>
+</footer>
 <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="js/handleposts.js"></script>
@@ -279,7 +306,7 @@ $(document).ready(function(){
     if(loggedIn && !hasUpdatedProfile){
         swal({
             title: "Please update your profile",
-            text: "Please update your profile for the app to function properly",
+            text: "Hurray! Thank you so much for signing up.Please update your profile to utilize the website to the full potential",
             type: "warning",
             confirmButtonText: "Update My Profile",
             closeOnConfirm: false,

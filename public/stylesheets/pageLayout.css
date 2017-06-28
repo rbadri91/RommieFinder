@@ -601,3 +601,78 @@ input {
 
 .addVerticalSeparator {
   border-right: 1px solid rgba(0, 0, 0, 0.2); }
+
+.mainHeader {
+  font-size: 3.5rem;
+  font-weight: 700;
+  font-family: 'Lato', sans-serif; }
+
+.secondSub {
+  color: #c5a3a3; }
+
+.innerContainer {
+  float: left;
+  margin-bottom: 30px;
+  width: 100%; }
+
+.reason-con {
+  font-size: 2.5rem; }
+
+footer {
+  z-index: 1000;
+  position: relative;
+  clear: both;
+  text-align: center;
+  margin-top: 24px;
+  height: 66px;
+  margin-top: 24px;
+  overflow: hidden;
+  line-height: 66px;
+  background: #1b152a; }
+
+.innerfooterContainer ul li {
+  height: 66px;
+  line-height: 66px;
+  padding-right: 20px;
+  display: inline-block;
+  color: white;
+  font-weight: 700;
+  font-weight: 2rem;
+  cursor: pointer; }
+
+.navbar-fixed-top {
+  z-index: 10001; }
+
+.innerfooterContainer ul li a {
+  color: white; }
+
+ul.icons {
+  cursor: default; }
+
+ul.icons li {
+  display: inline-block; }
+
+ul.icons a {
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  text-align: center;
+  border: 0; }
+
+.icon {
+  text-decoration: none; }
+
+.icon:before {
+  display: inline-block;
+  font-family: FontAwesome;
+  font-size: 1.25em;
+  text-decoration: none;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.icon > .label {
+  display: none; }

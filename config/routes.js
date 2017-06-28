@@ -83,13 +83,28 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	});
 
 	app.get('/viewUserPosts',isLoggedIn,function(req, res) {
-		var prevUrl = "viewUserPosts"
-		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl)});
+		var prevUrl = "viewUserPosts";
+		var unreadNotifCount =0;
+		for(var i=0;i< req.user.data.notifications.length;i++){
+			if(!req.user.data.notifications[i].isRead){
+				unreadNotifCount++;
+			}
+		}
+		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl),unreadNotifCount:unreadNotifCount});
 	});
 
 	app.get('/viewUserPreference',isLoggedIn,function(req, res) {
 		var prevUrl = "viewUserPreference";
-		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl)});
+		var unreadNotifCount =0;
+		if(req.user.data.notifications){
+			for(var i=0;i< req.user.data.notifications.length;i++){
+				if(!req.user.data.notifications[i].isRead){
+					unreadNotifCount++;
+				}
+			}
+		}
+		
+		res.render('profile', {title: 'Profile Page',prevUrl:JSON.stringify(prevUrl),unreadNotifCount:unreadNotifCount});
 	});
 
 	app.post('/viewFullPost',isLoggedIn,function(req,res){
