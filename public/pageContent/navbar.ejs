@@ -40,4 +40,20 @@ $(function(){
             e.preventDefault();
     });
 })
+
+function registerPopupDialog(){
+    $('[data-popup1-open]').on('click', function(e)  {
+        console.log("it comes inside");
+            var targeted_popup_class = jQuery(this).attr('data-popup1-open');
+            $('[data-popup="' + targeted_popup_class + '"]').fadeIn(350);
+            e.preventDefault();
+    });
+    $('[data-popup1-close]').on('click', function(e)  {
+
+            var targeted_popup_class = jQuery(this).attr('data-popup1-close');
+            $('[data-popup="' + targeted_popup_class + '"]').fadeOut(350);
+            
+            e.preventDefault();
+    });
+}
 </script>

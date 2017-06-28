@@ -264,11 +264,14 @@ $(document).ready(function(){
         document.getElementById("profile").style.display="block";
         document.getElementById("login_logout").textContent ="Logout";
         document.getElementById("login_logout").href ="/logout";
+        document.getElementById("login_logout").removeAttribute("data-popup1-open");
         document.getElementById("signup").style.display="none";
      }else{
         document.getElementById("profile").style.display="none";
         document.getElementById("login_logout").textContent ="Login";
         document.getElementById("login_logout").href ="/login";
+        document.getElementById("login_logout").setAttribute("data-popup1-open","popup-1");
+        registerPopupDialog();
         document.getElementById("signup").style.display="block";
      }
 
