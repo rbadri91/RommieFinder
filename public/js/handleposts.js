@@ -202,11 +202,13 @@ var newPosts = (function() {
 				},
 				async: false,
 				success: function(result) {
-					swal(
-						'Success!',
-						'Your Post has been created!',
-						'success'
-					)
+					swal({
+						title:'Success!',
+						text:'Your Post has been created!',
+						type:'success'
+					},function() {
+			            window.location = "/";
+			        });
 				},
 				error: function(result) {
 					alert('error');

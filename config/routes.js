@@ -123,6 +123,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			if(err) return err;
 			data.postLocation= location;
 			data.save();
+			req.session.currentPost = data;
 			res.send("Success");
 		});
 
@@ -137,6 +138,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			if(err) return err;
 			data.postType= postType;
 			data.save();
+			req.session.currentPost = data;
 			res.send("Success");
 		});
 
@@ -188,6 +190,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 			if(err) return err;
 			data.status= postStatus;
 			data.save();
+			req.session.currentPost = data;
 			res.send("Success");
 		});
 
@@ -582,6 +585,7 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 		    Posts.findOne({"user":req.user._id,"timestamp":req.session.currPostDate,"postType":postType},function(err,data){
 		    	if(data){
 			    	data.imageUrl.push(returnData.url);
+			    	req.session.currentPost = data;
 			    	data.save();
 			    	res.write(JSON.stringify(returnData));
 		    		res.end();
@@ -652,11 +656,15 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 				if(data){
 					Posts.findOne({"user":req.user._id,"timestamp":date,"postType":postType},function(err,data){
 						if(data){
-							var index = data.imageUrl.indexOf(fullFileURL);
-							if (index > -1) {
-								data.imageUrl.splice(index, 1);
+							console.log("fullFileURL here:",fullFileURL);
+							for(var j=0;j<fullFileURL.length;j++){
+								var index = data.imageUrl.indexOf(fullFileURL);
+								if (index > -1) {
+									data.imageUrl.splice(index, 1);
+								}
 							}
 							data.save();
+							req.session.currentPost = data;
 						}
 						res.send("success");
 					});
