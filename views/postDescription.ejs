@@ -55,16 +55,16 @@ document.getElementById("signup").style.display="none";
                 </ol>
                 <div class="carousel-inner">
                   <div class="item active left">
-                  <img width ="560px" style="height:300px"src="<%=postDescription.postInfo.imageUrl[0] %>">
+                  <img width ="100%" style="height:300px"src="<%=postDescription.postInfo.imageUrl[0] %>">
                   </div>
                   <% if(postDescription.postInfo.imageUrl[1]){ %>
                   <div class="item next left">
-                    <img  width ="560px" style="height:300px" src="<%=postDescription.postInfo.imageUrl[1] %>">
+                    <img  width ="100%" style="height:300px" src="<%=postDescription.postInfo.imageUrl[1] %>">
                   </div>
                   <% } %>
                   <% for(var j=2;j<postDescription.postInfo.imageUrl.length;j++ ) { %>
                    <div class="item">
-                    <img  width ="560px" style="height:300px" src="<%=postDescription.postInfo.imageUrl[j] %>">
+                    <img  width ="100%" style="height:300px" src="<%=postDescription.postInfo.imageUrl[j] %>">
                   </div>
                   <% } %>
                 </div>

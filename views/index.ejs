@@ -13,6 +13,14 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
  <script src="//cdn.auth0.com/js/lock/10.16/lock.min.js"></script>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script type="text/plain" src=//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
+<body>
 <div class="popupWrapper">
 <div class="popup" data-popup="popup-1" style ="z-index: 20">
     <div class="popup-inner">
@@ -23,14 +31,6 @@
     </div>
 </div>
 </div>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
-<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script type="text/plain" src=//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
-<body>
-
 
 <% include ../public/pageContent/navbar %>
 
@@ -74,10 +74,11 @@
             </div>    
             <br>
             <div class="row">    
-            <div class="col-sm-4"></div>
-            <div class="col-sm-4">
-            <a id = "signup2" class=" text-center center-block btn btn-primary btn-lg" href="/signup" data-popup1-open="popup-1">Signup</a></div>
-            </div>
+              <div class="col-sm-4"></div>
+              <div class="col-sm-4">
+                <a id = "signup2" class=" text-center center-block btn btn-primary btn-lg" href="/signup" data-popup1-open="popup-1">Signup</a>
+              </div>
+              </div>
             </div>
             <div class="secondSub">
             <div class="why-rommie">
@@ -98,11 +99,11 @@
                 <div id ="searchQuestion" class="center-block text-center">
                       <h2 class ="text-center center-block" style="color: Yellow">What do you want to do</h2>
                       <div class="row">
-                      <button class="btn btn-primary btn-lg" id="rmate" onclick="handlebuttonClick(this)">I want a roommate/subletter</button>
+                        <button class="btn btn-primary btn-lg" id="rmate" onclick="handlebuttonClick(this)">I want a roommate/subletter</button>
                       </div>
                       <br>
                       <div class="row">
-                      <button class="btn btn-primary btn-lg" id="aandrmate" onclick="handlebuttonClick(this)">I am looking for an apartment and a roommate</button>
+                        <button class="btn btn-primary btn-lg" id="aandrmate" onclick="handlebuttonClick(this)">I am looking for an apartment and a roommate</button>
                       </div> 
                       <br>   
                 </div>
@@ -157,7 +158,7 @@
                         </div>
                         <br>
                         <div class="center-block">
-                        <button onclick= "handleSearchClick()"class="btn btn-info center-block btn-lg ">Search</button>
+                          <button onclick= "handleSearchClick()"class="btn btn-info center-block btn-lg ">Search</button>
                         </div>
                       </div>
                         <div id="neworViewPosts" class="center-block text-center" style="display:none">
@@ -170,14 +171,14 @@
 
                 <div id = "newPostsContainer" style="height:100vh;width:100vw;display:none">
                     <div id="optionContainer" style="top:10%;position: relative">
-                    <h2 class="text-center">What do you want to do</h2>
+                      <h2 class="text-center">What do you want to do</h2>
                     <div class="center-block text-center">
-                    <button class="btn btn-primary" id="sublet" onclick="JavaScript:newPosts.handleButtonClick(this)">I have a room to sublet</button>
-                    <button class="btn btn-primary" id="roommate" onclick="JavaScript:newPosts.handleButtonClick(this)">I am looking for a roommate</button>
+                      <button class="btn btn-primary" id="sublet" onclick="JavaScript:newPosts.handleButtonClick(this)">I have a room to sublet</button>
+                      <button class="btn btn-primary" id="roommate" onclick="JavaScript:newPosts.handleButtonClick(this)">I am looking for a roommate</button>
                     </div>
                     </div>
 
-                        <div id="uploadPosts" class="text-center center-block displayInfo" style="width:70%;margin:auto"> 
+                    <div id="uploadPosts" class="text-center center-block displayInfo" style="width:70%;margin:auto"> 
                                 <h2 class="text-center locQues" id="loc"></h2>
                                 <input class="form-control center-block input-lg" style="width:70%;" id="autocomplete2" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
                                <br>
@@ -229,29 +230,13 @@
                         </div>
                 </div>
                 <div id ="userMatchesContainer" style="height:100vh;width:100vw;display: none;padding-top: 75px">
-                <h2 class="text-center">The following are your matches</h2>
+                  <h2 class="text-center">The following are your matches</h2>
                 </div>
                 <% } %>
             <% } %> 
-    </div> 
-            
-          
-        </div>
-
+    </div>
+    </div>
 </body>
-<footer>
-  <div class = "innerfooterContainer">
-  <ul style="display: inline-block;">
-    <li><a>About Me</a></li>
-  </ul>
-  <ul class="icons" style="display: inline-block;">
-              <li><a href="https://twitter.com/badri_91" class="icon fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
-              <li><a href="https://www.facebook.com/badrinath.radhakrishnan" target="_blank" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-              <li><a href="https://github.com/rbadri91" class="icon fa-github" target="_blank"><span class="label">Github</span></a></li>
-              <li><a href="#" class="icon fa-envelope" target="_blank"><span class="label">Email</span></a></li>
-  </ul>
-  </div>
-</footer>
 <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="js/handleposts.js"></script>
@@ -568,4 +553,17 @@ function handlePostMatchClick(el){
 </script>
 <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyA_T0L3QXJI0RusVVZ-44z7IWk1i4XKUOk&libraries=places"
         async defer></script>
+<footer>
+  <div class = "innerfooterContainer">
+  <ul style="display: inline-block;">
+    <li><a>About Me</a></li>
+  </ul>
+  <ul class="icons" style="display: inline-block;">
+              <li><a href="https://twitter.com/badri_91" class="icon fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
+              <li><a href="https://www.facebook.com/badrinath.radhakrishnan" target="_blank" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+              <li><a href="https://github.com/rbadri91" class="icon fa-github" target="_blank"><span class="label">Github</span></a></li>
+              <li><a href="#" class="icon fa-envelope" target="_blank"><span class="label">Email</span></a></li>
+  </ul>
+  </div>
+</footer>        
 </html>

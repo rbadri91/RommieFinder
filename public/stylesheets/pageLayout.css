@@ -86,7 +86,7 @@ body {
 
 .homePageContainer {
   width: 100%;
-  height: 100%;
+  height: auto;
   margin-top: 50px;
   background-attachment: fixed;
   background-size: cover;
@@ -623,9 +623,7 @@ footer {
   position: relative;
   clear: both;
   text-align: center;
-  margin-top: 24px;
   height: 66px;
-  margin-top: 24px;
   overflow: hidden;
   line-height: 66px;
   background: #1b152a; }

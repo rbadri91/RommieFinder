@@ -525,7 +525,10 @@ module.exports = function(app,passport,  async, nodemailer,crypto, smtpTransport
 	app.get('/viewPostDetails',isLoggedIn,function(req,res){
 		console.log("post here:",req.session.postSelected);
 		console.log("post info  here:",req.session.postSelected.postInfo);
-		var hasFavorited = (req.session.postSelected.postInfo.hasInterests.indexOf(req.user._id)!=1);
+		var hasFavorited =false;
+		if(req.session.postSelected.postInfo.hasInterests){
+			var hasFavorited = (req.session.postSelected.postInfo.hasInterests.indexOf(req.user._id)!=1);
+		}
 		res.render('postDescription',{"postDescription": req.session.postSelected,"hasFavorited":hasFavorited})
 	});
 
