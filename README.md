@@ -71,4 +71,7 @@ var PostsSchema = mongoose.Schema({
 });
 ```
 So the user searches for an apartment at aparticular location their preferences are matched with lister, and also questions like 'Are they fine with pets, etc' are aked to match the right lister.
+
+In  order to improve the efficincy LocalForage to store the result matches once the user searches for a location. This is done to prevent any database queries made to mongodb when the user searches for the same location again.
+
 In order to run this application run app.py and go to localhost:8000. Or you can visit the website hosted at rommiefinder.herokuapp.com
