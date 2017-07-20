@@ -2,18 +2,19 @@
 <html lang="en">
 <head>
 <title>Rommie Finder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="/stylesheets/pageLayout.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet">
-</head>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
- <script src="//cdn.auth0.com/js/lock/10.16/lock.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+</head>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.5.0/localforage.min.js"></script>
+<script src="//cdn.auth0.com/js/lock/10.16/lock.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
@@ -21,6 +22,7 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 <script type="text/plain" src=//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js></script>
 <body>
+
 <div class="popupWrapper">
 <div class="popup" data-popup="popup-1" style ="z-index: 20">
     <div class="popup-inner">
@@ -391,37 +393,58 @@ function handleSearchClick(){
             )
     }
 
-    $.ajax({
-                type: "POST",
-                url: "/SearchMatches",
-                data: {
-                    placeVal: placeVal,
-                    noRooms : noRooms,
-                    priceRange: priceRange,
-                    fineWithPets:fineWithPets,
-                    fineWithChildrens:fineWithChildrens
-                },
-                async: false,
-                success: function(result) {
-                    postMatchCount =0;
-                    console.log("result here:",result);
-                    postMatchesInfo =result;
-                    for(var i=0;i<result.length;i++){
-                        createUserInfoWrapper(result[i]);
-                    }
-                    document.getElementById("userMatchesContainer").style.display= "block";
-                    $('html,body').animate({
-                        scrollTop: $("#userMatchesContainer").offset().top},
-                        'slow');
-                
-                },
-                error: function(result) {
-                    alert('error');
-                }
-    });
+    localforage.getItem(placeVal+"_"+noRooms+"_"+priceRange+"_"+fineWithPets+"_"+fineWithChildrens,function(err, values) {
+           if (err) console.log("Post Fetching error: ", err);
+           else if(values){
+            console.log("values obtained here:",values);
+            postMatchesInfo =values;
+            values.forEach(function(result) {
+              createUserInfoWrapper(result);
+            });
 
+            document.getElementById("userMatchesContainer").style.display= "block";
+            $('html,body').animate({
+              scrollTop: $("#userMatchesContainer").offset().top},
+              'slow');
 
+           }else{
 
+                $.ajax({
+                            type: "POST",
+                            url: "/SearchMatches",
+                            data: {
+                                placeVal: placeVal,
+                                noRooms : noRooms,
+                                priceRange: priceRange,
+                                fineWithPets:fineWithPets,
+                                fineWithChildrens:fineWithChildrens
+                            },
+                            async: false,
+                            success: function(result) {
+                                postMatchCount =0;
+                                console.log("result here:",result);
+                                postMatchesInfo =result;
+
+                                window.parent.localforage.setItem(placeVal+"_"+noRooms+"_"+priceRange+"_"+fineWithPets+"_"+fineWithChildrens,result, function(err){
+                                  console.log("setting post info");
+                                  if (err) console.log("answerhold set error: ", err);
+                                });
+
+                                for(var i=0;i<result.length;i++){
+                                    createUserInfoWrapper(result[i]);
+                                }
+                                document.getElementById("userMatchesContainer").style.display= "block";
+                                $('html,body').animate({
+                                    scrollTop: $("#userMatchesContainer").offset().top},
+                                    'slow');
+                            
+                            },
+                            error: function(result) {
+                                alert('error');
+                            }
+                });
+            }
+      });
 }
 
 function createUserInfoWrapper(userandPostInfo){
@@ -562,6 +585,7 @@ function handlePostMatchClick(el){
               <li><a href="https://twitter.com/badri_91" class="icon fa-twitter" target="_blank"><span class="label">Twitter</span></a></li>
               <li><a href="https://www.facebook.com/badrinath.radhakrishnan" target="_blank" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
               <li><a href="https://github.com/rbadri91" class="icon fa-github" target="_blank"><span class="label">Github</span></a></li>
+              <li><a href="https://www.linkedin.com/in/badrinathradhakrishnan/" class="icon fa-linkedin" target="_blank"><span class="label">LinkedIn</span></a></li>
               <li><a href="#" class="icon fa-envelope" target="_blank"><span class="label">Email</span></a></li>
   </ul>
   </div>
