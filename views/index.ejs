@@ -182,7 +182,7 @@
 
                     <div id="uploadPosts" class="text-center center-block displayInfo" style="width:70%;margin:auto"> 
                                 <h2 class="text-center locQues" id="loc"></h2>
-                                <input class="form-control center-block input-lg" style="width:70%;" id="autocomplete2" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
+                                <input class="form-control center-block input-lg setInputWidth" id="autocomplete2" placeholder="Enter your address" onFocus="geolocate()" type="text"/>
                                <br>
                                 <div class="form-group center-block text-center" style="width: 100%;margin:auto">
                                     <label  class="btn btn-default btn-file" for="FileUpload_1">Select Picture </label>
@@ -454,11 +454,7 @@ function createUserInfoWrapper(userandPostInfo){
     var usersInfoWrapper = document.getElementById("userMatchesContainer");
     var postMatchWrapper = document.createElement("div");
     postMatchWrapper.style.overflow = "hidden";
-    postMatchWrapper.className = "center-block displayInfo";
-    postMatchWrapper.style.position = "relative";
-    postMatchWrapper.style.cursor ="pointer";
-    postMatchWrapper.style.width ="70%";
-    postMatchWrapper.style.margin ="auto";
+    postMatchWrapper.className = "center-block displayInfo postWrapper";
     postMatchWrapper.id ="Wrapper_"+postMatchCount;
 
     postMatchWrapper.onclick = function(){
@@ -466,33 +462,21 @@ function createUserInfoWrapper(userandPostInfo){
     };
     usersInfoWrapper.appendChild(postMatchWrapper);
     var imageWrapper = document.createElement("div");
-    imageWrapper.style.display="inline-block";
-    imageWrapper.style.overflow="hidden";
-    imageWrapper.style.margin="2%";
+    imageWrapper.className ="postImageWrapper";
     postMatchWrapper.appendChild(imageWrapper);
     var postImage = document.createElement("img");
     postImage.src = postInfo.imageUrl[0];
+    postImage.className ="mainPostImage";
     postImage.setAttribute("alt","post image");
-    postImage.style.width="200px";
-    postImage.style.height="200px";
-    postImage.style.top =0;
-    postImage.style.position = "absolute";
     imageWrapper.appendChild(postImage);
 
     var profileImage = document.createElement("img");
     profileImage.src = userInfo.data.profileURL;
-    profileImage.style.display ="inline-block";
-    profileImage.style.width="50px";
-    profileImage.style.height="50px";
-    profileImage.style.top = 0;
-    profileImage.style.left = "15%";
-    profileImage.style.position="absolute";
-    profileImage.style.borderRadius = "100%";
+    profileImage.className ="postProfileImage";
     imageWrapper.appendChild(profileImage);
-    imageWrapper.style.width="200px";
 
     var postInfoDiv = document.createElement("div");
-    postInfoDiv.style.display ="inline-block";
+    postInfoDiv.className ="postInfoWrapper";
     postMatchWrapper.appendChild(postInfoDiv);
     
 

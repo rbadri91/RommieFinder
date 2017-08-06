@@ -65,6 +65,10 @@ $primary-font: 'Open Sans', sans-serif;
   }
 }
 
+@mixin setContentWidth($width){
+    width :$width;
+}
+
 @mixin font-smoothing {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -827,4 +831,36 @@ ul.icons a {
 
 .icon > .label {
             display: none;
+}
+.setInputWidth{
+    @include setContentWidth(70%);
+}
+.postWrapper{
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    @include setContentWidth(70%);
+    margin: 0 auto;
+}
+.postImageWrapper{
+    display:inline-block;
+    overflow:hidden;
+    @include setdim(25%,0,0,100%);
+    position:absolute;
+    transition:ease 0.25s all; 
+}
+.mainPostImage{
+    @include setdim(100%,null,null,100%);
+    position: absolute;
+}
+.postInfoWrapper{
+    display:inline-block;
+    float:right;
+    @include setdim(75%,null,null,100%);
+}
+.postProfileImage{
+    display :inline-block;
+    @include setdim(30%,null,30%,30%);
+    position:absolute;
+    border-radius : 100%;
 }

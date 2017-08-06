@@ -674,3 +674,42 @@ ul.icons a {
 
 .icon > .label {
   display: none; }
+
+.setInputWidth {
+  width: 70%; }
+
+.postWrapper {
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  width: 70%;
+  margin: 0 auto; }
+
+.postImageWrapper {
+  display: inline-block;
+  overflow: hidden;
+  width: 25%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  transition: ease 0.25s all; }
+
+.mainPostImage {
+  width: 100%;
+  height: 100%;
+  position: absolute; }
+
+.postInfoWrapper {
+  display: inline-block;
+  float: right;
+  width: 75%;
+  height: 100%; }
+
+.postProfileImage {
+  display: inline-block;
+  width: 30%;
+  height: 30%;
+  left: 30%;
+  position: absolute;
+  border-radius: 100%; }
